@@ -1,0 +1,21 @@
+/*!****************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/common/blockScroll/style.scss ***!
+  \****************************************************************************************************************************/
+html {
+  overflow: auto;
+}
+
+.block-scroll {
+  overflow: hidden;
+}
+@media screen and (min-width: 1000px) {
+  .block-scroll {
+    padding-right: var(--scroll-bar-width, 0);
+  }
+  .block-scroll [compensate-scrollbar] {
+    padding-right: var(--scroll-bar-width, 0);
+  }
+  .block-scroll [compensate-scrollbar-fixed] {
+    transform: translateX(calc(-1 * var(--scroll-bar-width, 0) / 2));
+  }
+}

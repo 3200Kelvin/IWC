@@ -1,0 +1,24 @@
+{
+  "name": "lass",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --env mode=production",
+    "start": "webpack --env watch",
+    "deploy": "npm run build && git add . && git commit -a -m\"deploy\" && git push"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "css-loader": "^3.6.0",
+    "mini-css-extract-plugin": "^2.7.5",
+    "path": "^0.12.7",
+    "sass": "^1.62.0",
+    "sass-loader": "^13.2.2",
+    "webpack-cli": "^5.0.1"
+  },
+  "dependencies": {
+    "@barba/core": "^2.10.3"
+  }
+}
