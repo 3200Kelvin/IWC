@@ -1,4 +1,4 @@
-import Lenis from 'lenis';
+// import Lenis from 'lenis';
 
 export function scrollTo(target, isInstant = false) {
     if (window.lenis) {
@@ -22,7 +22,11 @@ export function scrollToAnchor(isInstant = false) {
 }
 
 export const setSmoothScroll = () => {
-    const content = document.querySelector('.content');
+    if (!window.Lenis) {
+        return;
+    }
+
+    const content = document.querySelector('main');
 
     const lenis = new Lenis({
         duration: 1.2,

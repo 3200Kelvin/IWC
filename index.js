@@ -1,10 +1,11 @@
 import { usePageTransitions } from "../Kultiveret/src/transitions/script";
 import { useGlobalScripts, useGlobalOnceScripts } from "./src/global";
+import { useMainPageScripts } from "./src/main";
 
 if (gsap) {
     gsap.defaults({
         duration: 0,
-        ease: 'power4.out'
+        ease: 'power2.inOut'
     });
 }
 
@@ -24,9 +25,11 @@ function each() {
     }
 
     const globalScriptsCleanup = useGlobalScripts();
+    const mainScriptsCleanup = useMainPageScripts();
 
     cleanup = () => {
         globalScriptsCleanup?.();
+        mainScriptsCleanup?.();
     }
 }
 
