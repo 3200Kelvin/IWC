@@ -1,10 +1,11 @@
 {
-  "name": "lass",
+  "name": "iwc",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --env mode=production",
+    "dev": "vite",
+    "build": "vite build",
     "start": "webpack --env watch",
     "deploy": "npm run build && git add . && git commit -a -m\"deploy\" && git push"
   },
@@ -16,6 +17,7 @@
     "path": "^0.12.7",
     "sass": "^1.62.0",
     "sass-loader": "^13.2.2",
+    "vite": "^6.3.5",
     "webpack-cli": "^5.0.1"
   },
   "dependencies": {

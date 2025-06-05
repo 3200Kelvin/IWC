@@ -23,20 +23,20 @@ export function setScrollBarWidthListener() {
 }
 
 export const blockScroll = (className) => {
-    document.documentElement.classList.add(BLOCKED_SCROLL_CLASS_NAME);
-    if (className) {
-        document.documentElement.classList.add(className);
-    }
+    // document.documentElement.classList.add(BLOCKED_SCROLL_CLASS_NAME);
+    // if (className) {
+    //     document.documentElement.classList.add(className);
+    // }
     if (!isTouchscreen) {
         window.lenis?.stop?.();
     }
 };
 
 export const unblockScroll = (className) => {
-    document.documentElement.classList.remove(BLOCKED_SCROLL_CLASS_NAME);
-    if (className) {
-        document.documentElement.classList.remove(className);
-    }
+    // document.documentElement.classList.remove(BLOCKED_SCROLL_CLASS_NAME);
+    // if (className) {
+    //     document.documentElement.classList.remove(className);
+    // }
     if (!isTouchscreen) {
         window.lenis?.start();
     }

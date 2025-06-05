@@ -1,6 +1,7 @@
-import { usePageTransitions } from "../Kultiveret/src/transitions/script";
+import { usePageTransitions } from "./src/global/transitions";
 import { useGlobalScripts, useGlobalOnceScripts } from "./src/global";
 import { useMainPageScripts } from "./src/main";
+import { postReadyEvent } from "./src/global/preloader";
 
 if (gsap) {
     gsap.defaults({
@@ -40,5 +41,6 @@ function init() {
     }
 
     each();
+    postReadyEvent();
 }
 

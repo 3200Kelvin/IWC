@@ -1,0 +1,1 @@
+const e="loaded",s=()=>sessionStorage.getItem(e)==="true",a=()=>sessionStorage.setItem(e,"true"),n=()=>{if(s())return;const t=document.createElement("style");t.textContent=".preloader { display: block !important; } #heartrate-path { animation-play-state: running !important; }",document.head.appendChild(t)};export{s as i,a as s,n as u};

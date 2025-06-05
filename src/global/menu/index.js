@@ -1,3 +1,5 @@
+import { blockScroll, unblockScroll } from "../../common/blockScroll/script";
+
 export const useMenu = () => {
     const button = document.querySelector('.menu-btn');
     const buttonIcons = {
@@ -15,6 +17,7 @@ export const useMenu = () => {
     return () => {
         button.removeEventListener('click', handleButtonClick);
         links.forEach(link => link.removeEventListener('click', close));
+        document.removeEventListener('click', handleDocumentClick);
     }
 
     function handleButtonClick(event) {
@@ -38,6 +41,7 @@ export const useMenu = () => {
 
     function open() {
         isOpened = true;
+        blockScroll();
         document.addEventListener('click', handleDocumentClick);
 
         return gsap.timeline()
@@ -54,10 +58,13 @@ export const useMenu = () => {
 
         return gsap.timeline()
             .add(() => {
-                gsap.to(buttonIcons.open, { opacity: 0 });
-                gsap.to(buttonIcons.close, { opacity: 1 });
+                gsap.to(buttonIcons.open, { opacity: 1 });
+                gsap.to(buttonIcons.close, { opacity: 0 });
             })
             .to(menu, { transform: 'translateX(100%)', duration: 0.8 })
-            .to(menu, { display: 'none' });
+            .to(menu, { display: 'none' })
+            .add(() => {
+                unblockScroll();
+            });
     }
 };
