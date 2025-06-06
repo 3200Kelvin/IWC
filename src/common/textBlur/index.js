@@ -1,4 +1,4 @@
-export const setTextBlur = (element) => {
+export const setTextBlur = (element, isPaused = true) => {
     const split = SplitText.create(element, {
         type: "lines, words",
     });
@@ -9,8 +9,7 @@ export const setTextBlur = (element) => {
         filter: 'blur(10px)',
     });
 
-    return gsap.timeline()
-        .pause()
+    const timeline = gsap.timeline()
         .to(split.words, {
             transform: 'scale(1)',
             opacity: 1,
@@ -18,4 +17,10 @@ export const setTextBlur = (element) => {
             duration: 0.6,
             stagger: 0.02,
         });
+
+    if (isPaused) {
+        timeline.pause();
+    }
+
+    return timeline;
 }

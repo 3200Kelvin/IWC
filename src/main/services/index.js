@@ -1,3 +1,7 @@
+import { setTextBlur } from '../../common/textBlur';
+
+import './style.scss';
+
 const IMAGE_TRANSLATION = '100%';
 const TRANSFORM = {
     TOP: `translateY(-${IMAGE_TRANSLATION})`,
@@ -23,6 +27,15 @@ export const useServicesAnimation = () => {
     const stepsContainer = block.querySelector('.services__steps');
     const steps = block.querySelectorAll('.services__step');
     const images = block.querySelectorAll('.services__image__img');
+    const endBlock = block.querySelector('.services__end');
+    const END = {
+        block: block.querySelector('.services__end'),
+        bg: endBlock.querySelector('.services__end__bg'),
+        heading: endBlock.querySelector('.heading--services-end'),
+        text: endBlock.querySelector('.services__end__text p'),
+        taglibe: endBlock.querySelector('.services__end__tagline p'),
+        image: endBlock.querySelector('.services__end__image'),
+    };
 
     const STEP_NAMES = {
         BRAIN: 'BRAIN',
@@ -200,11 +213,21 @@ export const useServicesAnimation = () => {
         gsap.to(image, { opacity: 0, transform: `translateY(${IMAGE_TRANSLATION})`, filter: `blur(${IMAGE_BLUR})` });
     });
 
+    gsap.timeline()
+        .to([END.image, END.bg, END.heading, END.text, END.taglibe], { opacity: 0 });
+
+    const animateEndTexts = gsap.timeline()
+        .to(END.image, { opacity: 1, duration: DEFAULT_DURATION / 4 })
+        .to(END.bg, { opacity: 1, duration: DEFAULT_DURATION / 4 })
+        .to(END.heading, { opacity: 1, duration: DEFAULT_DURATION / 4 })
+        .to(END.text, { opacity: 1, duration: DEFAULT_DURATION / 4 })
+        .to(END.taglibe, { opacity: 1, duration: DEFAULT_DURATION / 4 });
+
     gsap.timeline({
         scrollTrigger: {
             trigger: stepsContainer,
             start: "top 50%",
-            end: "bottom bottom",
+            end: "bottom bottom+=400px",
             scrub: true
         }
     })
@@ -272,7 +295,12 @@ export const useServicesAnimation = () => {
             { opacity: 0, transform: TRANSFORM.SCALE_DOWN, filter: IMAGE_FILTER.BLURRED },
             { opacity: 1, transform: TRANSFORM.SCALE_ZERO, filter: IMAGE_FILTER.ZERO, duration: DEFAULT_DURATION },
             'step4'
-        );
+        )
+        .to(
+            ORGANS.HEART,
+            { transform: 'translate(-18%, 15%) scale(0.2)', duration: DEFAULT_DURATION}
+        )
+        .add(animateEndTexts);
 
     // steps.forEach((step, index) => {
     //     ScrollTrigger.create({

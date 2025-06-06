@@ -1,4 +1,4 @@
-import { isTouchscreen } from '../helpers/script';
+import { isTouchscreen } from '../helpers';
 
 import './style.scss';
 

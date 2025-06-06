@@ -1,0 +1,25 @@
+.menu-btn {
+    transition: border-color 0.4s ease, background-color 0.4s ease;
+
+    &__icon {
+        &__toggle {
+            transition: opacity 0.4s;
+
+            &--close {
+                opacity: 0;
+            }
+        }
+    }
+
+    &--opened {
+        background-color: transparent;
+        border-color: transparent;
+
+        .menu-btn__icon__toggle--open {
+            opacity: 0;
+        }
+        .menu-btn__icon__toggle--close {
+            opacity: 1;
+        }
+    }
+}

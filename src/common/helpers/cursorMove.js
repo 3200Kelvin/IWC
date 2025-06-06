@@ -1,4 +1,4 @@
-import { getRaf, getSetVariable, isTouchscreen } from "./script";
+import { getRaf, getSetVariable, isTouchscreen } from './index';
 
 export const useCursorMove = (cursor, elements, { x: startX = 0, y: startY = 0 } = {}) => {
     if (isTouchscreen) {

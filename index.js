@@ -40,7 +40,9 @@ function init() {
         isInitialized = true;
     }
 
-    each();
-    postReadyEvent();
+    document.fonts.ready.then(() => {
+        each();
+        postReadyEvent();
+    });
 }
 

@@ -1,14 +1,15 @@
 import { blockScroll, unblockScroll } from "../../common/blockScroll/script";
+import { getIsMobile } from "../../common/helpers";
+
+import './style.scss';
 
 export const useMenu = () => {
     const button = document.querySelector('.menu-btn');
-    const buttonIcons = {
-        open: button.querySelector('.menu-btn__icon__toggle--open'),
-        close: button.querySelector('.menu-btn__icon__toggle--close')
-    };
     const menu = document.querySelector('.menu');
     const links = menu.querySelectorAll('a');
 
+    const ANIMATION_TIME = 0.8;
+    const ANIMATION_TIME_MOBILE = 0.4;
     let isOpened = false;
 
     button.addEventListener('click', handleButtonClick);
@@ -45,11 +46,8 @@ export const useMenu = () => {
         document.addEventListener('click', handleDocumentClick);
 
         return gsap.timeline()
-            .add(() => {
-                gsap.to(buttonIcons.open, { opacity: 0 });
-                gsap.to(buttonIcons.close, { opacity: 1 });
-            })
-            .fromTo(menu, { display: 'block', transform: 'translateX(100%)' }, { transform: 'translateX(0%)', duration: 0.8 });
+            .add(showCloseIcon)
+            .add(showMenu);
     }
 
     function close() {
@@ -57,14 +55,38 @@ export const useMenu = () => {
         document.removeEventListener('click', handleDocumentClick);
 
         return gsap.timeline()
-            .add(() => {
-                gsap.to(buttonIcons.open, { opacity: 1 });
-                gsap.to(buttonIcons.close, { opacity: 0 });
-            })
-            .to(menu, { transform: 'translateX(100%)', duration: 0.8 })
-            .to(menu, { display: 'none' })
+            .add(showOpenIcon)
+            .add(hideMenu)
             .add(() => {
                 unblockScroll();
             });
+    }
+
+    function showMenu() {
+        if (getIsMobile()) {
+            return gsap.fromTo(menu, { display: 'block', opacity: 0, pointerEvents: 'none' }, { opacity: 1, pointerEvents: 'auto', duration: ANIMATION_TIME_MOBILE });
+        } else {
+            return gsap.fromTo(menu, { display: 'block', transform: 'translateX(100%)' }, { transform: 'translateX(0%)', duration: ANIMATION_TIME });
+        }
+    }
+
+    function hideMenu() {
+        if (getIsMobile()) {
+            return gsap.timeline()
+                .to(menu, { opacity: 0, pointerEvents: 'none', duration: ANIMATION_TIME_MOBILE })
+                .to(menu, { display: 'none' });
+        } else {
+            return gsap.timeline()
+                .to(menu, { transform: 'translateX(100%)', duration: ANIMATION_TIME })
+                .to(menu, { display: 'none' });
+        }
+    }
+
+    function showCloseIcon() {
+        button.classList.add('menu-btn--opened');
+    }
+
+    function showOpenIcon() {
+        button.classList.remove('menu-btn--opened');
     }
 };
