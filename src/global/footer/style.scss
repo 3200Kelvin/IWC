@@ -1,0 +1,19 @@
+@media (hover: hover) {
+    .navigation__secondary {
+        &:hover {
+            .navigation__secondary {
+                &__corner--glow {
+                    opacity: 1;
+                }
+
+                &__eyes {
+                    opacity: 1;
+                }
+
+                &__text {
+                    transform: translateX(0);
+                }
+            }
+        }
+    }
+}

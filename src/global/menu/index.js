@@ -41,13 +41,16 @@ export const useMenu = () => {
     }
 
     function open() {
+        button.removeEventListener('click', handleButtonClick);
         isOpened = true;
         blockScroll();
-        document.addEventListener('click', handleDocumentClick);
 
         return gsap.timeline()
             .add(showCloseIcon)
-            .add(showMenu);
+            .add(showMenu)
+            .add(() => {
+                document.addEventListener('click', handleDocumentClick);
+            });
     }
 
     function close() {
@@ -59,6 +62,7 @@ export const useMenu = () => {
             .add(hideMenu)
             .add(() => {
                 unblockScroll();
+                button.addEventListener('click', handleButtonClick);
             });
     }
 

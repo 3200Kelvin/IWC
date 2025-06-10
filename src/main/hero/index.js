@@ -12,7 +12,7 @@ export const useHeroAnimation = () => {
     }
 
     const menuBtn = document.querySelector('.menu-btn');
-    const logo = document.querySelector('.fixed__logo');
+    const logo = document.querySelector('.fixed__logo__link');
     const shadow = hero.querySelector('.fixed-element--hero');
     const heading = hero.querySelector('h1');
     const tagline = hero.querySelector('.hero__tagline');

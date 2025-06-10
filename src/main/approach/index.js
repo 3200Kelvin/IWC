@@ -1,7 +1,12 @@
 import { setTextBlur } from "../../common/textBlur";
+import { getIsMobile } from "../../common/helpers";
 
 const SHADOW_BLUR = '12px';
 const DEFAULT_DURATION = 1.4;
+const SHADOW_INITIAL_TRANSLATE = {
+    DESKTOP: '-5%',
+    MOBILE: '-45%',
+};
 
 export const useApproachAnimation = () => {
     const block = document.querySelector('.approach');
@@ -111,10 +116,11 @@ export const useApproachAnimation = () => {
     }
 
     function step1() {
+        const shadowTranslate = getIsMobile() ? SHADOW_INITIAL_TRANSLATE.MOBILE : SHADOW_INITIAL_TRANSLATE.DESKTOP;
         gsap.to(ovalTop, { opacity: 1, duration: DEFAULT_DURATION });
         gsap.to(ovalBottom, { opacity: 1, duration: DEFAULT_DURATION });
         gsap.to(fixedElement, { transform: 'scale(0.9)', duration: DEFAULT_DURATION });
-        gsap.to(shadow, { transform: 'scale(1)', filter: `blur(${SHADOW_BLUR})`, duration: DEFAULT_DURATION });
+        gsap.to(shadow, { transform: `scale(1) translateX(${shadowTranslate})`, filter: `blur(${SHADOW_BLUR})`, duration: DEFAULT_DURATION });
         gsap.timeline()
             .to(circlesContainer, { opacity: 0, duration: DEFAULT_DURATION / 4 })
             .to(circles, { transform: 'scale(0.8)' });
@@ -123,7 +129,7 @@ export const useApproachAnimation = () => {
     function step2() {
         gsap.to([ovalTop, ovalBottom], { opacity: 0, duration: DEFAULT_DURATION });
         gsap.to(fixedElement, { transform: 'scale(1) translateX(calc(50vw - 50%))', duration: DEFAULT_DURATION });
-        gsap.to(shadow, { transform: 'scale(0.25)', filter: 'blur(2px)', duration: DEFAULT_DURATION });
+        gsap.to(shadow, { transform: 'scale(0.25) translateX(0%)', filter: 'blur(2px)', duration: DEFAULT_DURATION });
         gsap.to(circlesContainer, { opacity: 1, duration: DEFAULT_DURATION / 4 });
         gsap.to(circles, { transform: 'scale(1)', duration: DEFAULT_DURATION / 4, stagger: 0.1 });
     }
