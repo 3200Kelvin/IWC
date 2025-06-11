@@ -1,0 +1,101 @@
+.approach {
+    --transition: 1.4s ease;
+
+    .fixed-element {
+        transition: transform var(--transition);
+    }
+
+    .fixed-shadow {
+        transition: transform var(--transition), opacity var(--transition);
+    }
+
+    .approach__oval {
+        transition: opacity var(--transition);
+
+        &--top {
+            opacity: 1;
+        }
+        &--bottom {
+            opacity: 0;
+        }
+    }
+
+    .approach__circles {
+        transition: opacity 0.2s;
+    }
+
+    .approach__circle {
+        opacity: 0;
+        transform: scale(0.8);
+        transition: opacity var(--transition), transform var(--transition);
+
+        &--3 {
+            transition-delay: 1s;
+        }
+        &--2 {
+            transition-delay: 1.2s;
+        }
+        &--1 {
+            transition-delay: 1.4s;
+        }
+    }
+
+    &.animated {
+        .fixed-element,
+        .fixed-shadow,
+        .approach__circle {
+            will-change: transform, opacity;
+        }
+    }
+
+    &.step-0 {
+        .approach__oval {
+            &--top {
+                opacity: 0;
+            }
+        }
+    }
+
+    &.step-1 {
+        .fixed-element {
+            transform: scale(0.75);
+        }
+
+        .fixed-shadow {
+            opacity: 1;
+        }
+
+        .approach__oval {
+            &--top,
+            &--bottom {
+                opacity: 1;
+            }
+        }
+    }
+
+    &.step-2 {
+        .fixed-element {
+            transform: scale(1) translateX(calc(50vw - 50%));
+        }
+
+        .fixed-shadow {
+            transform: scale(0.25) translateX(0%);
+        }
+
+        .approach__oval {
+            &--top,
+            &--bottom {
+                opacity: 0;
+            }
+        }
+
+        .approach__circles {
+            opacity: 1;
+        }
+
+        .approach__circle {
+            opacity: 0.3;
+            transform: scale(1);
+        }
+    }
+}

@@ -2,7 +2,7 @@ import './style.scss';
 
 export const useBgObserver = () => {
     const blocks = document.querySelectorAll('.approach, .strategy-and-solutions');
-    const elements = document.querySelectorAll('.fixed__logo, .menu-btn, .menu a');
+    const elements = document.querySelectorAll('.fixed-content, .menu a');
 
     const intersectionObservers = [];
 

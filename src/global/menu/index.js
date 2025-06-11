@@ -11,6 +11,7 @@ export const useMenu = () => {
     const ANIMATION_TIME = 0.8;
     const ANIMATION_TIME_MOBILE = 0.4;
     let isOpened = false;
+    let timeline = null;
 
     button.addEventListener('click', handleButtonClick);
     links.forEach(link => link.addEventListener('click', close));
@@ -22,6 +23,7 @@ export const useMenu = () => {
     }
 
     function handleButtonClick(event) {
+        console.log('btn')
         event.stopPropagation();
         if (isOpened) {
             close();
@@ -41,46 +43,56 @@ export const useMenu = () => {
     }
 
     function open() {
+        clearTimeline();
         button.removeEventListener('click', handleButtonClick);
         isOpened = true;
         blockScroll();
 
-        return gsap.timeline()
-            .add(showCloseIcon)
-            .add(showMenu)
+        timeline = gsap.timeline().add(showCloseIcon);
+
+        showMenu(timeline);
+
+        timeline
             .add(() => {
                 document.addEventListener('click', handleDocumentClick);
             });
+
+        return timeline;
     }
 
     function close() {
+        clearTimeline();
         isOpened = false;
         document.removeEventListener('click', handleDocumentClick);
 
-        return gsap.timeline()
-            .add(showOpenIcon)
-            .add(hideMenu)
+        timeline = gsap.timeline().add(showOpenIcon);
+
+        hideMenu(timeline);
+
+        timeline
             .add(() => {
-                unblockScroll();
                 button.addEventListener('click', handleButtonClick);
+                unblockScroll();
             });
+
+        return timeline;
     }
 
-    function showMenu() {
+    function showMenu(timeline) {
         if (getIsMobile()) {
-            return gsap.fromTo(menu, { display: 'block', opacity: 0, pointerEvents: 'none' }, { opacity: 1, pointerEvents: 'auto', duration: ANIMATION_TIME_MOBILE });
+            timeline.fromTo(menu, { display: 'block', opacity: 0, pointerEvents: 'none' }, { opacity: 1, pointerEvents: 'auto', duration: ANIMATION_TIME_MOBILE });
         } else {
-            return gsap.fromTo(menu, { display: 'block', transform: 'translateX(100%)' }, { transform: 'translateX(0%)', duration: ANIMATION_TIME });
+            timeline.fromTo(menu, { display: 'block', transform: 'translateX(100%)' }, { transform: 'translateX(0%)', duration: ANIMATION_TIME });
         }
     }
 
-    function hideMenu() {
+    function hideMenu(timeline) {
         if (getIsMobile()) {
-            return gsap.timeline()
+            timeline
                 .to(menu, { opacity: 0, pointerEvents: 'none', duration: ANIMATION_TIME_MOBILE })
                 .to(menu, { display: 'none' });
         } else {
-            return gsap.timeline()
+            timeline
                 .to(menu, { transform: 'translateX(100%)', duration: ANIMATION_TIME })
                 .to(menu, { display: 'none' });
         }
@@ -92,5 +104,9 @@ export const useMenu = () => {
 
     function showOpenIcon() {
         button.classList.remove('menu-btn--opened');
+    }
+
+    function clearTimeline() {
+        timeline?.kill?.();
     }
 };

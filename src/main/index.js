@@ -1,9 +1,13 @@
 import { useHeroAnimation } from "./hero";
 import { useApproachAnimation } from "./approach";
-import { useServicesAnimation } from "./services";
+import { useServicesAnimations } from "./services";
 
 export const useMainPageScripts = () => {
-    useHeroAnimation();
-    useApproachAnimation();
-    useServicesAnimation();
+    const cleanups = [
+        useHeroAnimation(),
+        useApproachAnimation(),
+        useServicesAnimations()
+    ]
+    
+    return () => cleanups.forEach((cleanup) => cleanup?.());
 };

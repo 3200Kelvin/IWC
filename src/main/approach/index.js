@@ -1,6 +1,8 @@
 import { setTextBlur } from "../../common/textBlur";
 import { getIsMobile } from "../../common/helpers";
 
+import './style.scss';
+
 const SHADOW_BLUR = '12px';
 const DEFAULT_DURATION = 1.4;
 const SHADOW_INITIAL_TRANSLATE = {
@@ -13,6 +15,9 @@ export const useApproachAnimation = () => {
     if (!block) {
         return;
     }
+
+    const classes = block.className;
+    const STEPS_CLASS_NAMES = ['step-0', 'step-1', 'step-2'];
 
     const counter = block.querySelector('.approach__counter');
     const counterText = counter.querySelector('.approach__counter__number p');
@@ -71,25 +76,34 @@ export const useApproachAnimation = () => {
         }
 
         changeCounter(newIndex);
+        setClassNames(newIndex, isPre);
 
-        switch(newIndex) {
-            case null:
-                if (isPre) {
-                    stepPre();
-                }
-                break;
-            case 0:
-                step0();
-                break;
-            case 1:
-                step1();
-                break;
-            case 2:
-                step2();
-                break;
-        }
+        // switch(newIndex) {
+        //     case null:
+        //         if (isPre) {
+        //             stepPre();
+        //         }
+        //         break;
+        //     case 0:
+        //         step0();
+        //         break;
+        //     case 1:
+        //         step1();
+        //         break;
+        //     case 2:
+        //         step2();
+        //         break;
+        // }
 
         current = newIndex;
+    }
+
+    function setClassNames(newIndex = null, isPre = false) {
+        if (newIndex === null && !isPre) {
+            return;
+        }
+        const newName = newIndex === null ? null : `animated ${STEPS_CLASS_NAMES[newIndex]}`;
+        block.className = newName ? `${classes} ${newName}` : classes;
     }
 
     function changeCounter(newIndex) {

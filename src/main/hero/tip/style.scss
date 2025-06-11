@@ -1,0 +1,22 @@
+.hero__tip__content {
+    &__image {
+        animation: animateTipIcon 4s ease infinite forwards;
+        animation-play-state: paused;
+    }
+
+    &__icon.animate &__image {
+        animation-play-state: running;
+    }
+
+    @keyframes animateTipIcon {
+        0% {
+            transform: translateY(0);
+        }
+        30% {
+            transform: translateY(100%);
+        }
+        100% {
+            transform: translateY(100%);
+        }
+    }
+}
