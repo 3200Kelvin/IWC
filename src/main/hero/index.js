@@ -1,4 +1,4 @@
-import { useHeroLoadAnimation } from "./onLoad/inedx";
+import { useHeroLoadAnimation } from "./onLoad";
 import { useHeroTipAnimation } from "./tip";
 
 export const useHeroAnimation = () => {
