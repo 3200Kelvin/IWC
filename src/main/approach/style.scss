@@ -1,6 +1,14 @@
 .approach {
     --transition: 1.4s ease;
 
+    &__counter {
+        transition: opacity 0.6s ease;
+
+        &__line__fill {
+            transition: transform var(--transition);
+        }
+    }
+
     .fixed-element {
         transition: transform var(--transition);
     }

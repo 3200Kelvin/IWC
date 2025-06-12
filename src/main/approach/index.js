@@ -51,7 +51,6 @@ export const useApproachAnimation = () => {
         }
 
         ScrollTrigger.create({
-            // markers: true,
             trigger: step,
             start: "top 25%",
             end: "bottom 25%",
@@ -108,43 +107,43 @@ export const useApproachAnimation = () => {
 
     function changeCounter(newIndex) {
         if (newIndex === null) {
-            gsap.to(counter, { opacity: 0, duration: DEFAULT_DURATION });
+            counter.style.setProperty('opacity', 0);
             return;
         }
 
         if (current === null) {
-            gsap.to(counter, { opacity: 1, duration: DEFAULT_DURATION });
+            counter.style.setProperty('opacity', 1);
         }
 
         counterText.innerText = `${newIndex + 1}/${total}`;
-        gsap.to(lineFill, { transform: `scaleX(${(newIndex + 1) / total})`, duration: DEFAULT_DURATION });
+        lineFill.style.setProperty('transform', `scaleX(${(newIndex + 1) / total})`);
     }
 
-    function stepPre() {
-        gsap.to(ovalTop, { opacity: 1, duration: DEFAULT_DURATION });
-    }
+    // function stepPre() {
+    //     gsap.to(ovalTop, { opacity: 1, duration: DEFAULT_DURATION });
+    // }
 
-    function step0() {
-        gsap.to([ovalTop, ovalBottom], { opacity: 0, duration: DEFAULT_DURATION });
-        gsap.to(fixedElement, { transform: 'scale(1)', duration: DEFAULT_DURATION });
-    }
+    // function step0() {
+    //     gsap.to([ovalTop, ovalBottom], { opacity: 0, duration: DEFAULT_DURATION });
+    //     gsap.to(fixedElement, { transform: 'scale(1)', duration: DEFAULT_DURATION });
+    // }
 
-    function step1() {
-        const shadowTranslate = getIsMobile() ? SHADOW_INITIAL_TRANSLATE.MOBILE : SHADOW_INITIAL_TRANSLATE.DESKTOP;
-        gsap.to(ovalTop, { opacity: 1, duration: DEFAULT_DURATION });
-        gsap.to(ovalBottom, { opacity: 1, duration: DEFAULT_DURATION });
-        gsap.to(fixedElement, { transform: 'scale(0.9)', duration: DEFAULT_DURATION });
-        gsap.to(shadow, { transform: `scale(1) translateX(${shadowTranslate})`, filter: `blur(${SHADOW_BLUR})`, duration: DEFAULT_DURATION });
-        gsap.timeline()
-            .to(circlesContainer, { opacity: 0, duration: DEFAULT_DURATION / 4 })
-            .to(circles, { transform: 'scale(0.8)' });
-    }
+    // function step1() {
+    //     const shadowTranslate = getIsMobile() ? SHADOW_INITIAL_TRANSLATE.MOBILE : SHADOW_INITIAL_TRANSLATE.DESKTOP;
+    //     gsap.to(ovalTop, { opacity: 1, duration: DEFAULT_DURATION });
+    //     gsap.to(ovalBottom, { opacity: 1, duration: DEFAULT_DURATION });
+    //     gsap.to(fixedElement, { transform: 'scale(0.9)', duration: DEFAULT_DURATION });
+    //     gsap.to(shadow, { transform: `scale(1) translateX(${shadowTranslate})`, filter: `blur(${SHADOW_BLUR})`, duration: DEFAULT_DURATION });
+    //     gsap.timeline()
+    //         .to(circlesContainer, { opacity: 0, duration: DEFAULT_DURATION / 4 })
+    //         .to(circles, { transform: 'scale(0.8)' });
+    // }
 
-    function step2() {
-        gsap.to([ovalTop, ovalBottom], { opacity: 0, duration: DEFAULT_DURATION });
-        gsap.to(fixedElement, { transform: 'scale(1) translateX(calc(50vw - 50%))', duration: DEFAULT_DURATION });
-        gsap.to(shadow, { transform: 'scale(0.25) translateX(0%)', filter: 'blur(2px)', duration: DEFAULT_DURATION });
-        gsap.to(circlesContainer, { opacity: 1, duration: DEFAULT_DURATION / 4 });
-        gsap.to(circles, { transform: 'scale(1)', duration: DEFAULT_DURATION / 4, stagger: 0.1 });
-    }
+    // function step2() {
+    //     gsap.to([ovalTop, ovalBottom], { opacity: 0, duration: DEFAULT_DURATION });
+    //     gsap.to(fixedElement, { transform: 'scale(1) translateX(calc(50vw - 50%))', duration: DEFAULT_DURATION });
+    //     gsap.to(shadow, { transform: 'scale(0.25) translateX(0%)', filter: 'blur(2px)', duration: DEFAULT_DURATION });
+    //     gsap.to(circlesContainer, { opacity: 1, duration: DEFAULT_DURATION / 4 });
+    //     gsap.to(circles, { transform: 'scale(1)', duration: DEFAULT_DURATION / 4, stagger: 0.1 });
+    // }
 }
