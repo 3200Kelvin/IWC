@@ -19,11 +19,17 @@ export const setTextBlur = (element, isPaused = true) => {
     const timeline = gsap.timeline()
         .to(element, { pointerEvents: 'auto' })
         .to(split.words, {
+            willChange: 'opacity, filter',
+        })
+        .to(split.words, {
             transform: 'scale(1)',
             opacity: 1,
             filter: 'blur(0px)',
             duration: 1,
             stagger: 0.005,
+        })
+        .to(split.words, {
+            willChange: 'none',
         });
 
     if (isPaused) {

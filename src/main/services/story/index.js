@@ -59,7 +59,7 @@ export const useServicesStory = () => {
             trigger: stepsContainer,
             start: "top 50%",
             end: "bottom bottom+=400px",
-            scrub: true
+            scrub: 0.5
         },
         defaults: { ease: "linear" }
     })
