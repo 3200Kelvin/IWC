@@ -58,6 +58,9 @@ export const useServicesStory = (block) => {
         },
         defaults: { ease: "linear" }
     })
+        .to(Object.values(ORGANS), {
+            willChange: 'opacity, transform, filter',
+        })
         .add('step0')
         .fromTo(
             ORGANS.BRAIN,
@@ -127,6 +130,9 @@ export const useServicesStory = (block) => {
             ORGANS.HEART,
             { transform: 'translate(-18%, 15%) scale(0.2)', duration: DEFAULT_DURATION}
         )
+        .to(Object.values(ORGANS), {
+            willChange: '',
+        })
         .add(animateEndTexts);
 
     return () => timeline.kill();
