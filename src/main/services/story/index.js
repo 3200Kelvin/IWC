@@ -14,12 +14,7 @@ const IMAGE_FILTER = {
 };
 const DEFAULT_DURATION = 2;
 
-export const useServicesStory = () => {
-    const block = document.querySelector('.services');
-    if (!block) {
-        return;
-    }
-
+export const useServicesStory = (block) => {
     const stepsContainer = block.querySelector('.services__steps');
     const images = block.querySelectorAll('.services__image__img');
     const endBlock = block.querySelector('.services__end');

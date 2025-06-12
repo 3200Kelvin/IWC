@@ -1,9 +1,4 @@
-export const useServicesLine = () => {
-    const block = document.querySelector('.services');
-    if (!block) {
-        return;
-    }
-
+export const useServicesLine = (block) => {
     const line = block.querySelector('.side-line');
     const glow = block.querySelector('.glowing-line__line--glow');
 

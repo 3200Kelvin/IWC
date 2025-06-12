@@ -88,13 +88,15 @@ export const onTransitionEnd = (element, property, callback) => {
 export const isPrefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 export function getIntersectionObserver(margin = 15, onIntersecting = () => {}, onNotIntersecting = () => {}) {
-    return new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
-                onIntersecting();
+                onIntersecting(entry, observer);
             } else {
-                onNotIntersecting();
+                onNotIntersecting(entry, observer);
             }
         });
     }, { rootMargin: `-${margin}% 0% -${margin}% 0%`, threshold: 0 });
+
+    return observer;
 }
