@@ -8,6 +8,8 @@ export const useMenu = () => {
     const menu = document.querySelector('.menu');
     const links = menu.querySelectorAll('a');
 
+    const MENU_OPENED_CN = 'menu-opened';
+
     const ANIMATION_TIME = 0.8;
     const ANIMATION_TIME_MOBILE = 0.4;
     let isOpened = false;
@@ -23,7 +25,6 @@ export const useMenu = () => {
     }
 
     function handleButtonClick(event) {
-        console.log('btn')
         event.stopPropagation();
         if (isOpened) {
             close();
@@ -46,7 +47,7 @@ export const useMenu = () => {
         clearTimeline();
         button.removeEventListener('click', handleButtonClick);
         isOpened = true;
-        blockScroll();
+        blockScroll(MENU_OPENED_CN);
 
         timeline = gsap.timeline().add(showCloseIcon);
 
@@ -72,7 +73,7 @@ export const useMenu = () => {
         timeline
             .add(() => {
                 button.addEventListener('click', handleButtonClick);
-                unblockScroll();
+                unblockScroll(MENU_OPENED_CN);
             });
 
         return timeline;

@@ -3,7 +3,6 @@ html {
 }
 .block-scroll {
     overflow: hidden;
-    overflow-y: scroll;
 
     @media screen and (min-width: 1000px) {
         padding-right: var(--scroll-bar-width, 0);

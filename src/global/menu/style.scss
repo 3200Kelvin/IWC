@@ -1,3 +1,11 @@
+@media screen and (max-width: 767px) {
+    .menu-opened {
+        .fixed__logo {
+            opacity: 0;
+        }
+    }
+}
+
 .burger-icon {
     --transition: transform 0.8s ease;
     width: 100%;
