@@ -54,7 +54,7 @@ export const useServicesStory = (block) => {
             trigger: stepsContainer,
             start: "top 50%",
             end: "bottom bottom+=400px",
-            scrub: 0.5
+            scrub: 1
         },
         defaults: { ease: "linear" }
     })
