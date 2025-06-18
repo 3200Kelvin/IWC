@@ -74,7 +74,7 @@
 
 .menu {
     .heading--nav-link {
-        transform: translateY(100%);
+        transform: translateY(100%) rotateZ(2deg);
 
         &.transition {
             transition: transform 0.4s ease;

@@ -25,6 +25,10 @@
 }
 
 .hero {
+    h1 span {
+        overflow: clip;
+    }
+
     &.initial {
         .fixed-element--hero {
             transform: translateY(-150%);
@@ -32,7 +36,10 @@
             filter: blur(5px);
         }
 
-        h1,
+        h1 span * {
+            transform: translateY(100%) rotateZ(1deg);
+        }
+
         .hero__tagline,
         .hero__tip {
             opacity: 0;
@@ -46,7 +53,16 @@
             transition: transform var(--hero-animation-time) ease, opacity var(--hero-animation-time) ease, filter var(--hero-animation-time) ease;
         }
 
-        h1,
+        h1 {
+            span * {
+                transition: transform var(--hero-animation-time) ease;
+            }
+
+            .hero__title__wealthcare * {
+                transition-delay: 0.2s;
+            }
+        }
+
         .hero__tagline,
         .hero__tip {
             transition: opacity var(--hero-animation-time) ease var(--hero-animation-time);

@@ -15,12 +15,17 @@ export const useHeroLoadAnimation = () => {
 
     const ANIMATION_TIME = 1.6;
 
+    const title = hero.querySelector('.heading--h1');
     const menuBtn = document.querySelector('.menu-btn');
     const logo = document.querySelector('.fixed__logo__link');
 
     hero.classList.add('initial');
     logo.classList.add('initial');
     menuBtn.classList.add('initial');
+
+    const split = SplitText.create(title, {
+        type: "words",
+    });
 
     document.addEventListener(PRELOADER_REMOVED_EVENT_NAME, animate);
 

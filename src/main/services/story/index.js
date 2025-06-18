@@ -1,4 +1,6 @@
-const IMAGE_TRANSLATION = '75vh';
+import './style.scss';
+
+const IMAGE_TRANSLATION = '70%';
 const TRANSFORM = {
     TOP: `translateY(-${IMAGE_TRANSLATION})`,
     BOTTOM: `translateY(${IMAGE_TRANSLATION})`,
@@ -21,6 +23,7 @@ export const useServicesStory = (block) => {
     const END = {
         block: block.querySelector('.services__end'),
         bg: endBlock.querySelector('.services__end__bg'),
+        logo: endBlock.querySelector('.services__end__logo'),
         heading: endBlock.querySelector('.heading--services-end'),
         text: endBlock.querySelector('.services__end__text p'),
         taglibe: endBlock.querySelector('.services__end__tagline p'),
@@ -40,19 +43,22 @@ export const useServicesStory = (block) => {
     });
 
     gsap.timeline()
-        .to([END.image, END.bg, END.heading, END.text, END.taglibe], { opacity: 0 });
+        .to([END.image, END.bg, END.heading, END.text, END.taglibe], { opacity: 0 })
+        .to(END.logo, { opacity: 0, transform: 'scale(0.75)' });
 
     const animateEndTexts = gsap.timeline()
+        .to({}, { duration: DEFAULT_DURATION / 4 })
         .to(END.image, { opacity: 1, duration: DEFAULT_DURATION / 4 })
         .to(END.bg, { opacity: 1, duration: DEFAULT_DURATION / 4 })
         .to(END.heading, { opacity: 1, duration: DEFAULT_DURATION / 4 })
         .to(END.text, { opacity: 1, duration: DEFAULT_DURATION / 4 })
-        .to(END.taglibe, { opacity: 1, duration: DEFAULT_DURATION / 4 });
+        .to(END.taglibe, { opacity: 1, duration: DEFAULT_DURATION / 4 })
+        .to(END.logo, { opacity: 1, transform: 'scale(1)', duration: DEFAULT_DURATION / 2 });
 
     const timeline = gsap.timeline({
         scrollTrigger: {
             trigger: stepsContainer,
-            start: "top 50%",
+            start: "top 20%",
             end: "bottom bottom+=400px",
             scrub: 1
         },
@@ -64,7 +70,7 @@ export const useServicesStory = (block) => {
         .add('step0')
         .fromTo(
             ORGANS.BRAIN,
-            { opacity: 0, transform: 'translateY(10%) scale(0.8)', filter: IMAGE_FILTER.BLURRED },
+            { opacity: 0, transform: 'translateY(50%) scale(0.6)', filter: IMAGE_FILTER.BLURRED },
             { opacity: 1, transform: TRANSFORM.ZERO, filter: IMAGE_FILTER.ZERO, duration: DEFAULT_DURATION / 2 },
             'step0'
         )
@@ -87,6 +93,11 @@ export const useServicesStory = (block) => {
         )
         .add('step2')
         .to(
+            ORGANS.BRAIN,
+            { opacity: 0, duration: DEFAULT_DURATION / 4 },
+            'step2'
+        )
+        .to(
             ORGANS.NERVES,
             { transform: TRANSFORM.TOP, filter: IMAGE_FILTER.BLURRED, duration: DEFAULT_DURATION },
             'step2'
@@ -103,6 +114,11 @@ export const useServicesStory = (block) => {
             'step2'
         )
         .add('step3')
+        .to(
+            ORGANS.NERVES,
+            { opacity: 0, duration: DEFAULT_DURATION / 4 },
+            'step3'
+        )
         .to(
             ORGANS.LUNGS,
             { opacity: 0, transform: TRANSFORM.SCALE_DOWN, filter: IMAGE_FILTER.BLURRED, duration: DEFAULT_DURATION },
@@ -128,7 +144,7 @@ export const useServicesStory = (block) => {
         )
         .to(
             ORGANS.HEART,
-            { transform: 'translate(-18%, 15%) scale(0.2)', duration: DEFAULT_DURATION}
+            { transform: 'translate(-12%, 0%) scale(0.25)', duration: DEFAULT_DURATION}
         )
         .to(Object.values(ORGANS), {
             willChange: '',

@@ -1,7 +1,8 @@
-export const setTextBlur = (element, isPaused = true) => {
+export const setTextAppear = (element, isPaused = true) => {
     const split = SplitText.create(element, {
-        type: "lines, words",
+        type: 'lines',
         autoSplit: true,
+        mask: 'lines',
     });
 
     split.lines.forEach((line) => {
@@ -10,26 +11,22 @@ export const setTextBlur = (element, isPaused = true) => {
         }
     });
 
-    gsap.to(split.words, {
-        transform: 'scale(0.95)',
-        opacity: 0,
-        filter: 'blur(10px)',
+    gsap.to(split.lines, {
+        transform: 'translateY(120%) rotateZ(1deg)',
     });
     gsap.to(element, { pointerEvents: 'none' });
 
     const timeline = gsap.timeline()
         .to(element, { pointerEvents: 'auto' })
         .to(split.words, {
-            willChange: 'opacity, filter',
+            willChange: 'transform',
         })
-        .to(split.words, {
-            transform: 'scale(1)',
-            opacity: 1,
-            filter: 'blur(0px)',
+        .to(split.lines, {
+            transform: 'translateY(0%) rotateZ(0deg)',
             duration: 1,
-            stagger: 0.005,
+            stagger: 0.15,
         })
-        .to(split.words, {
+        .to(split.lines, {
             willChange: 'none',
         });
 
