@@ -1,0 +1,18 @@
+.strategy-and-solutions {
+    background: radial-gradient(40.9% 54.15% at 76.13% 27.06%, #EDF6FD 0%, #D5E8F0 100%);
+}
+
+@media screen and (min-width: 767px) {
+    .solutions__card {
+        &:nth-child(2n) {
+            transform: translateY(15%);
+        }
+    }
+}
+@media screen and (min-width: 991px) {
+    .solutions__card {
+        &:nth-child(2n) {
+            transform: translateY(5.5%);
+        }
+    }
+}

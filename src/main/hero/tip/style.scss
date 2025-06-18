@@ -1,6 +1,6 @@
 .hero__tip__content {
     &__image {
-        animation: animateTipIcon 4s ease infinite forwards;
+        animation: animateTipIcon 1.6s ease infinite forwards;
         animation-play-state: paused;
     }
 
@@ -12,7 +12,7 @@
         0% {
             transform: translateY(0);
         }
-        30% {
+        50% {
             transform: translateY(100%);
         }
         100% {

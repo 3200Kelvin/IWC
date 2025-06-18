@@ -7,21 +7,49 @@ export const useMenu = () => {
     const button = document.querySelector('.menu-btn');
     const menu = document.querySelector('.menu');
     const links = menu.querySelectorAll('a');
+    const menuLinks = menu.querySelectorAll('.menu__link');
+    const lines = [...menu.querySelectorAll('.heading--nav-link'), menu.querySelector('.menu__members-link')];
 
     const MENU_OPENED_CN = 'menu-opened';
 
-    const ANIMATION_TIME = 0.8;
+    const ANIMATION_TIME = 1;
     const ANIMATION_TIME_MOBILE = 0.4;
     let isOpened = false;
     let timeline = null;
 
     button.addEventListener('click', handleButtonClick);
-    links.forEach(link => link.addEventListener('click', close));
+    links.forEach((link) => {
+        link.addEventListener('click', close);
+    });
+    menuLinks.forEach((link) => {
+        link.addEventListener('mouseenter', handleLinkOn);
+        link.addEventListener('mouseleave', handleLinkOff);
+    });
 
     return () => {
         button.removeEventListener('click', handleButtonClick);
-        links.forEach(link => link.removeEventListener('click', close));
+        links.forEach((link) => {
+            link.removeEventListener('click', close);
+        });
+        menuLinks.forEach((link) => {
+            link.removeEventListener('mouseenter', handleLinkOn);
+            link.removeEventListener('mouseleave', handleLinkOff);
+        });
         document.removeEventListener('click', handleDocumentClick);
+    }
+
+    function handleLinkOn(event) {
+        menuLinks.forEach((link) => {
+            if (link !== event.target) {
+                link.classList.add('transparent');
+            }
+        });
+    }
+
+    function handleLinkOff() {
+        menuLinks.forEach((link) => {
+            link.classList.remove('transparent');
+        });
     }
 
     function handleButtonClick(event) {
@@ -54,6 +82,7 @@ export const useMenu = () => {
         showMenu(timeline);
 
         timeline
+            .add(showLines)
             .add(() => {
                 document.addEventListener('click', handleDocumentClick);
             });
@@ -71,6 +100,7 @@ export const useMenu = () => {
         hideMenu(timeline);
 
         timeline
+            .add(hideLines)
             .add(() => {
                 button.addEventListener('click', handleButtonClick);
                 unblockScroll(MENU_OPENED_CN);
@@ -105,6 +135,22 @@ export const useMenu = () => {
 
     function showOpenIcon() {
         button.classList.remove('menu-btn--opened');
+    }
+
+    function showLines() {
+        lines.forEach(line => line.classList.add('transition'));
+
+        setTimeout(() => {
+            lines.forEach(line => line.classList.add('shown'));
+        }, 10);
+    }
+
+    function hideLines() {
+        lines.forEach(line => line.classList.remove('transition'));
+
+        setTimeout(() => {
+            lines.forEach(line => line.classList.remove('shown'));
+        }, 10);
     }
 
     function clearTimeline() {

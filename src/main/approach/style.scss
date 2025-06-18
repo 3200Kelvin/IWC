@@ -1,5 +1,6 @@
 .approach {
-    --transition: 1.4s ease;
+    --transition-time: 1.4s;
+    --transition: var(--transition-time) ease;
 
     &__counter {
         transition: opacity 0.6s ease;
@@ -38,13 +39,13 @@
         transition: opacity var(--transition), transform var(--transition);
 
         &--3 {
-            transition-delay: 1s;
+            transition-delay: calc(var(--transition-time) - 0.4s);
         }
         &--2 {
-            transition-delay: 1.2s;
+            transition-delay: calc(var(--transition-time));
         }
         &--1 {
-            transition-delay: 1.4s;
+            transition-delay: calc(var(--transition-time) + 0.4s);
         }
     }
 

@@ -73,7 +73,49 @@
 }
 
 .menu {
+    .heading--nav-link {
+        transform: translateY(100%);
+
+        &.transition {
+            transition: transform 0.4s ease;
+        }
+
+        &.shown {
+            transform: translateY(0%);
+        }
+    }
+
     .menu__link {
+        @for $i from 1 through 5 {
+            &:nth-child(#{$i}) {
+                .heading--nav-link {
+                    &.transition {
+                        transition-delay: $i * 0.05s;
+                    }
+                }
+            }
+        }
+    }
+
+    &__members-link {
+        opacity: 0;
+
+        &.transition {
+            transition: opacity 0.4s ease 0.3s;
+        }
+
+        &.shown {
+            opacity: 1;
+        }
+    }
+
+    .menu__link {
+        transition: opacity 0.25s ease;
+
+        &.transparent {
+            opacity: 0.5;
+        }
+
         &__text {
             transition: transform 0.4s ease;
         }
