@@ -2,11 +2,13 @@ import { getIntersectionObserver } from "../../../common/helpers";
 import { setTextBlur } from "../../../common/textBlur";
 import { setTextAppear } from "../../../common/textAppear";
 
+import './style.scss';
+
 export const useServicesTexts = (block) => {
-    const titles = block.querySelectorAll('.heading--services');
+    const headings = block.querySelectorAll('.services__step__heading');
     const texts = block.querySelectorAll('.services__step__content p');
 
-    const intersectionObserver = getIntersectionObserver(15, onIntersecting);
+    const intersectionObserver = getIntersectionObserver(20, onIntersecting);
 
     const textTimelines = [...texts].map((text) => {
         const timeline = setTextBlur(text);
@@ -17,8 +19,11 @@ export const useServicesTexts = (block) => {
         return timeline;
     });
 
-    const titleTimelines = [...titles].map((text) => {
-        const timeline = setTextAppear(text);
+    const titleTimelines = [...headings].map((heading) => {
+        const text = heading.querySelector('.heading--services');
+
+        const timeline = gsap.timeline().add(() => heading.classList.add('appeared'));
+        setTextAppear(text, { timeline });
 
         text.animate = () => timeline.play().add(() => timeline.kill());
         intersectionObserver.observe(text);

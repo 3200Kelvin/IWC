@@ -5,8 +5,8 @@ export const useServicesLine = (block) => {
     const timeline = gsap.timeline({
         scrollTrigger: {
             trigger: line,
-            start: "top center",
-            end: "bottom center",
+            start: "top 85%",
+            end: "bottom 85%",
             scrub: 0.5
         },
     })

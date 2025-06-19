@@ -1,7 +1,6 @@
 export const setTextBlur = (element, isPaused = true) => {
     const split = SplitText.create(element, {
         type: "lines, words",
-        autoSplit: true,
     });
 
     split.lines.forEach((line) => {

@@ -29,6 +29,8 @@ export const useServicesStory = (block) => {
         taglibe: endBlock.querySelector('.services__end__tagline p'),
         image: endBlock.querySelector('.services__end__image'),
     };
+    const toggledElements = document.querySelectorAll('.bg-toggled');
+    console.log(toggledElements);
 
     const ORGANS = {
         BRAIN: images[0],
@@ -49,7 +51,9 @@ export const useServicesStory = (block) => {
     const animateEndTexts = gsap.timeline()
         .to({}, { duration: DEFAULT_DURATION / 4 })
         .to(END.image, { opacity: 1, duration: DEFAULT_DURATION / 4 })
-        .to(END.bg, { opacity: 1, duration: DEFAULT_DURATION / 4 })
+        .add('bg-change')
+        .to(END.bg, { opacity: 1, duration: DEFAULT_DURATION / 4 }, 'bg-change')
+        .to(toggledElements, { color: 'var(--dark-blue)', duration: DEFAULT_DURATION / 4 }, 'bg-change')
         .to(END.heading, { opacity: 1, duration: DEFAULT_DURATION / 4 })
         .to(END.text, { opacity: 1, duration: DEFAULT_DURATION / 4 })
         .to(END.taglibe, { opacity: 1, duration: DEFAULT_DURATION / 4 })
@@ -57,6 +61,7 @@ export const useServicesStory = (block) => {
 
     const timeline = gsap.timeline({
         scrollTrigger: {
+            markers: true,
             trigger: stepsContainer,
             start: "top 20%",
             end: "bottom bottom+=400px",

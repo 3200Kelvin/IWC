@@ -1,0 +1,22 @@
+.services__step__heading {
+    .glowing-line__line--glow {
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s ease;
+    }
+
+    .services__step__index__text p {
+        opacity: 0.5;
+        transition: opacity 0.4s;
+    }
+
+    &.appeared {
+        .glowing-line__line--glow {
+            transform: scaleX(1);
+        }
+
+        .services__step__index__text p {
+            opacity: 1;
+        }
+    }
+}

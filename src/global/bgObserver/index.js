@@ -38,6 +38,7 @@ export const useBgObserver = () => {
                 }, false);
                 
                 element.classList.toggle('bg-change', isIntersecting);
+                element.style.removeProperty('color');
             }, { rootMargin: rootMargin, threshold: [0] });
 
             blocks.forEach((block) => observer.observe(block));

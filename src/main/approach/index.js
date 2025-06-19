@@ -27,11 +27,7 @@ export const useApproachAnimation = () => {
     const total = steps.length;
 
     const fixedElement = block.querySelector('.fixed-element');
-    const shadow = fixedElement.querySelector('.fixed-shadow');
-    const ovalTop = fixedElement.querySelector('.approach__oval--top');
-    const ovalBottom = fixedElement.querySelector('.approach__oval--bottom');
     const circlesContainer = fixedElement.querySelector('.approach__circles');
-    const circles = circlesContainer.querySelectorAll('.approach__circle');
 
     let current = null;
     changeCounter(current);
@@ -39,6 +35,7 @@ export const useApproachAnimation = () => {
     steps.forEach((step, index) => {
         const text = texts[index];
         const textAnimation = setTextBlur(text);
+        console.log(textAnimation);
 
         const showText = () => {
             gsap.to(text, { opacity: 1 });
@@ -77,23 +74,6 @@ export const useApproachAnimation = () => {
         changeCounter(newIndex);
         setClassNames(newIndex, isPre);
 
-        // switch(newIndex) {
-        //     case null:
-        //         if (isPre) {
-        //             stepPre();
-        //         }
-        //         break;
-        //     case 0:
-        //         step0();
-        //         break;
-        //     case 1:
-        //         step1();
-        //         break;
-        //     case 2:
-        //         step2();
-        //         break;
-        // }
-
         current = newIndex;
     }
 
@@ -118,32 +98,4 @@ export const useApproachAnimation = () => {
         counterText.innerText = `${newIndex + 1}/${total}`;
         lineFill.style.setProperty('transform', `scaleX(${(newIndex + 1) / total})`);
     }
-
-    // function stepPre() {
-    //     gsap.to(ovalTop, { opacity: 1, duration: DEFAULT_DURATION });
-    // }
-
-    // function step0() {
-    //     gsap.to([ovalTop, ovalBottom], { opacity: 0, duration: DEFAULT_DURATION });
-    //     gsap.to(fixedElement, { transform: 'scale(1)', duration: DEFAULT_DURATION });
-    // }
-
-    // function step1() {
-    //     const shadowTranslate = getIsMobile() ? SHADOW_INITIAL_TRANSLATE.MOBILE : SHADOW_INITIAL_TRANSLATE.DESKTOP;
-    //     gsap.to(ovalTop, { opacity: 1, duration: DEFAULT_DURATION });
-    //     gsap.to(ovalBottom, { opacity: 1, duration: DEFAULT_DURATION });
-    //     gsap.to(fixedElement, { transform: 'scale(0.9)', duration: DEFAULT_DURATION });
-    //     gsap.to(shadow, { transform: `scale(1) translateX(${shadowTranslate})`, filter: `blur(${SHADOW_BLUR})`, duration: DEFAULT_DURATION });
-    //     gsap.timeline()
-    //         .to(circlesContainer, { opacity: 0, duration: DEFAULT_DURATION / 4 })
-    //         .to(circles, { transform: 'scale(0.8)' });
-    // }
-
-    // function step2() {
-    //     gsap.to([ovalTop, ovalBottom], { opacity: 0, duration: DEFAULT_DURATION });
-    //     gsap.to(fixedElement, { transform: 'scale(1) translateX(calc(50vw - 50%))', duration: DEFAULT_DURATION });
-    //     gsap.to(shadow, { transform: 'scale(0.25) translateX(0%)', filter: 'blur(2px)', duration: DEFAULT_DURATION });
-    //     gsap.to(circlesContainer, { opacity: 1, duration: DEFAULT_DURATION / 4 });
-    //     gsap.to(circles, { transform: 'scale(1)', duration: DEFAULT_DURATION / 4, stagger: 0.1 });
-    // }
 }

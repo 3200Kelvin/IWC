@@ -1,7 +1,6 @@
-export const setTextAppear = (element, isPaused = true) => {
+export const setTextAppear = (element, { isPaused = true, timeline = gsap.timeline() }) => {
     const split = SplitText.create(element, {
         type: 'lines',
-        autoSplit: true,
         mask: 'lines',
     });
 
@@ -16,7 +15,7 @@ export const setTextAppear = (element, isPaused = true) => {
     });
     gsap.to(element, { pointerEvents: 'none' });
 
-    const timeline = gsap.timeline()
+    timeline
         .to(element, { pointerEvents: 'auto' })
         .to(split.words, {
             willChange: 'transform',
