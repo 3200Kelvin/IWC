@@ -23,7 +23,7 @@ export const useServicesStory = (block) => {
     const END = {
         block: block.querySelector('.services__end'),
         bg: endBlock.querySelector('.services__end__bg'),
-        logo: endBlock.querySelector('.services__end__logo'),
+        logo: endBlock.querySelector('.services__end__logo__image'),
         heading: endBlock.querySelector('.heading--services-end'),
         text: endBlock.querySelector('.services__end__text p'),
         taglibe: endBlock.querySelector('.services__end__tagline p'),
@@ -57,14 +57,15 @@ export const useServicesStory = (block) => {
         .to(END.heading, { opacity: 1, duration: DEFAULT_DURATION / 4 })
         .to(END.text, { opacity: 1, duration: DEFAULT_DURATION / 4 })
         .to(END.taglibe, { opacity: 1, duration: DEFAULT_DURATION / 4 })
-        .to(END.logo, { opacity: 1, transform: 'scale(1)', duration: DEFAULT_DURATION / 2 });
+        .to(END.logo, { opacity: 1, transform: 'scale(1)', duration: DEFAULT_DURATION / 2 })
+        .to({}, { duration: DEFAULT_DURATION / 2 });
 
     const timeline = gsap.timeline({
         scrollTrigger: {
-            markers: true,
+            // markers: true,
             trigger: stepsContainer,
             start: "top 20%",
-            end: "bottom bottom+=400px",
+            end: "bottom center",
             scrub: 1
         },
         defaults: { ease: "linear" }
