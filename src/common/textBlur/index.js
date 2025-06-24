@@ -1,7 +1,11 @@
+import { getIsMobile } from "../helpers";
+
 export const setTextBlur = (element, isPaused = true) => {
     const split = SplitText.create(element, {
         type: "lines, words",
     });
+
+    const isMobile = getIsMobile();
 
     split.lines.forEach((line) => {
         if (!line.innerHTML) {
@@ -12,7 +16,7 @@ export const setTextBlur = (element, isPaused = true) => {
     gsap.to(split.words, {
         transform: 'scale(0.95)',
         opacity: 0,
-        filter: 'blur(10px)',
+        filter: isMobile ? 'none' : 'blur(10px)',
     });
     gsap.to(element, { pointerEvents: 'none' });
 
@@ -24,7 +28,7 @@ export const setTextBlur = (element, isPaused = true) => {
         .to(split.words, {
             transform: 'scale(1)',
             opacity: 1,
-            filter: 'blur(0px)',
+            filter: isMobile ? 'none' : 'blur(0px)',
             duration: 1,
             stagger: 0.005,
         })

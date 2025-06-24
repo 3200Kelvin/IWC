@@ -1,20 +1,6 @@
-import './style.scss';
+import { getIsMobile } from '../../../common/helpers';
 
-const IMAGE_TRANSLATION = '70%';
-const TRANSFORM = {
-    TOP: `translateY(-${IMAGE_TRANSLATION})`,
-    BOTTOM: `translateY(${IMAGE_TRANSLATION})`,
-    ZERO: 'translateY(0)',
-    SCALE_DOWN: 'scale(0.7)',
-    SCALE_UP: 'scale(1.3)',
-    SCALE_ZERO: 'scale(1)',
-}
-const IMAGE_BLUR = '10px';
-const IMAGE_FILTER = {
-    BLURRED: 'blur(10px)',
-    ZERO: 'blur(0px)',
-};
-const DEFAULT_DURATION = 2;
+import './style.scss';
 
 export const useServicesStory = (block) => {
     const stepsContainer = block.querySelector('.services__steps');
@@ -30,6 +16,22 @@ export const useServicesStory = (block) => {
         image: endBlock.querySelector('.services__end__image'),
     };
     const toggledElements = document.querySelectorAll('.bg-toggled');
+    const isMobile = getIsMobile();
+
+    const IMAGE_TRANSLATION = '70%';
+    const TRANSFORM = {
+        TOP: `translateY(-${IMAGE_TRANSLATION})`,
+        BOTTOM: `translateY(${IMAGE_TRANSLATION})`,
+        ZERO: 'translateY(0)',
+        SCALE_DOWN: 'scale(0.7)',
+        SCALE_UP: 'scale(1.3)',
+        SCALE_ZERO: 'scale(1)',
+    }
+    const IMAGE_FILTER = {
+        BLURRED: isMobile ? 'none' : 'blur(10px)',
+        ZERO: isMobile ? 'none' : 'blur(0px)',
+    };
+    const DEFAULT_DURATION = 2;
 
     const ORGANS = {
         BRAIN: images[0],
@@ -40,7 +42,7 @@ export const useServicesStory = (block) => {
     };
 
     images.forEach(image => {
-        gsap.to(image, { opacity: 0, transform: `translateY(${IMAGE_TRANSLATION})`, filter: `blur(${IMAGE_BLUR})` });
+        gsap.to(image, { opacity: 0, transform: `translateY(${IMAGE_TRANSLATION})`, filter: IMAGE_FILTER.BLURRED });
     });
 
     gsap.timeline()
@@ -63,7 +65,7 @@ export const useServicesStory = (block) => {
         scrollTrigger: {
             // markers: true,
             trigger: stepsContainer,
-            start: "top 20%",
+            start: isMobile ? 'top 60%' : "top 20%",
             end: "bottom center",
             scrub: 1
         },
