@@ -30,7 +30,6 @@ export const useServicesStory = (block) => {
         image: endBlock.querySelector('.services__end__image'),
     };
     const toggledElements = document.querySelectorAll('.bg-toggled');
-    console.log(toggledElements);
 
     const ORGANS = {
         BRAIN: images[0],

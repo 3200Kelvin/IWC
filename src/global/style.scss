@@ -1,0 +1,6 @@
+.w-embed {
+    &::before,
+    &::after {
+        display: none;
+    }
+}

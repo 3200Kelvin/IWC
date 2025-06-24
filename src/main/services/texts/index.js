@@ -9,6 +9,15 @@ export const useServicesTexts = (block) => {
     const texts = block.querySelectorAll('.services__step__content p');
 
     const intersectionObserver = getIntersectionObserver(20, onIntersecting);
+    const dashIntersectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('appeared');
+            } else {
+                entry.target.classList.remove('appeared');
+            }
+        });
+    }, { threshold: 0, rootMargin: '20% 0% -20% 0%' });
 
     const textTimelines = [...texts].map((text) => {
         const timeline = setTextBlur(text);
@@ -21,18 +30,21 @@ export const useServicesTexts = (block) => {
 
     const titleTimelines = [...headings].map((heading) => {
         const text = heading.querySelector('.heading--services');
+        const index = heading.querySelector('.services__step__index');
 
-        const timeline = gsap.timeline().add(() => heading.classList.add('appeared'));
-        setTextAppear(text, { timeline });
+        const timeline = setTextAppear(text);
 
         text.animate = () => timeline.play().add(() => timeline.kill());
         intersectionObserver.observe(text);
+
+        dashIntersectionObserver.observe(index);
 
         return timeline;
     });
 
     return () => {
         intersectionObserver.disconnect();
+        dashIntersectionObserver.disconnect();
         textTimelines.forEach((timeline) => timeline.kill());
         titleTimelines.forEach((timeline) => timeline.kill());
     };

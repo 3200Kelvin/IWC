@@ -10,7 +10,7 @@
         transition: opacity 0.4s;
     }
 
-    &.appeared {
+    .services__step__index.appeared {
         .glowing-line__line--glow {
             transform: scaleX(1);
         }

@@ -1,4 +1,4 @@
-export const setTextAppear = (element, { isPaused = true, timeline = gsap.timeline() }) => {
+export const setTextAppear = (element, { isPaused = true, timeline = gsap.timeline() } = {}) => {
     const split = SplitText.create(element, {
         type: 'lines',
         mask: 'lines',
