@@ -22,7 +22,7 @@ export function scrollToAnchor(isInstant = false) {
 }
 
 export const setSmoothScroll = () => {
-    if (!window.Lenis || true) {
+    if (!window.Lenis) {
         return;
     }
 
@@ -40,51 +40,51 @@ export const setSmoothScroll = () => {
     document.addEventListener('DOMContentLoaded', scrollToAnchor);
 
     // weird shit to get lenis scroll to work properly
-    // lenis.resizeDebounce = null;
+    lenis.resizeDebounce = null;
 
-    // lenis.on('scroll', onScroll);
+    lenis.on('scroll', onScroll);
 
-    // function onScroll(event) {
-    //     const { scrollHeight } = event.dimensions;
-    //     if (scrollHeight !== document.body.scrollHeight) {
-    //         resize();
-    //     }
-    // }
+    function onScroll(event) {
+        const { scrollHeight } = event.dimensions;
+        if (scrollHeight !== document.body.scrollHeight) {
+            resize();
+        }
+    }
 
-    // function onResize(entry) {
-    //     if (entry.target === document.documentElement) {
-    //         try {
-    //             Object.defineProperty(window, 'innerHeight', {
-    //                 get: function() {
-    //                   return entry.contentRect.height;
-    //                 }
-    //             });
-    //         } catch(error) {
-    //             console.warn(error);
-    //         }
-    //     }
+    function onResize(entry) {
+        if (entry.target === document.documentElement) {
+            try {
+                Object.defineProperty(window, 'innerHeight', {
+                    get: function() {
+                      return entry.contentRect.height;
+                    }
+                });
+            } catch(error) {
+                console.warn(error);
+            }
+        }
         
-    //     resize();
-    // }
+        resize();
+    }
 
-    // function resize() {
-    //     clearTimeout(lenis.resizeDebounce);
-    //     lenis.resizeDebounce = setTimeout(() => {
-    //         lenis.resize();
-    //     }, 100);
-    // }
+    function resize() {
+        clearTimeout(lenis.resizeDebounce);
+        lenis.resizeDebounce = setTimeout(() => {
+            lenis.resize();
+        }, 100);
+    }
 
-    // const docHeightObserver = new ResizeObserver((entries) => {
-    //     onResize(entries[0]);
-    // });
-    // docHeightObserver.observe(document.documentElement);
-    // docHeightObserver.observe(document.body);
-    // docHeightObserver.observe(content);
+    const docHeightObserver = new ResizeObserver((entries) => {
+        onResize(entries[0]);
+    });
+    docHeightObserver.observe(document.documentElement);
+    docHeightObserver.observe(document.body);
+    docHeightObserver.observe(content);
 
-    // document.documentElement.style.setProperty('height', 'auto');
-    // setTimeout(() => {
-    //     document.documentElement.style.setProperty('height', '100%');
-    // }, 100);
+    document.documentElement.style.setProperty('height', 'auto');
+    setTimeout(() => {
+        document.documentElement.style.setProperty('height', '100%');
+    }, 100);
     // end of the weird shit
 
     window.lenis = lenis;
