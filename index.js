@@ -8,6 +8,10 @@ if (gsap) {
         duration: 0,
         ease: 'power2.inOut'
     });
+    
+    if (window.ScrollTrigger) {
+        ScrollTrigger.normalizeScroll(true);
+    }
 }
 
 let isInitialized = false;
