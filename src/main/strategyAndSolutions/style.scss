@@ -16,3 +16,38 @@
         }
     }
 }
+
+.solutions__card {
+    --transition: 0.8s ease;
+
+    &__image {
+        transition: opacity var(--transition), transform var(--transition);
+    }
+
+    &.active {
+        .solutions__card {
+            &__image {
+                transform: scale(1.1) rotateZ(3deg);
+            }
+        }
+    }
+    
+    @media (hover: hover) {
+        transition: color var(--transition), background-color var(--transition);
+
+        &:hover {
+            color: var(--glassy-blue);
+
+            .solutions__card {
+                &__image {
+                    opacity: 0;
+                    transform: scale(1.1) rotateZ(1deg);
+                }
+
+                &__image--hover {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}
