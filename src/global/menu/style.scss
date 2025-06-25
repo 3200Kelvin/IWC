@@ -59,6 +59,9 @@
 }
 
 .menu-btn--opened {
+    background-color: transparent;
+    border-color: transparent;
+
     .burger-icon {
         transform: rotateZ(-45deg);
 
