@@ -67,7 +67,7 @@ export const useServicesStory = (block) => {
             trigger: stepsContainer,
             start: isMobile ? 'top 60%' : "top 20%",
             end: "bottom center",
-            scrub: 0.1,
+            scrub: 1.5,
         },
         defaults: { ease: "linear" }
     })
