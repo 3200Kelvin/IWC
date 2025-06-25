@@ -12,7 +12,7 @@ export const useForm = () => {
 
     const stageSelect = form.querySelector('select[name="career-stage"]');
     const otherCareerStageInput = form.querySelector('input[name="career stage other"]');
-    const otherCareerStageGroup = graduationDateInput.closest('.form__question');
+    const otherCareerStageGroup = otherCareerStageInput.closest('.form__question');
     const graduationDateInput = form.querySelector('input[name="graduation date"]');
     const graduationDateGroup = graduationDateInput.closest('.form__question');
     const foundThroughSelect = form.querySelector('select[name="found-us-through"]');
