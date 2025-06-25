@@ -67,13 +67,11 @@ export const useServicesStory = (block) => {
             trigger: stepsContainer,
             start: isMobile ? 'top 60%' : "top 20%",
             end: "bottom center",
-            scrub: 1,
+            scrub: 0.1,
         },
         defaults: { ease: "linear" }
     })
-        .to(Object.values(ORGANS), {
-            willChange: 'opacity, transform, filter',
-        })
+        .set(Object.values(ORGANS), { willChange: 'opacity, transform, filter' })
         .add('step0')
         .fromTo(
             ORGANS.BRAIN,
@@ -153,7 +151,7 @@ export const useServicesStory = (block) => {
             ORGANS.HEART,
             { transform: 'translate(-12%, 0%) scale(0.25)', duration: DEFAULT_DURATION}
         )
-        .to(Object.values(ORGANS), {
+        .set(Object.values(ORGANS), {
             willChange: '',
         })
         .add(animateEndTexts);

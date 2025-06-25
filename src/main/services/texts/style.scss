@@ -19,4 +19,10 @@
             opacity: 1;
         }
     }
+
+    .heading--services {
+        > *:not(:first-child) {
+            text-indent: 0;
+        }
+    }
 }
