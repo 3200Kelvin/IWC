@@ -2,6 +2,8 @@ import { getIntersectionObserver } from "../../../common/helpers";
 import { setTextBlur } from "../../../common/textBlur";
 import { setTextAppear } from "../../../common/textAppear";
 
+import { LINE_TOP_OFFSET } from "../line";
+
 import './style.scss';
 
 export const useServicesTexts = (block) => {
@@ -9,6 +11,7 @@ export const useServicesTexts = (block) => {
     const texts = block.querySelectorAll('.services__step__content p');
 
     const intersectionObserver = getIntersectionObserver(20, onIntersecting);
+    const DASH_MARGIN = 100 - LINE_TOP_OFFSET;
     const dashIntersectionObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
@@ -17,7 +20,7 @@ export const useServicesTexts = (block) => {
                 entry.target.classList.remove('appeared');
             }
         });
-    }, { threshold: 0, rootMargin: '20% 0% -20% 0%' });
+    }, { threshold: 0, rootMargin: `${DASH_MARGIN}% 0% -${DASH_MARGIN}% 0%` });
 
     const textTimelines = [...texts].map((text) => {
         const timeline = setTextBlur(text);
