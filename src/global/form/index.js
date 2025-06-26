@@ -11,13 +11,16 @@ export const useForm = () => {
     }
 
     const stageSelect = form.querySelector('select[name="career-stage"]');
-    const otherCareerStageInput = form.querySelector('input[name="career stage other"]');
+    const otherCareerStageInput = form.querySelector('input[name="career-stage-other"]');
     const otherCareerStageGroup = otherCareerStageInput.closest('.form__question');
     const graduationDateInput = form.querySelector('input[name="graduation date"]');
     const graduationDateGroup = graduationDateInput.closest('.form__question');
+    const stageAdditionalField = otherCareerStageInput.closest('.form__question-wrapper');
+
     const foundThroughSelect = form.querySelector('select[name="found-us-through"]');
     const foundThroughOtherInput = form.querySelector('input[name="found-us-through-other"]');
     const foundThroughOtherGroup = foundThroughOtherInput.closest('.form__question');
+    const foundThroughAdditionalField = foundThroughOtherInput.closest('.form__question-wrapper');
 
     const today = new Date();
     const startDate = today.toISOString().split('T')[0];
@@ -37,14 +40,23 @@ export const useForm = () => {
     };
 
     function handleStageChange() {
-        toggleGraduationDate(stageSelect.value === STUDENT_VALUE);
-        toggleOtherCareerStage(stageSelect.value === OTHER_STAGE_VALUE);
+        const isMedical = stageSelect.value === STUDENT_VALUE;
+        const isOther = stageSelect.value === OTHER_STAGE_VALUE;
+        const showGroup = isMedical || isOther;
+        toggleGraduationDate(isMedical);
+        toggleOtherCareerStage(isOther);
+
+        if (showGroup) {
+            stageAdditionalField.style.display = 'flex';
+        } else {
+            stageAdditionalField.style.display = 'none';
+        }
     }
 
     function toggleOtherCareerStage(isShown = false) {
         if (isShown) {
             otherCareerStageInput.required = true;
-            otherCareerStageGroup.style.display = 'block';
+            otherCareerStageGroup.style.display = 'flex';
         } else {
             otherCareerStageInput.required = false;
             otherCareerStageGroup.style.display = 'none';
@@ -54,7 +66,7 @@ export const useForm = () => {
     function toggleGraduationDate(isShown = false) {
         if (isShown) {
             graduationDateInput.required = true;
-            graduationDateGroup.style.display = 'block';
+            graduationDateGroup.style.display = 'flex';
         } else {
             graduationDateInput.required = false;
             graduationDateGroup.style.display = 'none';
@@ -62,7 +74,11 @@ export const useForm = () => {
     }
 
     function handleFoundThroughChange() {
-        foundThroughOtherGroup.style.display = foundThroughSelect.value === FOUND_THROUGH_OTHER_VALUE ? 'block' : 'none';
+        if (foundThroughSelect.value === FOUND_THROUGH_OTHER_VALUE) {
+            foundThroughAdditionalField.style.display = 'flex';
+        } else {
+            foundThroughAdditionalField.style.display = 'none';
+        }
     }
 
     function onFocus(event) {
