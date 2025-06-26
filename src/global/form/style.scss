@@ -3,6 +3,7 @@
 .form {
     input[type="date"] {
         color-scheme: dark;
+        padding-bottom: 0.3em;
 
         &::-webkit-calendar-picker-indicator {
             opacity: 0.8;

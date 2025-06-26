@@ -1,13 +1,14 @@
 import { getIsMobile } from '../../../common/helpers';
+import { useServicesMobileStory } from './mobile';
 
 import './style.scss';
 
 export const useServicesStory = (block) => {
-    const stepsContainer = block.querySelector('.services__steps');
-    const images = block.querySelectorAll('.services__image__img');
+    const isMobile = getIsMobile();
+
     const endBlock = block.querySelector('.services__end');
     const END = {
-        block: block.querySelector('.services__end'),
+        block: endBlock,
         bg: endBlock.querySelector('.services__end__bg'),
         logo: endBlock.querySelector('.services__end__logo__image'),
         heading: endBlock.querySelector('.heading--services-end'),
@@ -15,8 +16,17 @@ export const useServicesStory = (block) => {
         taglibe: endBlock.querySelector('.services__end__tagline p'),
         image: endBlock.querySelector('.services__end__image'),
     };
+
+    gsap.set([END.image, END.bg, END.heading, END.text, END.taglibe], { opacity: 0 });
+    gsap.set(END.logo, { opacity: 0, transform: 'scale(0.75)' });
+
+    // if (isMobile) {
+    //     return useServicesMobileStory(block, END);
+    // }
+
+    const stepsContainer = block.querySelector('.services__steps');
+    const images = block.querySelectorAll('.services__image__img');
     const toggledElements = document.querySelectorAll('.bg-toggled');
-    const isMobile = getIsMobile();
 
     const IMAGE_TRANSLATION = '70%';
     const TRANSFORM = {
@@ -44,10 +54,6 @@ export const useServicesStory = (block) => {
     images.forEach(image => {
         gsap.to(image, { opacity: 0, transform: `translateY(${IMAGE_TRANSLATION})`, filter: IMAGE_FILTER.BLURRED });
     });
-
-    gsap.timeline()
-        .to([END.image, END.bg, END.heading, END.text, END.taglibe], { opacity: 0 })
-        .to(END.logo, { opacity: 0, transform: 'scale(0.75)' });
 
     const animateEndTexts = gsap.timeline()
         .to({}, { duration: DEFAULT_DURATION / 4 })
