@@ -1,14 +1,6 @@
 import { setTextBlur } from "../../common/textBlur";
-import { getIsMobile } from "../../common/helpers";
 
 import './style.scss';
-
-const SHADOW_BLUR = '12px';
-const DEFAULT_DURATION = 1.4;
-const SHADOW_INITIAL_TRANSLATE = {
-    DESKTOP: '-5%',
-    MOBILE: '-45%',
-};
 
 export const useApproachAnimation = () => {
     const block = document.querySelector('.approach');
@@ -26,27 +18,24 @@ export const useApproachAnimation = () => {
     const steps = block.querySelectorAll('.approach__step');
     const total = steps.length;
 
-    const fixedElement = block.querySelector('.fixed-element');
-    const circlesContainer = fixedElement.querySelector('.approach__circles');
-
     let current = null;
     changeCounter(current);
 
-    steps.forEach((step, index) => {
+    return [...steps].map((step, index) => {
         const text = texts[index];
-        const textAnimation = setTextBlur(text);
+        const { animate, reset, cleanup } = setTextBlur(text);
 
         const showText = () => {
             gsap.to(text, { opacity: 1 });
-            textAnimation.restart();
+            animate();
         }
 
         const hideText = () => {
             gsap.to(text, { opacity: 0, duration: 0.4 })
-                .then(() => textAnimation.revert());
+                .then(reset);
         }
 
-        ScrollTrigger.create({
+        const scrollTrigger = ScrollTrigger.create({
             trigger: step,
             start: "top 25%",
             end: "bottom 25%",
@@ -63,6 +52,11 @@ export const useApproachAnimation = () => {
                 }
             },
         });
+
+        return () => {
+            scrollTrigger.kill();
+            cleanup();
+        }
     });
 
     function setActive(newIndex, isPre = false) {

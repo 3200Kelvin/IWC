@@ -162,5 +162,10 @@ export const useServicesStory = (block) => {
         })
         .add(animateEndTexts);
 
+    requestAnimationFrame(() => {
+        timeline.seek(1);
+        timeline.seek(0);
+    });
+
     return () => timeline.kill();
 }

@@ -1,44 +1,68 @@
-import { getIsMobile } from "../helpers";
+import './style.scss';
 
-export const setTextBlur = (element, isPaused = true) => {
+export const setTextBlur = (element) => {
+    const CLASS_NAMES = {
+        BASE: 'text-unblur',
+        LINE: 'text-unblur__line',
+        ELEMENT: 'text-unblur__word',
+        TRANSITION: 'text-unblur__transition',
+        APPEARED: 'text-unblur__appeared',
+    };
+
+    element.classList.add(CLASS_NAMES.BASE);
+
     const split = SplitText.create(element, {
         type: "lines, words",
+        linesClass: CLASS_NAMES.LINE,
+        wordsClass: CLASS_NAMES.ELEMENT,
     });
 
-    const isMobile = getIsMobile();
+    const entries = split.words;
 
-    split.lines.forEach((line) => {
-        if (!line.innerHTML) {
-            line.style.setProperty('height', '1em');
-        }
+    const STAGGER = 0.005;
+
+    entries.forEach((line, index) => {
+        line.style.setProperty('--delay', `${STAGGER * index}s`);
     });
 
-    gsap.to(split.words, {
-        transform: 'scale(0.95)',
-        opacity: 0,
-        filter: isMobile ? 'none' : 'blur(10px)',
-    });
-    gsap.to(element, { pointerEvents: 'none' });
+    let cleanup;
 
-    const timeline = gsap.timeline()
-        .to(element, { pointerEvents: 'auto' })
-        .to(split.words, {
-            willChange: 'opacity, filter',
-        })
-        .to(split.words, {
-            transform: 'scale(1)',
-            opacity: 1,
-            filter: isMobile ? 'none' : 'blur(0px)',
-            duration: 1,
-            stagger: 0.005,
-        })
-        .to(split.words, {
-            willChange: 'none',
+    const animate = () => {
+        return new Promise((res) => {
+            const lastEntry = entries[entries.length - 1];
+
+            cleanup = () => {
+                lastEntry.removeEventListener('transitionend', onTransitionEnd);
+                cleanup = null;
+            };
+
+            const onTransitionEnd = (event) => {
+                if (event.propertyName === 'opacity') {
+                    element.classList.remove(CLASS_NAMES.TRANSITION);
+
+                    cleanup?.();
+                    res();
+                }
+            };
+
+            lastEntry.addEventListener('transitionend', onTransitionEnd);
+
+            element.classList.add(CLASS_NAMES.TRANSITION);
+
+            setTimeout(() => {
+                entries.forEach((entry) => {
+                    element.classList.add(CLASS_NAMES.APPEARED);
+                });
+            }, 10)
         });
-
-    if (isPaused) {
-        timeline.pause();
     }
 
-    return timeline;
+    const reset = () => {
+        cleanup?.();
+
+        element.classList.remove(CLASS_NAMES.TRANSITION, CLASS_NAMES.APPEARED);
+        element.classList.add(CLASS_NAMES.BASE);
+    }
+
+    return { animate, reset, cleanup };
 }

@@ -13,7 +13,7 @@ export const useServicesAnimations = () => {
     const cleanups = [
         useServicesStory(block),
         useServicesLine(block),
-        // useServicesTexts(block)
+        useServicesTexts(block)
     ];
 
     return () => cleanups.forEach((cleanup) => cleanup?.());

@@ -1,37 +1,68 @@
-export const setTextAppear = (element, { isPaused = true, timeline = gsap.timeline() } = {}) => {
+import './style.scss';
+
+export const setTextAppear = (element) => {
+    const CLASS_NAMES = {
+        BASE: 'text-appear',
+        ELEMENT: 'text-appear__line',
+        TRANSITION: 'text-appear__transition',
+        APPEARED: 'text-appear__appeared',
+    };
+
+    element.classList.add(CLASS_NAMES.BASE);
+
     const split = SplitText.create(element, {
         type: 'lines',
         mask: 'lines',
+        linesClass: CLASS_NAMES.ELEMENT,
     });
 
-    split.lines.forEach((line) => {
-        if (!line.innerHTML) {
-            line.style.setProperty('height', '1em');
-        }
+    const entries = split.lines;
+
+    const STAGGER = 0.15;
+
+    entries.forEach((line, index) => {
+        line.style.setProperty('--delay', `${STAGGER * index}s`);
     });
 
-    gsap.to(split.lines, {
-        transform: 'translateY(120%) rotateZ(1deg)',
-    });
-    gsap.to(element, { pointerEvents: 'none' });
+    let cleanup;
 
-    timeline
-        .to(element, { pointerEvents: 'auto' })
-        .to(split.words, {
-            willChange: 'transform',
-        })
-        .to(split.lines, {
-            transform: 'translateY(0%) rotateZ(0deg)',
-            duration: 1,
-            stagger: 0.15,
-        })
-        .to(split.lines, {
-            willChange: 'none',
+    const animate = () => {
+        return new Promise((res) => {
+            const lastEntry = entries[entries.length - 1];
+
+            cleanup = () => {
+                lastEntry.removeEventListener('transitionend', onTransitionEnd);
+                cleanup = null;
+            };
+
+            const onTransitionEnd = (event) => {
+                if (event.propertyName === 'transform') {
+                    element.classList.remove(CLASS_NAMES.TRANSITION);
+
+                    cleanup?.();
+                    res();
+                }
+            };
+
+            lastEntry.addEventListener('transitionend', onTransitionEnd);
+
+            element.classList.add(CLASS_NAMES.TRANSITION);
+
+            setTimeout(() => {
+                entries.forEach((line) => {
+                    element.classList.add(CLASS_NAMES.APPEARED);
+                });
+            }, 10)
         });
-
-    if (isPaused) {
-        timeline.pause();
     }
 
-    return timeline;
+    const reset = () => {
+        cleanup?.();
+
+        entries.forEach((line) => {
+            line.classList.add(CLASS_NAMES.BASE);
+        });
+    }
+
+    return { animate, reset, cleanup };
 }

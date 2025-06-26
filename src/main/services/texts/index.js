@@ -22,34 +22,31 @@ export const useServicesTexts = (block) => {
         });
     }, { threshold: 0, rootMargin: `${DASH_MARGIN}% 0% -${DASH_MARGIN}% 0%` });
 
-    const textTimelines = [...texts].map((text) => {
-        const timeline = setTextBlur(text);
-
-        text.animate = () => timeline.play().add(() => timeline.kill());
+    const textCleanups = [...texts].map((text) => {
+        const { animate, cleanup } = setTextBlur(text);
+        text.animate = animate;
         intersectionObserver.observe(text);
 
-        return timeline;
+        return cleanup;
     });
 
-    const titleTimelines = [...headings].map((heading) => {
+    const headingCleanups = [...headings].forEach((heading) => {
         const text = heading.querySelector('.heading--services');
         const index = heading.querySelector('.services__step__index');
 
-        const timeline = setTextAppear(text);
-
-        text.animate = () => timeline.play().add(() => timeline.kill());
+        const { animate, cleanup } = setTextAppear(text);
+        text.animate = animate;
         intersectionObserver.observe(text);
 
         dashIntersectionObserver.observe(index);
 
-        return timeline;
+        return cleanup;
     });
 
     return () => {
         intersectionObserver.disconnect();
         dashIntersectionObserver.disconnect();
-        textTimelines.forEach((timeline) => timeline.kill());
-        titleTimelines.forEach((timeline) => timeline.kill());
+        [...textCleanups, ...headingCleanups].forEach((cleanup) => cleanup?.());
     };
     
     function onIntersecting(entry, observer) {
