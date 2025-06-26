@@ -18,6 +18,12 @@
 }
 
 .solutions__card {
+    &:last-of-type {
+        .solutions__card__title {
+            padding-right: 0;
+        }
+    }
+
     --transition: 0.8s ease;
 
     &__image {
