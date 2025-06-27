@@ -211,7 +211,7 @@ export const useServicesMobileStory = (block, END, toggledElements) => {
         const isEnd = index === steps.length - 1;
 
         const scrollTrigger = ScrollTrigger.create({
-            markers: true,
+            // markers: true,
             trigger: step,
             start: isEnd ? "top top" : "top 50%",
             end: "bottom 50%",
