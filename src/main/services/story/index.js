@@ -1,4 +1,5 @@
 import { getIsMobile } from '../../../common/helpers';
+import { IMAGE_TRANSLATION, TRANSFORM, IMAGE_FILTER, DEFAULT_DURATION } from "./common";
 import { useServicesMobileStory } from './mobile';
 
 import './style.scss';
@@ -13,35 +14,20 @@ export const useServicesStory = (block) => {
         logo: endBlock.querySelector('.services__end__logo__image'),
         heading: endBlock.querySelector('.heading--services-end'),
         text: endBlock.querySelector('.services__end__text p'),
-        taglibe: endBlock.querySelector('.services__end__tagline p'),
+        tagline: endBlock.querySelector('.services__end__tagline p'),
         image: endBlock.querySelector('.services__end__image'),
     };
+    const toggledElements = document.querySelectorAll('.bg-toggled');
 
-    gsap.set([END.image, END.bg, END.heading, END.text, END.taglibe], { opacity: 0 });
+    gsap.set([END.image, END.bg, END.heading, END.text, END.tagline], { opacity: 0 });
     gsap.set(END.logo, { opacity: 0, transform: 'scale(0.75)' });
 
-    // if (isMobile) {
-    //     return useServicesMobileStory(block, END);
-    // }
+    if (isMobile) {
+        return useServicesMobileStory(block, END, toggledElements);
+    }
 
     const stepsContainer = block.querySelector('.services__steps');
     const images = block.querySelectorAll('.services__image__img');
-    const toggledElements = document.querySelectorAll('.bg-toggled');
-
-    const IMAGE_TRANSLATION = '70%';
-    const TRANSFORM = {
-        TOP: `translateY(-${IMAGE_TRANSLATION})`,
-        BOTTOM: `translateY(${IMAGE_TRANSLATION})`,
-        ZERO: 'translateY(0)',
-        SCALE_DOWN: 'scale(0.7)',
-        SCALE_UP: 'scale(1.3)',
-        SCALE_ZERO: 'scale(1)',
-    }
-    const IMAGE_FILTER = {
-        BLURRED: isMobile ? 'none' : 'blur(10px)',
-        ZERO: isMobile ? 'none' : 'blur(0px)',
-    };
-    const DEFAULT_DURATION = 2;
 
     const ORGANS = {
         BRAIN: images[0],
@@ -64,7 +50,7 @@ export const useServicesStory = (block) => {
         .to(END.heading, { opacity: 1, duration: DEFAULT_DURATION / 4 })
         .to(END.logo, { opacity: 1, transform: 'scale(1)', duration: DEFAULT_DURATION / 2 })
         .to(END.text, { opacity: 1, duration: DEFAULT_DURATION / 4 })
-        .to(END.taglibe, { opacity: 1, duration: DEFAULT_DURATION / 4 })
+        .to(END.tagline, { opacity: 1, duration: DEFAULT_DURATION / 4 })
         .to({}, { duration: DEFAULT_DURATION / 2 });
 
     const timeline = gsap.timeline({
