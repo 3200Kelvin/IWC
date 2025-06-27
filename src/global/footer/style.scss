@@ -2,8 +2,12 @@
     .navigation__secondary {
         &:hover {
             .navigation__secondary {
-                &__corner--glow {
+                &__corner {
                     opacity: 1;
+
+                    &--glow {
+                        opacity: 1;
+                    }
                 }
 
                 &__eyes {

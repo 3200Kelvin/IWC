@@ -43,12 +43,12 @@ export const useServicesStory = (block) => {
 
     const animateEndTexts = gsap.timeline()
         .to({}, { duration: DEFAULT_DURATION / 4 })
-        .to(END.image, { opacity: 1, duration: DEFAULT_DURATION / 4 })
         .add('bg-change')
         .to(END.bg, { opacity: 1, duration: DEFAULT_DURATION / 4 }, 'bg-change')
+        .to(END.image, { opacity: 1, duration: DEFAULT_DURATION / 4 }, 'bg-change')
         .to(toggledElements, { color: 'var(--dark-blue)', duration: DEFAULT_DURATION / 4 }, 'bg-change')
         .to(END.heading, { opacity: 1, duration: DEFAULT_DURATION / 4 })
-        .to(END.logo, { opacity: 1, transform: 'scale(1)', duration: DEFAULT_DURATION / 2 })
+        .to(END.logo, { opacity: 1, transform: 'scale(1)', duration: DEFAULT_DURATION / 4 })
         .to(END.text, { opacity: 1, duration: DEFAULT_DURATION / 4 })
         .to(END.tagline, { opacity: 1, duration: DEFAULT_DURATION / 4 })
         .to({}, { duration: DEFAULT_DURATION / 2 });
