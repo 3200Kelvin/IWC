@@ -31,7 +31,7 @@
 
     &.initial {
         .fixed-element--hero {
-            transform: translateY(-150%);
+            transform: translate3d(0, -150%, 0);
             opacity: 0;
             filter: blur(5px);
         }

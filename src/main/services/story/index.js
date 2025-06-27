@@ -1,11 +1,11 @@
-import { getIsMobile } from '../../../common/helpers';
+import { isTouchscreen, getIsMobile } from '../../../common/helpers';
 import { IMAGE_TRANSLATION, TRANSFORM, IMAGE_FILTER, DEFAULT_DURATION } from "./common";
 import { useServicesMobileStory } from './mobile';
 
 import './style.scss';
 
 export const useServicesStory = (block) => {
-    const isMobile = getIsMobile();
+    const isMobile = isTouchscreen;
 
     const endBlock = block.querySelector('.services__end');
     const END = {
