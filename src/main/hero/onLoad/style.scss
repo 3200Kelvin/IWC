@@ -48,6 +48,10 @@
     }
 
     &.transition {
+        .fixed-element-wrapper--hero {
+            will-change: transform, opacity, filter;
+        }
+
         .fixed-element--hero {
             will-change: transform, opacity, filter;
             transition: transform var(--hero-animation-time) ease, opacity var(--hero-animation-time) ease, filter var(--hero-animation-time) ease;
