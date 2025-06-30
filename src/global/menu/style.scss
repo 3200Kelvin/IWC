@@ -64,7 +64,10 @@
 
 .menu-btn--opened {
     background-color: transparent;
-    border-color: transparent;
+
+    .menu-btn__border {
+        opacity: 0;
+    }
 
     .burger-icon {
         transform: rotateZ(-45deg);

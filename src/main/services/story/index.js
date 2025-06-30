@@ -41,20 +41,59 @@ export const useServicesStory = (block) => {
         gsap.to(image, { opacity: 0, transform: `translateY(${IMAGE_TRANSLATION})`, filter: IMAGE_FILTER.BLURRED });
     });
 
-    const textAnimationDuration = 2 * DEFAULT_DURATION / END.heading.length;
+    const endBlockTrigger = ScrollTrigger.create({
+        trigger: endBlock,
+        start: 'top top',
+	    onToggle: (self) => {
+            const { isActive, direction } = self;
+            const appear = !!isActive && direction === 1;
+            const disappear = !isActive && direction === -1;
 
-    const animateEndTexts = gsap.timeline()
-        .to({}, { duration: DEFAULT_DURATION / 4 })
-        .add('bg-change')
-        .to(END.bg, { opacity: 1, duration: DEFAULT_DURATION / 4 }, 'bg-change')
-        .to(END.image, { opacity: 1, duration: DEFAULT_DURATION / 4 }, 'bg-change')
-        .to(toggledElements, { color: 'var(--dark-blue)', duration: DEFAULT_DURATION / 4 }, 'bg-change')
-        .add('texts')
-        .to(END.logo, { opacity: 1, transform: 'scale(1)', duration: DEFAULT_DURATION / 4 })
-        .to(END.heading, { opacity: 1, filter: IMAGE_FILTER.ZERO, duration: textAnimationDuration, stagger: 0.1 / END.heading.length }, 'texts')
-        .to(END.text, { opacity: 1, filter: IMAGE_FILTER.ZERO, duration: textAnimationDuration, stagger: 0.1 / END.text.length }, 'texts')
-        .to(END.tagline, { opacity: 1, filter: IMAGE_FILTER.ZERO, duration: DEFAULT_DURATION / END.tagline.length, stagger: 0.1 / END.tagline.length })
-        .to({}, { duration: DEFAULT_DURATION / 2 });
+            if (appear) {
+                showEndBlock();
+            } else if (disappear) {
+                hideEndBlock();
+            }
+        },
+    });
+
+    // const textAnimationDuration = 2 * DEFAULT_DURATION / END.heading.length;
+
+    // const animateEndTexts = gsap.timeline()
+    //     .to({}, { duration: DEFAULT_DURATION / 4 })
+    //     .add('bg-change')
+    //     .to(END.bg, { opacity: 1, duration: DEFAULT_DURATION / 4 }, 'bg-change')
+    //     .to(END.image, { opacity: 1, duration: DEFAULT_DURATION / 4 }, 'bg-change')
+    //     .to(toggledElements, { color: 'var(--dark-blue)', duration: DEFAULT_DURATION / 4 }, 'bg-change')
+    //     .add('texts')
+    //     .to(END.logo, { opacity: 1, transform: 'scale(1)', duration: DEFAULT_DURATION / 4 })
+    //     .to(END.heading, { opacity: 1, filter: IMAGE_FILTER.ZERO, duration: textAnimationDuration, stagger: 0.1 / END.heading.length }, 'texts')
+    //     .to(END.text, { opacity: 1, filter: IMAGE_FILTER.ZERO, duration: textAnimationDuration, stagger: 0.1 / END.text.length }, 'texts')
+    //     .to(END.tagline, { opacity: 1, filter: IMAGE_FILTER.ZERO, duration: DEFAULT_DURATION / END.tagline.length, stagger: 0.1 / END.tagline.length })
+    //     .to({}, { duration: DEFAULT_DURATION / 2 });
+
+    function showEndBlock() {
+        const textAnimationDuration = 2 * DEFAULT_DURATION / END.heading.length;
+
+        return gsap.timeline()
+            .set(END.block, { opacity: 1 })
+            .add('bg-change')
+            .to(END.image, { opacity: 1, duration: DEFAULT_DURATION / 4 }, 'bg-change')
+            .to(END.bg, { opacity: 1, duration: DEFAULT_DURATION / 4 }, 'bg-change')
+            .to(toggledElements, { color: 'var(--dark-blue)', duration: DEFAULT_DURATION / 4 }, 'bg-change')
+            .to(END.heading, { opacity: 1, filter: IMAGE_FILTER.ZERO, duration: textAnimationDuration, stagger: 0.1 / END.heading.length }, 'texts')
+            .to(END.text, { opacity: 1, filter: IMAGE_FILTER.ZERO, duration: textAnimationDuration, stagger: 0.1 / END.text.length }, 'texts')
+            .to(END.logo, { opacity: 1, transform: 'scale(1)', duration: DEFAULT_DURATION / 4 })
+            .to(END.tagline, { opacity: 1, filter: IMAGE_FILTER.ZERO, duration: DEFAULT_DURATION / END.tagline.length, stagger: 0.1 / END.tagline.length });
+    };
+
+    function hideEndBlock() {
+        return gsap.timeline()
+            .to(END.block, { opacity: 0, duration: DEFAULT_DURATION / 4 })
+            .set([END.image, END.bg], { opacity: 0 })
+            .set([...END.heading, ...END.text, ...END.tagline], { opacity: 0, filter: IMAGE_FILTER.BLURRED })
+            .set(END.logo, { opacity: 0, transform: 'scale(0.75)' });
+    }
 
     const timeline = gsap.timeline({
         scrollTrigger: {
@@ -148,8 +187,8 @@ export const useServicesStory = (block) => {
         )
         .set(Object.values(ORGANS), {
             willChange: '',
-        })
-        .add(animateEndTexts);
+        });
+        // .add(animateEndTexts);
 
     requestAnimationFrame(() => {
         timeline.seek(1);
