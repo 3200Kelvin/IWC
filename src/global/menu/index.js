@@ -8,7 +8,7 @@ export const useMenu = () => {
     const menu = document.querySelector('.menu');
     const links = menu.querySelectorAll('a');
     const menuLinks = menu.querySelectorAll('.menu__link');
-    const lines = [...menu.querySelectorAll('.heading--nav-link'), menu.querySelector('.menu__members-link')];
+    const lines = [...menu.querySelectorAll('.heading--nav-link'), menu.querySelector('.members-link')];
 
     const MENU_OPENED_CN = 'menu-opened';
 

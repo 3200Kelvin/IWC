@@ -23,6 +23,7 @@
         display: flex;
         align-items: center;
         transform-origin: right center;
+        // убрать нафик, если все ок
         transform: translateX(var(--translation));
         transition: var(--transition);
 
@@ -69,7 +70,7 @@
         transform: rotateZ(-45deg);
 
         &__segment {
-            --translation: 25%;
+            --translation: 0%;
         }
 
         &__dot {
@@ -107,7 +108,7 @@
         }
     }
 
-    &__members-link {
+    .members-link {
         opacity: 0;
 
         &.transition {

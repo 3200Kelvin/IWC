@@ -20,9 +20,13 @@
         }
     }
 
-    .heading--services {
-        > *:not(:first-child) {
-            text-indent: 0;
+    @media screen and (max-width: 767px) {
+        .heading--services {
+            .text-mask-appear__line-mask:first-child {
+                .text-appear__line {
+                    text-indent: 1em;
+                }
+            }
         }
     }
 }

@@ -80,6 +80,7 @@ export const useApproachAnimation = () => {
 
     function changeCounter(newIndex) {
         if (newIndex === null) {
+            lineFill.style.setProperty('transform', 'scaleX(0)');
             counter.style.setProperty('opacity', 0);
             return;
         }
