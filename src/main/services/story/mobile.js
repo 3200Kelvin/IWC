@@ -177,24 +177,27 @@ export const useServicesMobileStory = (block, END, toggledElements) => {
         [STEP_NAMES.END]: {
             [DIRECTIONS.FORWARD]: {
                 [ACTIONS.SHOW]: () => {
+                    const textAnimationDuration = 2 * DEFAULT_DURATION / END.heading.length;
+
                     gsap.timeline()
                         .set(END.block, { opacity: 1 })
-                        .to(END.image, { opacity: 1, duration: DEFAULT_DURATION / 2 })
                         .add('bg-change')
+                        .to(END.image, { opacity: 1, duration: DEFAULT_DURATION / 4 }, 'bg-change')
                         .to(END.bg, { opacity: 1, duration: DEFAULT_DURATION / 4 }, 'bg-change')
                         .to(toggledElements, { color: 'var(--dark-blue)', duration: DEFAULT_DURATION / 4 }, 'bg-change')
                         .add('elements')
-                        .to(END.logo, { opacity: 1, transform: 'scale(1)', duration: DEFAULT_DURATION / 2 }, 'elements')
-                        .to(END.heading, { opacity: 1, duration: DEFAULT_DURATION / 4 }, 'elements')
-                        .to(END.text, { opacity: 1, duration: DEFAULT_DURATION / 4 })
-                        .to(END.tagline, { opacity: 1, duration: DEFAULT_DURATION / 4 });
+                        .to(END.logo, { opacity: 1, transform: 'scale(1)', duration: DEFAULT_DURATION / 4 }, 'elements')
+                        .to(END.heading, { opacity: 1, duration: textAnimationDuration, stagger: 0.1 / END.heading.length }, 'texts')
+                        .to(END.text, { opacity: 1, duration: textAnimationDuration, stagger: 0.1 / END.text.length }, 'texts')
+                        .to(END.tagline, { opacity: 1, duration: DEFAULT_DURATION / END.tagline.length, stagger: 0.1 / END.tagline.length });
                 },
             },
             [DIRECTIONS.BACKWARD]: {
                 [ACTIONS.HIDE]: () => {
                     gsap.timeline()
                         .to(END.block, { opacity: 0, duration: DEFAULT_DURATION / 2 })
-                        .set([END.image, END.bg, END.heading, END.text, END.tagline], { opacity: 0 })
+                        .set([END.image, END.bg], { opacity: 0 })
+                        .set([...END.heading, ...END.text, ...END.tagline], { opacity: 0 })
                         .set(END.logo, { opacity: 0, transform: 'scale(0.75)' });
                 },
             },

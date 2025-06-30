@@ -12,14 +12,14 @@ export const useServicesStory = (block) => {
         block: endBlock,
         bg: endBlock.querySelector('.services__end__bg'),
         logo: endBlock.querySelector('.services__end__logo__image'),
-        heading: endBlock.querySelector('.heading--services-end'),
-        text: endBlock.querySelector('.services__end__text p'),
-        tagline: endBlock.querySelector('.services__end__tagline p'),
+        heading: getSplitText(endBlock.querySelector('.heading--services-end')),
+        text: getSplitText(endBlock.querySelector('.services__end__text p')),
+        tagline: getSplitText(endBlock.querySelector('.services__end__tagline p')),
         image: endBlock.querySelector('.services__end__image'),
     };
     const toggledElements = document.querySelectorAll('.bg-toggled');
 
-    gsap.set([END.image, END.bg, END.heading, END.text, END.tagline], { opacity: 0 });
+    gsap.set([END.image, END.bg], { opacity: 0 });
     gsap.set(END.logo, { opacity: 0, transform: 'scale(0.75)' });
 
     if (isMobile) {
@@ -41,16 +41,19 @@ export const useServicesStory = (block) => {
         gsap.to(image, { opacity: 0, transform: `translateY(${IMAGE_TRANSLATION})`, filter: IMAGE_FILTER.BLURRED });
     });
 
+    const textAnimationDuration = 2 * DEFAULT_DURATION / END.heading.length;
+
     const animateEndTexts = gsap.timeline()
         .to({}, { duration: DEFAULT_DURATION / 4 })
         .add('bg-change')
         .to(END.bg, { opacity: 1, duration: DEFAULT_DURATION / 4 }, 'bg-change')
         .to(END.image, { opacity: 1, duration: DEFAULT_DURATION / 4 }, 'bg-change')
         .to(toggledElements, { color: 'var(--dark-blue)', duration: DEFAULT_DURATION / 4 }, 'bg-change')
-        .to(END.heading, { opacity: 1, duration: DEFAULT_DURATION / 4 })
+        .add('texts')
         .to(END.logo, { opacity: 1, transform: 'scale(1)', duration: DEFAULT_DURATION / 4 })
-        .to(END.text, { opacity: 1, duration: DEFAULT_DURATION / 4 })
-        .to(END.tagline, { opacity: 1, duration: DEFAULT_DURATION / 4 })
+        .to(END.heading, { opacity: 1, filter: IMAGE_FILTER.ZERO, duration: textAnimationDuration, stagger: 0.1 / END.heading.length }, 'texts')
+        .to(END.text, { opacity: 1, filter: IMAGE_FILTER.ZERO, duration: textAnimationDuration, stagger: 0.1 / END.text.length }, 'texts')
+        .to(END.tagline, { opacity: 1, filter: IMAGE_FILTER.ZERO, duration: DEFAULT_DURATION / END.tagline.length, stagger: 0.1 / END.tagline.length })
         .to({}, { duration: DEFAULT_DURATION / 2 });
 
     const timeline = gsap.timeline({
@@ -141,7 +144,7 @@ export const useServicesStory = (block) => {
         )
         .to(
             ORGANS.HEART,
-            { transform: 'translate(-12%, 0%) scale(0.25)', duration: DEFAULT_DURATION}
+            { transform: 'translate(-12%, 0%) scale(0.25)', duration: DEFAULT_DURATION / 2}
         )
         .set(Object.values(ORGANS), {
             willChange: '',
@@ -154,4 +157,17 @@ export const useServicesStory = (block) => {
     });
 
     return () => timeline.kill();
+
+    function getSplitText(element) {
+        const split = SplitText.create(element, {
+            type: 'lines',
+        });
+
+        gsap.set(split.lines, { opacity: 0 });
+        if (!isMobile) {
+            gsap.set(split.lines, { filter: IMAGE_FILTER.BLURRED });
+        }
+
+        return split.lines;
+    }
 }
