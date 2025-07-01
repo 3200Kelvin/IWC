@@ -7,63 +7,37 @@
 }
 
 .burger-icon {
-    --transition: transform 0.8s ease;
+    --transition: 0.8s ease;
     width: 100%;
     height: 100%;
     position: relative;
-    transition: var(--transition);
+    transition: transform var(--transition);
 
-    &__segment {
-        --translation: 0%;
-        position: absolute;
-        left: 0;
-        top: 50%;
-        width: 50%;
-        height: 4px;
-        display: flex;
-        align-items: center;
-        transform-origin: right center;
-        // убрать нафик, если все ок
-        transform: translateX(var(--translation));
-        transition: var(--transition);
+    line {
+        transition: clip-path var(--transition);
 
-        &--top {
-            transform: rotateZ(90deg) translateX(var(--translation));
+        &:nth-of-type(1) {
+            clip-path: inset(0% 0% 100% 0%);
         }
-
-        &--right {
-            transform: rotateZ(180deg) translateX(var(--translation));
+        &:nth-of-type(2) {
+            clip-path: inset(0% 100% 0% 0%);
         }
-
-        &--bottom {
-            transform: rotateZ(270deg) translateX(var(--translation));
+        &:nth-of-type(3) {
+            clip-path: inset(100% 0% 0% 0%);
+        }
+        &:nth-of-type(4) {
+            clip-path: inset(0% 0% 0% 100%);
         }
     }
 
-    &__dot {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        aspect-ratio: 1;
-        border-radius: 50%;
-        background-color: currentColor;
-        transition: var(--transition);
-    }
-
-    &__fill {
-        width: 100%;
-        height: 50%;
-        top: 50%;
-        left: 1px;
-        background-color: currentColor;
-        transform: scaleX(0);
-        transition: var(--transition);
+    circle {
+        transition: r var(--transition);
     }
 }
 
 .menu-btn--opened {
     background-color: transparent;
+    backdrop-filter: blur(0);
 
     .menu-btn__border {
         opacity: 0;
@@ -72,16 +46,23 @@
     .burger-icon {
         transform: rotateZ(-45deg);
 
-        &__segment {
-            --translation: 0%;
+        circle {
+            r: 1;
         }
 
-        &__dot {
-            transform: scale(0.5);
-        }
-
-        &__fill {
-            transform: scaleX(1);
+        line {
+            &:nth-of-type(1) {
+                clip-path: inset(0%);
+            }
+            &:nth-of-type(2) {
+                clip-path: inset(0%);
+            }
+            &:nth-of-type(3) {
+                clip-path: inset(0%);
+            }
+            &:nth-of-type(4) {
+                clip-path: inset(0%);
+            }
         }
     }
 }

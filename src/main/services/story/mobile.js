@@ -1,6 +1,6 @@
 import { IMAGE_TRANSLATION, TRANSFORM, IMAGE_FILTER, DEFAULT_DURATION } from "./common";
 
-export const useServicesMobileStory = (block, END, toggledElements) => {
+export const useServicesMobileStory = (block, END) => {
     const steps = block.querySelectorAll('.services__step, .services__end');
     const images = block.querySelectorAll('.services__image__img');
 
@@ -184,7 +184,6 @@ export const useServicesMobileStory = (block, END, toggledElements) => {
                         .add('bg-change')
                         .to(END.image, { opacity: 1, duration: DEFAULT_DURATION / 4 }, 'bg-change')
                         .to(END.bg, { opacity: 1, duration: DEFAULT_DURATION / 4 }, 'bg-change')
-                        .to(toggledElements, { color: 'var(--dark-blue)', duration: DEFAULT_DURATION / 4 }, 'bg-change')
                         .add('elements')
                         .to(END.logo, { opacity: 1, transform: 'scale(1)', duration: DEFAULT_DURATION / 4 }, 'elements')
                         .to(END.heading, { opacity: 1, duration: textAnimationDuration, stagger: 0.1 / END.heading.length }, 'texts')

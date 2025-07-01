@@ -17,13 +17,12 @@ export const useServicesStory = (block) => {
         tagline: getSplitText(endBlock.querySelector('.services__end__tagline p')),
         image: endBlock.querySelector('.services__end__image'),
     };
-    const toggledElements = document.querySelectorAll('.bg-toggled');
 
     gsap.set([END.image, END.bg], { opacity: 0 });
     gsap.set(END.logo, { opacity: 0, transform: 'scale(0.75)' });
 
     if (isMobile) {
-        return useServicesMobileStory(block, END, toggledElements);
+        return useServicesMobileStory(block, END);
     }
 
     const stepsContainer = block.querySelector('.services__steps');
@@ -64,7 +63,6 @@ export const useServicesStory = (block) => {
     //     .add('bg-change')
     //     .to(END.bg, { opacity: 1, duration: DEFAULT_DURATION / 4 }, 'bg-change')
     //     .to(END.image, { opacity: 1, duration: DEFAULT_DURATION / 4 }, 'bg-change')
-    //     .to(toggledElements, { color: 'var(--dark-blue)', duration: DEFAULT_DURATION / 4 }, 'bg-change')
     //     .add('texts')
     //     .to(END.logo, { opacity: 1, transform: 'scale(1)', duration: DEFAULT_DURATION / 4 })
     //     .to(END.heading, { opacity: 1, filter: IMAGE_FILTER.ZERO, duration: textAnimationDuration, stagger: 0.1 / END.heading.length }, 'texts')
@@ -80,7 +78,6 @@ export const useServicesStory = (block) => {
             .add('bg-change')
             .to(END.image, { opacity: 1, duration: DEFAULT_DURATION / 4 }, 'bg-change')
             .to(END.bg, { opacity: 1, duration: DEFAULT_DURATION / 4 }, 'bg-change')
-            .to(toggledElements, { color: 'var(--dark-blue)', duration: DEFAULT_DURATION / 4 }, 'bg-change')
             .to(END.heading, { opacity: 1, filter: IMAGE_FILTER.ZERO, duration: textAnimationDuration, stagger: 0.1 / END.heading.length }, 'texts')
             .to(END.text, { opacity: 1, filter: IMAGE_FILTER.ZERO, duration: textAnimationDuration, stagger: 0.1 / END.text.length }, 'texts')
             .to(END.logo, { opacity: 1, transform: 'scale(1)', duration: DEFAULT_DURATION }, 'texts')

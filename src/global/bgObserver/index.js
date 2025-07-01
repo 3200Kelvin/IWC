@@ -1,7 +1,7 @@
 import './style.scss';
 
 export const useBgObserver = () => {
-    const blocks = document.querySelectorAll('.approach, .strategy-and-solutions');
+    const blocks = document.querySelectorAll('.approach, .services__end, .strategy-and-solutions');
     const elements = document.querySelectorAll('.fixed-content, .menu a');
 
     const intersectionObservers = [];
@@ -32,10 +32,18 @@ export const useBgObserver = () => {
 
             cleanObserver(index);
 
+            const intersections = new Set([]);
+
             const observer = new IntersectionObserver((entries) => {
-                const isIntersecting = entries.reduce((acc, entry) => {
-                    return acc || entry.isIntersecting;
-                }, false);
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        intersections.add(entry.target);
+                    } else {
+                        intersections.delete(entry.target);
+                    }
+                });
+
+                const isIntersecting = intersections.size > 0;
                 
                 element.classList.toggle('bg-change', isIntersecting);
                 element.style.removeProperty('color');

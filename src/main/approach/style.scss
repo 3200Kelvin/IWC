@@ -15,7 +15,7 @@
     }
 
     .fixed-shadow {
-        transition: transform var(--transition), opacity var(--transition);
+        transition: transform var(--transition), opacity var(--transition), filter var(--transition);
     }
 
     .approach__oval {
@@ -89,6 +89,12 @@
 
         .fixed-shadow {
             transform: scale(0.2) translateX(0%);
+
+            @media screen and (max-width: 767px) {
+                transform: scale(0.3) translateX(0%);
+                opacity: 0.2;
+                filter: blur(1px);
+            }
         }
 
         .approach__oval {

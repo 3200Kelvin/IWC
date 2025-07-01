@@ -1,4 +1,6 @@
-export const LINE_TOP_OFFSET = 85;
+import { getIsMobile } from '../../../common/helpers';
+
+export const LINE_TOP_OFFSET = getIsMobile() ? 35 : 85;
 
 export const useServicesLine = (block) => {
     const line = block.querySelector('.side-line');
