@@ -1,8 +1,16 @@
+import { isTouchscreen } from "../../common/helpers";
+
 export const useBgParallax = () => {
+    if (isTouchscreen) {
+        return;
+    }
+
     const bg = document.querySelector('.page-bg__image--gradient');
     const target = { x: 0, y: 0 };
     const current = { x: 0, y: 0 };
     const MOVEMENT = 0.1;
+
+    gsap.set(bg, { transform: 'scale(1.1)' });
 
     window.addEventListener("mousemove", parallax);
 
