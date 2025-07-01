@@ -1,11 +1,10 @@
 import { useHeroLoadAnimation } from "./onLoad";
 import { useHeroTipAnimation } from "./tip";
+import { getCleanup } from "../../common/helpers";
 
 export const useHeroAnimation = () => {
-    const cleanups = [
+    return getCleanup(
         useHeroLoadAnimation(),
         useHeroTipAnimation()
-    ];
-    
-    return () => cleanups.forEach((cleanup) => cleanup?.());
+    );
 };

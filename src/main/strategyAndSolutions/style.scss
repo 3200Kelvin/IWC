@@ -41,7 +41,11 @@
     @media (hover: hover) {
         transition: color var(--transition), background-color var(--transition);
 
-        &:hover {
+        &__tooltip {
+            transition: opacity var(--transition);
+        }
+
+        &.active {
             color: var(--glassy-blue);
 
             .solutions__card {
@@ -51,6 +55,10 @@
                 }
 
                 &__image--hover {
+                    opacity: 1;
+                }
+
+                &__tooltip {
                     opacity: 1;
                 }
             }

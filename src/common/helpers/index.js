@@ -100,3 +100,7 @@ export function getIntersectionObserver(margin = 15, onIntersecting = () => {}, 
 
     return observer;
 }
+
+export const getCleanup = (...cleanups) => {
+    return () => cleanups.forEach((cleanup) => cleanup?.());
+}

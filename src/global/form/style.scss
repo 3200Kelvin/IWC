@@ -1,6 +1,20 @@
 
 
 .form {
+    @media (hover: hover) {
+        &__button {
+            &:not(:hover) {
+                .form__button__icon {
+                    width: 0;
+                }
+            }
+
+            .form__button__icon {
+                transition: width 0.4s ease;
+            }
+        }
+    }
+
     input[type="date"] {
         color-scheme: dark;
         padding-bottom: 0.3em;

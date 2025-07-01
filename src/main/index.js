@@ -3,15 +3,14 @@ import { useApproachAnimation } from "./approach";
 import { useServicesAnimations } from "./services";
 import { useSolutions } from "./strategyAndSolutions/solutions";
 import { useStrategy } from "./strategyAndSolutions/strategy";
+import { getCleanup } from "../common/helpers";
 
 export const useMainPageScripts = () => {
-    const cleanups = [
+    return getCleanup(
         useHeroAnimation(),
         useApproachAnimation(),
         useServicesAnimations(),
         useSolutions(),
         useStrategy()
-    ]
-    
-    return () => cleanups.forEach((cleanup) => cleanup?.());
+    );
 };

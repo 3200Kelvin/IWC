@@ -1,5 +1,6 @@
 export const useLegalPopup = () => {
     const popup = document.querySelector('.legal__disclaimer');
+    const closeIcon = popup.querySelector('.legal__disclaimer__close');
     const button = document.querySelector('.legal__entry--disclaimer');
 
     button.addEventListener('click', onButtonClick);
@@ -15,7 +16,7 @@ export const useLegalPopup = () => {
     }
 
     function onDocumentClick(event) {
-        if (!popup.contains(event.target)) {
+        if (!popup.contains(event.target) || closeIcon.contains(event.target)) {
             closePopup();
         }
     }

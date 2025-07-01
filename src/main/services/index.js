@@ -1,6 +1,7 @@
 import { useServicesStory } from './story';
 import { useServicesLine } from './line';
 import { useServicesTexts } from './texts';
+import { getCleanup } from '../../common/helpers';
 
 import './style.scss';
 
@@ -10,11 +11,9 @@ export const useServicesAnimations = () => {
         return;
     }
 
-    const cleanups = [
+    return getCleanup(
         useServicesStory(block),
         useServicesLine(block),
         useServicesTexts(block)
-    ];
-
-    return () => cleanups.forEach((cleanup) => cleanup?.());
+    );
 };

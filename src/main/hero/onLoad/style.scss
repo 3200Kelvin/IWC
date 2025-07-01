@@ -40,10 +40,8 @@
             transform: translateY(100%) rotateZ(1deg);
         }
 
-        .hero__tagline,
         .hero__tip {
             opacity: 0;
-            pointer-events: none;
         }
     }
 
@@ -67,13 +65,8 @@
             }
         }
 
-        .hero__tagline,
         .hero__tip {
             transition: opacity var(--hero-animation-time) ease var(--hero-animation-time);
-        }
-
-        .hero__tagline {
-            transition-delay: calc(var(--hero-animation-time) + 0.2s);
         }
 
         .hero__tip {

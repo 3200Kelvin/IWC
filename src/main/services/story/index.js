@@ -83,7 +83,7 @@ export const useServicesStory = (block) => {
             .to(toggledElements, { color: 'var(--dark-blue)', duration: DEFAULT_DURATION / 4 }, 'bg-change')
             .to(END.heading, { opacity: 1, filter: IMAGE_FILTER.ZERO, duration: textAnimationDuration, stagger: 0.1 / END.heading.length }, 'texts')
             .to(END.text, { opacity: 1, filter: IMAGE_FILTER.ZERO, duration: textAnimationDuration, stagger: 0.1 / END.text.length }, 'texts')
-            .to(END.logo, { opacity: 1, transform: 'scale(1)', duration: DEFAULT_DURATION / 4 })
+            .to(END.logo, { opacity: 1, transform: 'scale(1)', duration: DEFAULT_DURATION }, 'texts')
             .to(END.tagline, { opacity: 1, filter: IMAGE_FILTER.ZERO, duration: DEFAULT_DURATION / END.tagline.length, stagger: 0.1 / END.tagline.length });
     };
 
@@ -190,12 +190,26 @@ export const useServicesStory = (block) => {
         });
         // .add(animateEndTexts);
 
-    requestAnimationFrame(() => {
-        timeline.seek(1);
-        timeline.seek(0);
+    const imagesLoadedPromises = [...images].map((image) => {
+        if (image.complete) {
+            return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+            image.addEventListener('load', resolve);
+        });
     });
 
-    return () => timeline.kill();
+    Promise.all(imagesLoadedPromises).then(() => {
+        requestAnimationFrame(() => {
+            timeline.seek(1);
+            timeline.seek(0);
+        });
+    });
+
+    return () => {
+        timeline.kill();
+        endBlockTrigger.kill();
+    };
 
     function getSplitText(element) {
         const split = SplitText.create(element, {
