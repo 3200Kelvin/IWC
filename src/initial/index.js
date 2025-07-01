@@ -1,6 +1,6 @@
 const STORAGE_KEY = 'loaded';
 
-export const isLoaded = () => false && sessionStorage.getItem(STORAGE_KEY) === 'true';
+export const isLoaded = () => sessionStorage.getItem(STORAGE_KEY) === 'true';
 
 export const setIsLoaded = () => sessionStorage.setItem(STORAGE_KEY, 'true');
 

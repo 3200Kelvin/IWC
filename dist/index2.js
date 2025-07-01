@@ -1,0 +1,1 @@
+const t="loaded",s=()=>sessionStorage.getItem(t)==="true",o=()=>sessionStorage.setItem(t,"true"),n=()=>{if(!s())return;const e=document.createElement("style");e.textContent=".preloader { display: none !important; }",document.head.appendChild(e)};export{s as i,o as s,n as u};
