@@ -34,6 +34,10 @@
             transform: translateY(-150%);
             opacity: 0;
             filter: blur(5px);
+
+            @media screen and (max-width: 767px) {
+                transform: translateY(-50%);
+            }
         }
 
         h1 span * {

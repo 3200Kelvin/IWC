@@ -55,6 +55,7 @@ export const useHeroLoadAnimation = () => {
                 animateTagline();
             
                 timeout = setTimeout(() => {
+                    hero.classList.remove('transition');
                     menuBtn.classList.remove('initial', 'transiiton');
                 }, ANIMATION_TIME * 500);
             }, ANIMATION_TIME * 500);
