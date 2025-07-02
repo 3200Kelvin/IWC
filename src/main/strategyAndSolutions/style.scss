@@ -32,19 +32,23 @@
         }
 
         &__image {
-            transition: opacity var(--transition), transform var(--transition);
+            transition: transform 3s ease;
         }
 
         &.active {
             .solutions__card {
                 &__image {
-                    transform: scale(1.1) rotateZ(3deg);
+                    transform: scale(1.2) rotateZ(5deg);
                 }
             }
         }
         
         @media (hover: hover) {
             transition: color var(--transition), background-color var(--transition);
+
+            &__image {
+                transition: opacity var(--transition), transform var(--transition);
+            }
 
             &.active {
                 color: var(--glassy-blue);

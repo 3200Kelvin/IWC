@@ -101,7 +101,7 @@ function useDesktopSolutions(solutions, cards) {
 }
 
 function useMobileSolutions(cards) {
-    const observer = getIntersectionObserver(49, (entry) => {
+    const observer = getIntersectionObserver(25, (entry) => {
         entry.target.classList.add('active');
     }, (entry) => {
         entry.target.classList.remove('active');
