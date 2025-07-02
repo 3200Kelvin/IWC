@@ -1,4 +1,5 @@
 .services__step__heading {
+    .services__end__line--glow,
     .glowing-line__line--glow {
         transform: scaleX(0);
         transform-origin: left;
@@ -11,6 +12,7 @@
     }
 
     .services__step__index.appeared {
+        .services__end__line--glow,
         .glowing-line__line--glow {
             transform: scaleX(1);
         }

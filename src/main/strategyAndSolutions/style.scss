@@ -2,64 +2,62 @@
     background: radial-gradient(40.9% 54.15% at 76.13% 27.06%, #EDF6FD 0%, #D5E8F0 100%);
 }
 
-@media screen and (min-width: 767px) {
-    .solutions__card {
-        &:nth-child(2n) {
-            transform: translateY(15%);
-        }
-    }
-}
-@media screen and (min-width: 991px) {
-    .solutions__card {
-        &:nth-child(2n) {
-            transform: translateY(5.5%);
-        }
-    }
-}
-
-.solutions__card {
-    &:last-of-type {
-        .solutions__card__title {
-            padding-right: 0;
-        }
-    }
-
+.solutions {
     --transition: 0.8s ease;
 
-    &__image {
-        transition: opacity var(--transition), transform var(--transition);
-    }
+    &__tip {
+        transition: opacity var(--transition);
 
-    &.active {
-        .solutions__card {
-            &__image {
-                transform: scale(1.1) rotateZ(3deg);
-            }
+        &.shown {
+            opacity: 1;
         }
     }
-    
-    @media (hover: hover) {
-        transition: color var(--transition), background-color var(--transition);
 
-        &__tooltip {
-            transition: opacity var(--transition);
+    &__card {
+        @media screen and (min-width: 767px) {
+            &:nth-child(2n) {
+                transform: translateY(15%);
+            }
+        }
+        @media screen and (min-width: 991px) {
+            &:nth-child(2n) {
+                transform: translateY(5.5%);
+            }
+        }
+
+        &:last-of-type {
+            .solutions__card__title {
+                padding-right: 0;
+            }
+        }
+
+        &__image {
+            transition: opacity var(--transition), transform var(--transition);
         }
 
         &.active {
-            color: var(--glassy-blue);
-
             .solutions__card {
                 &__image {
-                    opacity: 0;
-                    transform: scale(1.1) rotateZ(1deg);
+                    transform: scale(1.1) rotateZ(3deg);
                 }
+            }
+        }
+        
+        @media (hover: hover) {
+            transition: color var(--transition), background-color var(--transition);
 
-                &__image--hover {
-                    opacity: 1;
-                }
+            &.active {
+                color: var(--glassy-blue);
 
-                &__tooltip {
-                    opacity: 1;
+                .solutions__card {
+                    &__image {
+                        opacity: 0;
+                        transform: scale(1.1) rotateZ(1deg);
+                    }
+
+                    &__image--hover {
+                        opacity: 1;
+                    }
                 }
             }
         }
