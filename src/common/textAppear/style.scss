@@ -4,7 +4,8 @@
 
     &__line {
         --delay: 0s;
-        transform: translateY(120%) rotateZ(1deg);
+        will-change: transform;
+        transform: translateY(125%) rotateZ(1deg);
 
         &:empty {
             height: 1em;
@@ -16,7 +17,6 @@
     }
 
     &__transition &__line {
-        will-change: transform;
         transition: var(--transition-time) ease;
         transition-delay: var(--delay);
     }
