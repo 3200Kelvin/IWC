@@ -2,13 +2,8 @@
     --transition-time: 1s;
     --transition: var(--transition-time) ease;
 
-    * {
-        will-change: transform;
-    }
-
     &__line {
         --delay: 0s;
-        will-change: transform;
         transform: translateY(125%) rotateZ(1deg);
 
         &:empty {
@@ -21,6 +16,7 @@
     }
 
     &__transition &__line {
+        will-change: transform;
         transition: var(--transition-time) ease;
         transition-delay: var(--delay);
     }
