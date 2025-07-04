@@ -211,6 +211,7 @@ export const useServicesStory = (block) => {
     function getSplitText(element) {
         const split = SplitText.create(element, {
             type: 'lines',
+            linesClass: 'services__end__text-line',
         });
 
         gsap.set(split.lines, { opacity: 0 });

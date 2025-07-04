@@ -119,14 +119,16 @@
             transition: opacity 0.4s ease;
         }
 
-        &:hover {
-            .menu__link {
-                &__text {
-                    transform: translateX(-1.8em);
-                }
+        @media (hover: hover) {
+            &:hover {
+                .menu__link {
+                    &__text {
+                        transform: translateX(-1.8em);
+                    }
 
-                &__eyes {
-                    opacity: 1;
+                    &__eyes {
+                        opacity: 1;
+                    }
                 }
             }
         }

@@ -476,6 +476,9 @@ function flatten(s, M) {
         (this.target[i][1] - this.warp.src[mov.index][1]) / 80
       ];
       const err = Math.abs(gain[0]) + Math.abs(gain[1]);
+      if (err === Infinity || err === -Infinity || err === NaN) {
+        return;
+      }
       if (err > 0.001) {
         redraw();
         this.warp.src[mov.index][0] += gain[0];

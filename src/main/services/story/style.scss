@@ -1,3 +1,9 @@
 .services__end {
     margin-top: -50vh;
+
+    &__text-line {
+        &:empty {
+            height: 1em;
+        }
+    }
 }
