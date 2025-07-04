@@ -49,9 +49,7 @@ export const setTextAppear = (element) => {
             element.classList.add(CLASS_NAMES.TRANSITION);
 
             setTimeout(() => {
-                entries.forEach((line) => {
-                    element.classList.add(CLASS_NAMES.APPEARED);
-                });
+                element.classList.add(CLASS_NAMES.APPEARED);
             }, 10)
         });
     }
