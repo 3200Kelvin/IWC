@@ -1,5 +1,7 @@
 .services__end {
-    margin-top: -50vh;
+    @media screen and (max-width: 767px) {
+        margin-top: -50vh;
+    }
 
     &__text-line {
         &:empty {
