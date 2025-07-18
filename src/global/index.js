@@ -3,11 +3,12 @@ import { useMenu } from "./menu";
 import { useForm } from "./form";
 import { useBgObserver } from "./bgObserver";
 import { useFooter } from "./footer";
-// import { useBgParallax } from "./bgParallax";
 import { useGradient } from "./meshGradient";
+import { useVideos } from "./videos";
+import { useTextBlur, useTextAppear } from "./textAnimations";
 
 import { setSmoothScroll } from "../common/smoothScroll/script";
-import { setScrollBarWidthListener } from "../common/blockScroll/script";
+import { setScrollBarWidthListener } from "../common/blockScroll";
 import { getCleanup } from "../common/helpers";
 
 import './style.scss';
@@ -17,13 +18,15 @@ export const useGlobalOnceScripts = () => {
     setSmoothScroll();
     usePreloader();
     setScrollBarWidthListener();
+    useMenu(),
     useGradient();
-    // useBgParallax();
+    useVideos();
 };
 
 export const useGlobalScripts = () => {
     return getCleanup(
-        useMenu(),
+        useTextBlur(),
+        useTextAppear(),
         useForm(),
         useBgObserver(),
         useFooter()

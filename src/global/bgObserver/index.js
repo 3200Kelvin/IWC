@@ -1,7 +1,7 @@
 import './style.scss';
 
 export const useBgObserver = () => {
-    const blocks = document.querySelectorAll('.approach, .services__end, .strategy-and-solutions');
+    const blocks = document.querySelectorAll('[data-color-change], .approach, .services__end, .strategy-and-solutions');
     const elements = document.querySelectorAll('.fixed-content, .menu a');
 
     const intersectionObservers = [];

@@ -1,4 +1,5 @@
 import { setTextBlur } from "../../common/textBlur";
+import { getCleanup } from "../../common/helpers";
 
 import './style.scss';
 
@@ -21,7 +22,11 @@ export const useApproachAnimation = () => {
     let current = null;
     changeCounter(current);
 
-    return [...steps].map((step, index) => {
+    const cleanups = [...steps].map(initStep);
+
+    return getCleanup(...cleanups);
+
+    function initStep(step, index) {
         const text = texts[index];
         const { animate, reset, cleanup } = setTextBlur(text);
 
@@ -55,9 +60,9 @@ export const useApproachAnimation = () => {
 
         return () => {
             scrollTrigger.kill();
-            cleanup();
+            cleanup?.();
         }
-    });
+    };
 
     function setActive(newIndex, isPre = false) {
         if (newIndex === current) {

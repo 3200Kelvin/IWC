@@ -1,7 +1,10 @@
 import { usePageTransitions } from "./src/global/transitions";
 import { useGlobalScripts, useGlobalOnceScripts } from "./src/global";
-import { useMainPageScripts } from "./src/main";
 import { postReadyEvent } from "./src/global/preloader";
+import { getPageNamespace } from "./src/common/helpers";
+
+import { useMainPageScripts } from "./src/main";
+import { useAboutPageScripts } from "./src/about";
 
 if (gsap) {
     gsap.defaults({
@@ -12,6 +15,7 @@ if (gsap) {
 
 let isInitialized = false;
 let cleanup;
+window.isTransitioning = false;
 init();
 
 function once() {
@@ -20,17 +24,35 @@ function once() {
     usePageTransitions(each);
 }
 
-function each() {
-    if (cleanup) {
-        cleanup();
+function runPageSpecificScript() {
+    const pageNamespace = getPageNamespace();
+    
+    switch (pageNamespace) {
+        case 'home':
+            return useMainPageScripts();
+        case 'about':
+            return useAboutPageScripts();
+        default:
+            return () => {};
     }
+}
 
-    const globalScriptsCleanup = useGlobalScripts();
-    const mainScriptsCleanup = useMainPageScripts();
+function each() {
+    try {
+        if (cleanup) {
+            cleanup();
+            cleanup = null;
+        }
 
-    cleanup = () => {
-        globalScriptsCleanup?.();
-        mainScriptsCleanup?.();
+        const globalScriptsCleanup = useGlobalScripts();
+        const pageScriptCleanup = runPageSpecificScript();
+
+        cleanup = () => {
+            globalScriptsCleanup?.();
+            pageScriptCleanup?.();
+        }
+    } catch (e) {
+        console.error(e);
     }
 }
 

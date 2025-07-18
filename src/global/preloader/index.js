@@ -1,6 +1,7 @@
 import { isLoaded, setIsLoaded } from "../../initial";
-import { blockScroll, unblockScroll } from "../../common/blockScroll/script";
+import { blockScroll, unblockScroll } from "../../common/blockScroll";
 import { scrollTo } from "../../common/smoothScroll/script";
+import { sendTransitionEndEvent } from '../transitions';
 
 import './style.scss';
 
@@ -8,25 +9,34 @@ const READY_EVENT_NAME = 'website-loaded';
 
 export const postReadyEvent = () => document.dispatchEvent(new CustomEvent(READY_EVENT_NAME));
 
-export const PRELOADER_REMOVED_EVENT_NAME = 'preloader-removed';
-
-const postPreloaderRemovedEvent = () => document.dispatchEvent(new CustomEvent(PRELOADER_REMOVED_EVENT_NAME));
-
 export const usePreloader = () => {
-    if (isLoaded()) {
-        return
-    };
-
-    const preloader = document.querySelector('.preloader');
+    const preloader = document.getElementById('preloader');
     if (!preloader) {
         return;
     }
+    
+    window.isTransitioning = true;
+
+    if (isLoaded()) {
+        return hidePreloader();
+    };
 
     scrollTo(0, true);
     blockScroll();
     const letter = preloader.querySelector('.preloader__title__h');
 
     document.addEventListener(READY_EVENT_NAME, animatePreloader);
+
+    function hidePreloader() {
+        return gsap.timeline()
+            .to(preloader, { opacity: 0, duration: 0.6 })
+            .add(() => {
+                preloader.remove();
+                unblockScroll();
+                setIsLoaded();
+                sendTransitionEndEvent();
+            });
+    }
 
     function animatePreloader() {
         gsap.timeline()
@@ -35,13 +45,6 @@ export const usePreloader = () => {
             .add(() => {
                 scrollTo(0, true);
             })
-            .to(preloader, { opacity: 0, duration: 0.6 })
-            .delay(0.8)
-            .add(() => {
-                preloader.remove();
-                postPreloaderRemovedEvent();
-                unblockScroll();
-                setIsLoaded();
-            });
+            .add(hidePreloader);
     }
 };

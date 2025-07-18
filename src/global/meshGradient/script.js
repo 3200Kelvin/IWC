@@ -502,6 +502,11 @@ function loop() {
 
 export function initGradient() {
   const canvas = document.getElementById(meshData.canvasId);
+
+  if (!canvas) {
+    throw Error('No canvas');
+  }
+
   canvas.width = document.documentElement.clientWidth;
   canvas.height = document.documentElement.clientHeight;
 

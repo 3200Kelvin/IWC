@@ -1,14 +1,9 @@
-import { isLoaded } from "../../../initial";
-import { PRELOADER_REMOVED_EVENT_NAME } from "../../../global/preloader";
 import { setTextBlur } from "../../../common/textBlur";
+import { onPageTransitionEnd } from "../../../global/transitions";
 
 import './style.scss';
 
 export const useHeroLoadAnimation = () => {
-    if (isLoaded()) {
-        return;
-    }
-
     const hero = document.querySelector('.hero');
     if (!hero) {
         return;
@@ -30,11 +25,11 @@ export const useHeroLoadAnimation = () => {
     });
     const { animate: animateTagline, cleanup: cleanupTagline } = setTextBlur(tagline);
 
-    document.addEventListener(PRELOADER_REMOVED_EVENT_NAME, animate);
+    const cleanupPageListener = onPageTransitionEnd(animate);
     let timeout;
 
     return () => {
-        document.removeEventListener(PRELOADER_REMOVED_EVENT_NAME, animate);
+        cleanupPageListener?.();
         cleanupTagline?.();
         if (timeout) {
             clearTimeout(timeout);

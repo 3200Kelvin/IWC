@@ -1,0 +1,1 @@
+const m=()=>{const e=document.querySelectorAll(".members-links a"),t={prev:document.querySelector(".team-member__button--prev"),next:document.querySelector(".team-member__button--next")},n=[...e].findIndex(c=>c.href===window.location.href),r=n===e.length-1?e[0]:e[n+1],o=n===0?e[e.length-1]:e[n-1];t.prev.href=o.href,t.next.href=r.href},s=()=>{m()};s();

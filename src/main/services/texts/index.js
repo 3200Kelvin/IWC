@@ -32,7 +32,7 @@ export const useServicesTexts = (block) => {
         return cleanup;
     });
 
-    const headingCleanups = [...headings].forEach((heading) => {
+    const headingCleanups = [...headings].map((heading) => {
         const text = heading.querySelector('.heading--services');
         const index = heading.querySelector('.services__step__index');
 

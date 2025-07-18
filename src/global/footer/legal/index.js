@@ -1,5 +1,10 @@
 export const useLegalPopup = () => {
     const popup = document.querySelector('.legal__disclaimer');
+
+    if (!popup) {
+        return;
+    }
+
     const closeIcon = popup.querySelector('.legal__disclaimer__close');
     const button = document.querySelector('.legal__entry--disclaimer');
 

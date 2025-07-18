@@ -9,7 +9,7 @@ export const useInitialScript = () => {
         return;
     }
 
-    const style = document.createElement('style');
-    style.textContent = `.preloader { display: none !important; }`;
-    document.head.appendChild(style);
+    // const style = document.createElement('style');
+    // style.textContent = `#preloader { display: none !important; }`;
+    // document.head.appendChild(style);
 };

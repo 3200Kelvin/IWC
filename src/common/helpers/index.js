@@ -1,3 +1,5 @@
+import { onPageTransitionEnd } from "../../global/transitions";
+
 export function getNewValue(current, target, time, timeCoeff = 0.01, epsilon = 1) {
     const distance = target - current;
     const move = distance / 2 * time * timeCoeff;
@@ -102,5 +104,50 @@ export function getIntersectionObserver(margin = 15, onIntersecting = () => {}, 
 }
 
 export const getCleanup = (...cleanups) => {
-    return () => cleanups.forEach((cleanup) => cleanup?.());
+    return () => cleanups.forEach((cleanup) => {
+        cleanup?.();
+    });
 }
+
+export const getPageNamespace = () => {
+    const container = document.querySelector('[data-barba="container"]');
+
+    return container?.dataset.barbaNamespace || null;
+}
+
+export const useElementAnimation = (elements, getElementAnimation) => {
+    const observer = getIntersectionObserver(15, onIntersection);
+
+    const cleanups = [...elements].map((element) => {
+        const { animate, cleanup } = getElementAnimation(element);
+
+        element.animate = animate;
+
+        return cleanup;
+    });
+
+    let cleanupPageListener;
+
+    if (window.isTransitioning) {
+        cleanupPageListener = onPageTransitionEnd(addObservers);
+    } else {
+        addObservers();
+    }
+
+    function addObservers() {
+        elements.forEach((element) => {
+            observer.observe(element);
+        });
+    }
+
+    function onIntersection(entry, observer) {
+        entry.target.animate();
+        observer.unobserve(entry.target);
+    }
+
+    return getCleanup(
+        ...cleanups,
+        cleanupPageListener,
+        () => observer.disconnect()
+    );
+};

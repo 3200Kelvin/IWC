@@ -1,4 +1,4 @@
-import { blockScroll, unblockScroll } from "../../common/blockScroll/script";
+import { blockScroll, unblockScroll } from "../../common/blockScroll";
 import { getIsMobile } from "../../common/helpers";
 
 import './style.scss';
@@ -6,6 +6,11 @@ import './style.scss';
 export const useMenu = () => {
     const button = document.querySelector('.menu-btn');
     const menu = document.querySelector('.menu');
+
+    if (!menu || !button) {
+        return;
+    }
+
     const links = menu.querySelectorAll('a');
     const menuLinks = menu.querySelectorAll('.menu__link');
     const lines = [...menu.querySelectorAll('.heading--nav-link'), menu.querySelector('.members-link')];
