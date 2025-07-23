@@ -1,6 +1,7 @@
 import { getCleanup } from '../../common/helpers';
 
 import { useTimeline } from './timeline';
+import { useStoryMap } from './map';
 
 import './style.scss';
 
@@ -12,6 +13,7 @@ export const useStory = () => {
     }
 
     return getCleanup(
-        useTimeline(story)
+        useTimeline(story),
+        useStoryMap(story),
     )
 };

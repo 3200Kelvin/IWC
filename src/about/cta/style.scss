@@ -1,10 +1,11 @@
 @media (hover: hover) {
     .cta__button {
-        &__glow {
-            background: radial-gradient(115.68% 76.46% at 11.78% 16.35%, rgba(213, 232, 240, 0.08) 0%, rgba(213, 232, 240, 0.00) 100%);
+        &__label {
+            opacity: 0.6;
+            transition: opacity 0.4s;
         }
 
-        :hover .cta__button__glow {
+        &:hover &__label {
             opacity: 1;
         }
     }

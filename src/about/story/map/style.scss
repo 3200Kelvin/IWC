@@ -1,0 +1,14 @@
+.story__map {
+    &__overlay--fills {
+        display: block !important;
+    }
+
+    .map-entry {
+        transition: opacity 0.4s;
+        opacity: 0;
+
+        &.shown {
+            opacity: 1;
+        }
+    }
+}

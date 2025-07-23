@@ -23,7 +23,6 @@ export function setScrollBarWidthListener() {
 }
 
 export const blockScroll = (className) => {
-    console.log('block')
     document.documentElement.classList.add(BLOCKED_SCROLL_CLASS_NAME);
     if (className) {
         document.documentElement.classList.add(className);
@@ -34,7 +33,6 @@ export const blockScroll = (className) => {
 };
 
 export const unblockScroll = (className) => {
-    console.log('unblock')
     document.documentElement.classList.remove(BLOCKED_SCROLL_CLASS_NAME);
     if (className) {
         document.documentElement.classList.remove(className);

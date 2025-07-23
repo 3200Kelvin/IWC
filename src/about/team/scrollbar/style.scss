@@ -1,0 +1,20 @@
+@media screen and (max-width: 991px) {
+    .team {
+        &__list {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
+        }
+
+        &__progress__bar {
+            --progress: 0;
+
+            &__line--fill {
+                transform: scaleX(var(--progress)) !important;
+            }
+        }
+    }
+}

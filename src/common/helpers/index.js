@@ -42,6 +42,8 @@ export const getIsDesktop = () => window.innerWidth > 991;
 
 export const getIsMobile = () => window.innerWidth < 767;
 
+export const getIsLeastMobile = () => window.innerWidth < 478;
+
 export const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
 export const isWeakDevice = isSafari || (window.navigator.deviceMemory || 0) < 4;
@@ -116,7 +118,7 @@ export const getPageNamespace = () => {
 }
 
 export const useElementAnimation = (elements, getElementAnimation) => {
-    const observer = getIntersectionObserver(15, onIntersection);
+    const observers = {};
 
     const cleanups = [...elements].map((element) => {
         const { animate, cleanup } = getElementAnimation(element);
@@ -136,8 +138,20 @@ export const useElementAnimation = (elements, getElementAnimation) => {
 
     function addObservers() {
         elements.forEach((element) => {
+            const offset = element.dataset.animationOffset || 15;
+
+            const observer = getObserver(offset);
+
             observer.observe(element);
         });
+    }
+
+    function getObserver(offset) {
+        if (!observers[offset]) {
+            observers[offset] = getIntersectionObserver(offset, onIntersection);
+        }
+
+        return observers[offset];
     }
 
     function onIntersection(entry, observer) {
@@ -148,6 +162,8 @@ export const useElementAnimation = (elements, getElementAnimation) => {
     return getCleanup(
         ...cleanups,
         cleanupPageListener,
-        () => observer.disconnect()
+        () => {
+            Object.values(observers).forEach((observer) => observer.disconnect());
+        }
     );
 };

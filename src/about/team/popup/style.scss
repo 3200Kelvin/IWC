@@ -3,3 +3,93 @@
         display: block;
     }
 }
+
+.team-member {
+    --total: 0;
+    --current: 0;
+
+    &__progress {
+        transform-origin: left;
+        transform: scaleX(calc(var(--current) / var(--total)));
+        transition: transform 0.4s ease-in-out;
+    }
+
+    @media (hover: hover) {
+        &__button {
+            &:hover {
+                .team-member__button {
+                    &__eyes {
+                        opacity: 1;
+                    }
+
+                    &__arrow {
+                        transform: translateX(0);
+                    }
+                }
+            }
+        }
+    }
+
+    @media not (hover: hover) {
+        &__button--next {
+            .team-member__button {
+                &__eyes {
+                    opacity: 1;
+                }
+
+                &__arrow {
+                    transform: translateX(0);
+                }
+            }
+        }
+    }
+
+    &__content {
+        &__text {
+            &::before,
+            &::after {
+                display: none;
+            }
+
+            p {
+                break-inside: avoid;
+
+                &:not(:last-child) {
+                    margin-bottom: 1em;
+                }
+            }
+        }
+
+        &__media__entry {
+            transform-origin: left top;
+
+            &:nth-child(2n + 1) {
+                z-index: 1;
+                transform: rotateZ(-2deg) scale(1.05);
+
+                @media screen and (max-width: 991px) {
+                    transform: rotateZ(-2deg) scale(1.07) translateX(-4%);
+                }
+            }
+
+            &:nth-child(2n) {
+                z-index: 0;
+                transform: rotateZ(5deg) scale(1.07);
+
+                @media screen and (min-width: 992px) {
+                    transform: rotateZ(5deg) scale(1.05) translate(-5%, 15%);
+                }
+
+                @media screen and (max-width: 991px) {
+                    transform: rotateZ(5deg) scale(1.07);
+                    margin-top: 7em;
+                }
+
+                @media screen and (max-width: 478px) {
+                    align-self: flex-end;
+                    margin-top: -2em;
+                }
+            }
+        }
+    }
+}

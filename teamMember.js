@@ -1,3 +1,3 @@
-import { useTeamMember } from "./src/teamMember";
+import { useTeamMemberStandalone } from "./src/about/team/popup/standalone";
 
-useTeamMember();
+useTeamMemberStandalone();

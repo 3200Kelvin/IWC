@@ -1,6 +1,7 @@
 import { getCleanup } from "../../common/helpers";
 
 import { useTeamPopup } from "./popup";
+import { useTeamScrollbar } from "./scrollbar";
 
 export const useTeam = () => {
     const team = document.querySelector('.team');
@@ -9,6 +10,7 @@ export const useTeam = () => {
     }
 
     return getCleanup(
-        useTeamPopup(team)
+        useTeamPopup(team),
+        useTeamScrollbar(team),
     );
 };

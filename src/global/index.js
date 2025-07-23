@@ -20,7 +20,6 @@ export const useGlobalOnceScripts = () => {
     setScrollBarWidthListener();
     useMenu(),
     useGradient();
-    useVideos();
 };
 
 export const useGlobalScripts = () => {
@@ -29,6 +28,7 @@ export const useGlobalScripts = () => {
         useTextAppear(),
         useForm(),
         useBgObserver(),
-        useFooter()
+        useFooter(),
+        useVideos(),
     );
 };
