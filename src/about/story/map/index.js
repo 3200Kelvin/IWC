@@ -17,6 +17,7 @@ const timelineConfig = [
   { year: 2005, label: 'Washington', selectors: '#fill-wa' },
   { year: 2005, label: 'Michigan', selectors: '#fill-mi' },
   { year: 2006, label: 'Ohio', selectors: '#fill-oh' },
+  { year: 2006, label: 'IWC East', selectors: '.story__map__label-wrapper--iwc-east' },
   { year: 2006, label: 'Massachusetts', selectors: '#fill-ma' },
   { year: 2007, label: 'South Carolina', selectors: '#fill-sc' },
   { year: 2007, label: 'New Jersey', selectors: '#fill-nj' },
@@ -45,15 +46,20 @@ const timelineConfig = [
   { year: 2013, label: 'Wisconsin', selectors: '#fill-wi' },
   { year: 2013, label: 'Kansas', selectors: '#fill-ks' },
   { year: 2014, label: 'Maine', selectors: '#fill-me' },
+  { year: 2014, label: 'Newton office', selectors: '.story__map__label-wrapper--newton' },
   { year: 2016, label: 'Iowa', selectors: '#fill-ia' },
   { year: 2017, label: 'Nebraska', selectors: '#fill-ne' },
   { year: 2017, label: 'Utah', selectors: '#fill-ut' },
   { year: 2018, label: 'North Dakota', selectors: '#fill-nd' },
+  { year: 2018, label: 'Atlanta office', selectors: '.story__map__label-wrapper--atlanta' },
   { year: 2020, label: 'Oklahoma', selectors: '#fill-ok' },
   { year: 2020, label: 'South Dakota', selectors: '#fill-sd' },
   { year: 2021, label: 'Indiana', selectors: '#fill-in' },
   { year: 2023, label: 'Hawaii', selectors: '#fill-hi' },
+  { year: 2023, label: 'IWC West', selectors: '.story__map__label-wrapper--iwc-west' },
   { year: 2023, label: 'Montana', selectors: '#fill-mt' },
+  { year: 2024, label: 'Gainesville office', selectors: '.story__map__label-wrapper--gainesville' },
+  { year: 2024, label: 'Raleigh office', selectors: '.story__map__label-wrapper--raleigh' },
 ];
 
 export const useStoryMap = (block) => {
