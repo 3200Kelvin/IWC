@@ -117,6 +117,17 @@ export const getPageNamespace = () => {
     return container?.dataset.barbaNamespace || null;
 }
 
+export const noop = () => {};
+
+export const useTransitionDelay = (callback = () => {}) => {
+    if (window.isTransitioning) {
+        return onPageTransitionEnd(callback);
+    } else {
+        callback();
+        return noop;
+    }
+}
+
 export const useElementAnimation = (elements, getElementAnimation) => {
     const observers = {};
 
@@ -128,13 +139,7 @@ export const useElementAnimation = (elements, getElementAnimation) => {
         return cleanup;
     });
 
-    let cleanupPageListener;
-
-    if (window.isTransitioning) {
-        cleanupPageListener = onPageTransitionEnd(addObservers);
-    } else {
-        addObservers();
-    }
+    const cleanupPageListener = useTransitionDelay(addObservers);
 
     function addObservers() {
         elements.forEach((element) => {

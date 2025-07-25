@@ -1,25 +1,10 @@
 @media screen and (min-width: 478px) {
     .testimonials {
-        --progress: 0;
         --translation: 0px;
 
-        --from: -200px;
-        --to: 400px;
-
         &__entry {
-            --delay: 0px;
-            // --translation: calc(var(--from) + (var(--to) - var(--from)) * var(--progress));
-
             transform: translate3d(0, 0, var(--translation)) !important;
             opacity: clamp(0, var(--opacity), 1);
-
-            &--2 {
-                --delay: 150px;
-            }
-
-            &--3 {
-                --delay: 300px;
-            }
         }
     }
 }

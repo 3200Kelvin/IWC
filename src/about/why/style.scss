@@ -1,0 +1,19 @@
+.why__fact {
+    --mask: linear-gradient(215deg, white 0%, transparent 80%);
+
+    &--2 {
+        --mask: linear-gradient(20deg, white 0%, transparent 80%);
+    }
+
+    &--3 {
+        --mask: linear-gradient(270deg, white 0%, transparent 80%);
+    }
+
+    &--4 {
+        --mask: linear-gradient(20deg, white 0%, transparent 80%);
+    }
+
+    &__border-wrapper {
+        mask-image: var(--mask);
+    }
+}

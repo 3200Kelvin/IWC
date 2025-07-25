@@ -138,12 +138,14 @@
         }
 
         #dna-top,
-        #dna-bottom {
+        #dna-bottom,
+        #today-circle,
+        #today-circle-left,
+        #today-circle-right {
             clip-path: inset(0 0 0 0);
         }
 
         rect,
-        #today-circle,
         .story__gradient-blob {
             opacity: 1;
         }
