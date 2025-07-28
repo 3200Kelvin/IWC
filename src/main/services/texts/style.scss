@@ -32,12 +32,3 @@
         }
     }
 }
-
-.heading--services.force-repaint {
-  animation: safari-force-repaint 1s infinite;
-}
-
-@keyframes safari-force-repaint {
-  0%   { opacity: 1; }
-  100% { opacity: 0.99; }
-}

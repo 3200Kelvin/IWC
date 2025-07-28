@@ -6,6 +6,7 @@ import { useFooter } from "./footer";
 import { useGradient } from "./meshGradient";
 import { useVideos } from "./videos";
 import { useTextBlur, useTextAppear } from "./textAnimations";
+import { useSafariForceRepaint } from "./forceRepaint";
 
 import { setSmoothScroll } from "../common/smoothScroll/script";
 import { setScrollBarWidthListener } from "../common/blockScroll";
@@ -30,5 +31,6 @@ export const useGlobalScripts = () => {
         useBgObserver(),
         useFooter(),
         useVideos(),
+        useSafariForceRepaint(),
     );
 };

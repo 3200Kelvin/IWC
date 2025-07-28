@@ -1,4 +1,4 @@
-import { getIntersectionObserver, isSafari } from "../../../common/helpers";
+import { getIntersectionObserver, getCleanup } from "../../../common/helpers";
 import { setTextBlur } from "../../../common/textBlur";
 import { setTextAppear } from "../../../common/textAppear";
 
@@ -9,8 +9,6 @@ import './style.scss';
 export const useServicesTexts = (block) => {
     const headings = block.querySelectorAll('.services__step__heading');
     const texts = block.querySelectorAll('.services__step__content p');
-
-    const safariCleanup = isSafari ? useSafariFix() : null;
 
     const intersectionObserver = getIntersectionObserver(20, onIntersecting);
     const DASH_MARGIN = 100 - LINE_TOP_OFFSET;
@@ -45,33 +43,16 @@ export const useServicesTexts = (block) => {
         return cleanup;
     });
 
-    return () => {
-        intersectionObserver.disconnect();
-        dashIntersectionObserver.disconnect();
-        [...textCleanups, ...headingCleanups].forEach((cleanup) => cleanup?.());
-        safariCleanup?.();
-    };
+    return getCleanup(
+        () => intersectionObserver.disconnect(),
+        () => dashIntersectionObserver.disconnect(),
+        ...textCleanups,
+        ...headingCleanups
+    );
     
     function onIntersecting(entry, observer) {
         observer.unobserve(entry.target);
 
         entry.target.animate();
-    }
-}
-
-function useSafariFix() {
-    const headings = document.querySelectorAll('.heading--services');
-
-    const intersectionObserver = getIntersectionObserver(0, onIntersecting, onNotIntersecting);
-    headings.forEach((heading) => intersectionObserver.observe(heading));
-
-    return () => intersectionObserver.disconnect();
-
-    function onIntersecting(entry) {
-        entry.target.classList.add('force-repaint');
-    }
-
-    function onNotIntersecting(entry) {
-        entry.target.classList.remove('force-repaint');
     }
 }
