@@ -4,6 +4,12 @@
     --delay-3: 1.5s;
     --delay-4: 1.8s;
 
+    --axis-2-1-ratio: 9.46;
+    --axis-3-1-ratio: 3.26;
+    --axis-1-time: 0.1s;
+    --axis-2-time: calc(var(--axis-1-time) * var(--axis-2-1-ratio));
+    --axis-3-time: calc(var(--axis-1-time) * var(--axis-3-1-ratio));
+
     .story__timeline__label-container {
         &--1 {
             --delay: var(--delay-1);
@@ -34,7 +40,10 @@
 
     #dna-top,
     #dna-bottom,
-    #today-circle {
+    #today-circle,
+    #axis-1,
+    #axis-2,
+    #axis-3 {
         clip-path: inset(0 100% 0 0);
     }
 
@@ -51,6 +60,10 @@
         opacity: 0;
     }
 
+    .story__gradient-blob {
+        background-repeat: no-repeat;
+    }
+
     @media screen and (max-width: 991px) {
         .timeline-entry {
             &__line {
@@ -59,7 +72,10 @@
         }
 
         #dna-top,
-        #dna-bottom {
+        #dna-bottom,
+        #axis-1,
+        #axis-2,
+        #axis-3 {
             clip-path: inset(0 0 100% 0);
         }
     }
@@ -78,6 +94,16 @@
         #dna-top,
         #dna-bottom {
             transition: clip-path 2s ease-in-out;
+        }
+
+        #axis-1 {
+            transition: clip-path var(--axis-1-time) ease-in;
+        }
+        #axis-2 {
+            transition: clip-path var(--axis-2-time) linear var(--axis-1-time);
+        }
+        #axis-3 {
+            transition: clip-path var(--axis-3-time) ease-out calc(var(--axis-1-time) + var(--axis-2-time));
         }
 
         #dna-bottom {
@@ -139,6 +165,9 @@
 
         #dna-top,
         #dna-bottom,
+        #axis-1,
+        #axis-2,
+        #axis-3,
         #today-circle,
         #today-circle-left,
         #today-circle-right {
@@ -149,5 +178,24 @@
         .story__gradient-blob {
             opacity: 1;
         }
+
+        .story__gradient-blob {
+            animation: blob-glow 1.4s ease-in-out infinite;
+        }
+    }
+}
+
+@keyframes blob-glow {
+    0% {
+        background-size: 100% 100%;
+        // transform: scaleY(1);
+    }
+    50% {
+        background-size: 100% 80%;
+        // transform: scaleY(0.8);
+    }
+    100% {
+        background-size: 100% 100%;
+        // transform: scaleY(1);
     }
 }

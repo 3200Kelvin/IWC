@@ -4,11 +4,22 @@
     }
 
     .map-entry {
-        transition: opacity 0.4s;
-        opacity: 0;
+        &--to-show {
+            transition: opacity 0.4s;
+            opacity: 0;
 
-        &.shown {
-            opacity: 1;
+            &.active {
+                opacity: 1;
+            }
+        }
+        
+        &--to-color {
+            transition: fill 0.4s;
+            fill: var(--blue);
+
+            &.active {
+                fill: var(--dark-blue);
+            }
         }
     }
 }

@@ -4,6 +4,42 @@
         transition: opacity 0.4s ease;
     }
 
+    &__pulse__runner {
+        animation: heartbeat 1s linear infinite forwards;
+    }
+
+    @media (hover: hover) {
+        &__pulse__runner {
+            animation-play-state: paused;
+        }
+
+        &__tooltip__btn__bg {
+            transition: transform 0.4s ease;
+        }
+
+        &:hover {
+            .video-element {
+                &__pulse__runner {
+                    animation-play-state: running;
+                }
+
+                &__tooltip__btn__bg {
+                    transform: scale(1.1);
+                }
+            }
+        }
+    }
+
+    @media not (hover: hover) {
+        &__tooltip {
+            pointer-events: none;
+
+            &__btn {
+                pointer-events: auto;
+            }
+        }
+    }
+
     &--playing {
         .video-element {
             &__overlay,

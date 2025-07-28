@@ -1,0 +1,12 @@
+@media (hover: hover) {
+    .team__entry {
+        &__image {
+            transition: transform 0.5s ease-out, filter 0.5s;
+        }
+
+        &:hover &__image {
+            transform: scale(1.04);
+            filter: brightness(0.9);
+        }
+    }
+}

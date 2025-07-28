@@ -18,7 +18,7 @@ export const useVideos = () => {
     function initVideo(video) {
         const container = video.closest('.video-element');
 
-        const btn = container.querySelector('.tooltip-btn');
+        const btn = container.querySelector('.video-element__tooltip');
 
         const source = video.querySelector('source');
         const src = container.dataset.src;

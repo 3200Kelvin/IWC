@@ -8,6 +8,8 @@
     --total: 0;
     --current: 0;
 
+    background: radial-gradient(42.9% 47.1% at 64.28% 11.84%, #EDF6FD 0%, #D5E8F0 100%);
+
     &__progress {
         transform-origin: left;
         transform: scaleX(calc(var(--current) / var(--total)));
@@ -26,6 +28,14 @@
                         transform: translateX(0);
                     }
                 }
+            }
+        }
+
+        &__link {
+            transition: border-color 0.4s;
+
+            &:hover {
+                border-color: var(--blue-50);
             }
         }
     }

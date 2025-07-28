@@ -1,16 +1,16 @@
 .why__fact {
-    --mask: linear-gradient(215deg, white 0%, transparent 80%);
+    --mask: linear-gradient(215deg, white 0%, transparent 100%);
 
     &--2 {
-        --mask: linear-gradient(20deg, white 0%, transparent 80%);
+        --mask: linear-gradient(20deg, white 0%, transparent 100%);
     }
 
     &--3 {
-        --mask: linear-gradient(270deg, white 0%, transparent 80%);
+        --mask: linear-gradient(270deg, white 0%, transparent 100%);
     }
 
     &--4 {
-        --mask: linear-gradient(20deg, white 0%, transparent 80%);
+        --mask: linear-gradient(20deg, white 0%, transparent 100%);
     }
 
     &__border-wrapper {
