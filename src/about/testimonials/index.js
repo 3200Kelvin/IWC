@@ -1,6 +1,6 @@
 import { useTestimonialsDesktop } from './desktop';
 import { useTestimonialsMobile } from './mobile';
-import { getIsLeastMobile } from '../../common/helpers';
+import { getIsDesktop } from '../../common/helpers';
 
 export const useTestimonials = () => {
     const block = document.querySelector('.testimonials');
@@ -26,10 +26,10 @@ export const useTestimonials = () => {
     }
 
     function init() {
-        if (getIsLeastMobile()) {
-            return useTestimonialsMobile(block, entries);
-        } else {
+        if (getIsDesktop()) {
             return useTestimonialsDesktop(block, entries);
+        } else {
+            return useTestimonialsMobile(block, entries);
         }
     }
 
