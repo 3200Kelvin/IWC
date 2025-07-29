@@ -3,6 +3,7 @@
     --delay-2: 0.8s;
     --delay-3: 1.5s;
     --delay-4: 1.8s;
+    --delay-5: 2s;
 
     --axis-2-1-ratio: 9.46;
     --axis-3-1-ratio: 3.26;
@@ -25,6 +26,10 @@
 
         &--4 {
             --delay: var(--delay-4);
+        }
+
+        &--5 {
+            --delay: var(--delay-5);
         }
     }
 
@@ -145,10 +150,14 @@
             &#dot-4 {
                 transition-delay: var(--delay-4);
             }
+
+            &#dot-5 {
+                transition-delay: var(--delay-5);
+            }
         }
 
         .story__gradient-blob {
-            transition-delay: calc(var(--delay-4) + 0.6s);
+            transition-delay: calc(var(--delay-5) + 0.6s);
         }
     }
 
@@ -188,14 +197,11 @@
 @keyframes blob-glow {
     0% {
         background-size: 100% 100%;
-        // transform: scaleY(1);
     }
     50% {
         background-size: 100% 80%;
-        // transform: scaleY(0.8);
     }
     100% {
         background-size: 100% 100%;
-        // transform: scaleY(1);
     }
 }
