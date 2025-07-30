@@ -1,12 +1,33 @@
-@media (hover: hover) {
-    .cta__button {
-        &__label {
-            opacity: 0.6;
-            transition: opacity 0.4s;
-        }
 
-        &:hover &__label {
-            opacity: 1;
+
+.cta__button {
+    &__label {
+        opacity: 0.6;
+    }
+
+    @media (hover: hover) {
+        &:hover {
+            .cta__button {
+                &__label {
+                    opacity: 1;
+                }
+                
+                &__glow {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    &.active {
+        .cta__button {
+            &__label {
+                opacity: 1;
+            }
+            
+            &__glow {
+                opacity: 1;
+            }
         }
     }
 }

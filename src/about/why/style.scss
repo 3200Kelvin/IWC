@@ -1,16 +1,25 @@
 .why__fact {
-    --mask: linear-gradient(215deg, white 0%, transparent 100%);
+    --degree: 215deg;
+    --mask: linear-gradient(var(--degree), white 0%, transparent 100%);
 
     &--2 {
-        --mask: linear-gradient(20deg, white 0%, transparent 100%);
+        --degree: 20deg;
+
+        @media screen and (max-width: 476px) {
+            --degree: 230deg;
+        }
     }
 
     &--3 {
-        --mask: linear-gradient(270deg, white 0%, transparent 100%);
+        --degree: 270deg;
+
+        @media screen and (max-width: 476px) {
+            --degree: 45deg;
+        }
     }
 
     &--4 {
-        --mask: linear-gradient(20deg, white 0%, transparent 100%);
+        --degree: 20deg;
     }
 
     &__border-wrapper {

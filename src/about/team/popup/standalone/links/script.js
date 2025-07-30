@@ -7,7 +7,6 @@ export const useTeamMemberLinks = (block) => {
 
     const currentLinkIndex = [...links].findIndex((link) => link.href === window.location.href);
 
-    console.log(links.length, currentLinkIndex);
     block.style.setProperty('--total', links.length);
     block.style.setProperty('--current', currentLinkIndex + 1);
 

@@ -25,6 +25,8 @@ export function doAsync(callback, delay = 10) {
 
 export const isTouchscreen = window.matchMedia("(pointer: coarse)").matches;
 
+export const isHover = window.matchMedia("(hover: hover)").matches;
+
 export const round = (num, digits = 3) => {
     const coeff = Math.pow(10, digits);
     return Math.round(num * coeff) / coeff;
@@ -91,7 +93,12 @@ export const onTransitionEnd = (element, property, callback) => {
 
 export const isPrefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-export function getIntersectionObserver(margin = 15, onIntersecting = () => {}, onNotIntersecting = () => {}) {
+export function getIntersectionObserver(
+    margin = 15,
+    onIntersecting = () => {},
+    onNotIntersecting = () => {},
+    { marginTop = margin, marginBottom = margin } = {}
+) {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
@@ -100,7 +107,7 @@ export function getIntersectionObserver(margin = 15, onIntersecting = () => {}, 
                 onNotIntersecting(entry, observer);
             }
         });
-    }, { rootMargin: `-${margin}% 0% -${margin}% 0%`, threshold: 0 });
+    }, { rootMargin: `-${marginTop}% 0% -${marginBottom}% 0%`, threshold: 0 });
 
     return observer;
 }
@@ -128,6 +135,22 @@ export const useTransitionDelay = (callback = () => {}) => {
     }
 }
 
+const getAnimationOffset = (element) => {
+    const {
+        animationOffset = 15,
+        animationOffsetTablet = animationOffset,
+        animationOffsetMobile = animationOffsetTablet
+    } = element.dataset || {};
+
+    if (getIsDesktop()) {
+        return animationOffset;
+    } else if (getIsLeastMobile()) {
+        return animationOffsetMobile;
+    } else {
+        return animationOffsetTablet;
+    }
+};
+
 export const useElementAnimation = (elements, getElementAnimation) => {
     const observers = {};
 
@@ -143,7 +166,7 @@ export const useElementAnimation = (elements, getElementAnimation) => {
 
     function addObservers() {
         elements.forEach((element) => {
-            const offset = element.dataset.animationOffset || 15;
+            const offset = getAnimationOffset(element);
 
             const observer = getObserver(offset);
 

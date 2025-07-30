@@ -1,4 +1,4 @@
-import { getIntersectionObserver } from '../../../common/helpers';
+import { getIntersectionObserver, getIsDesktop } from '../../../common/helpers';
 
 import './style.scss';
 
@@ -8,20 +8,28 @@ export const useTimeline = (story) => {
         return;
     }
 
-    const entries = timeline.querySelectorAll('.timeline-entry');
-    entries.forEach((entry, index) => {
-        entry.style.setProperty('--index', index);
-    });
+    const observer = getIntersectionObserver(50, onIntersecting);
 
-    setTimeout(() => {
+    if (!getIsDesktop()) {
+        const entries = timeline.querySelectorAll('.timeline-entry');
+        entries.forEach((entry) => {
+            observer.observe(entry);
+        });
+    }
+
+    const timelout = setTimeout(() => {
         timeline.classList.add('transition');
 
-        const observer = getIntersectionObserver(50, onIntersecting);
         observer.observe(timeline);
     }, 10);
 
+    return () => {
+        clearTimeout(timelout);
+        observer.disconnect();
+    }
+
     function onIntersecting(entry, observer) {
         entry.target.classList.add('animated');
-        observer.disconnect();
+        observer.unobserve(entry.target);
     }
 };

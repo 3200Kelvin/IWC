@@ -4,8 +4,8 @@ import { useAboutHero } from "./hero";
 import { useStory } from "./story";
 import { useTeam } from "./team";
 import { useTestimonials } from "./testimonials";
+import { useCtaButtons } from "./cta";
 
-import './cta/style.scss';
 import './why/style.scss';
 
 export const useAboutPageScripts = () => {
@@ -14,5 +14,6 @@ export const useAboutPageScripts = () => {
         useStory(),
         useTeam(),
         useTestimonials(),
+        useCtaButtons(),
     );
 };

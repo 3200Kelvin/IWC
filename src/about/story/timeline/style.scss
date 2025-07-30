@@ -31,6 +31,10 @@
         &--5 {
             --delay: var(--delay-5);
         }
+
+        @media screen and (max-width: 991px) {
+            --delay: 0s;
+        }
     }
 
     .timeline-entry {
@@ -52,11 +56,11 @@
         clip-path: inset(0 100% 0 0);
     }
 
-    #today-circle-left {
+    #today-circle-bottom {
         clip-path: inset(100% 0 0 0);
     }
 
-    #today-circle-right {
+    #today-circle-top {
         clip-path: inset(0 0 100% 0);
     }
 
@@ -116,16 +120,16 @@
         }
 
         #today-circle,
-        #today-circle-left,
-        #today-circle-right {
+        #today-circle-bottom,
+        #today-circle-top {
             transition: clip-path 0.6s ease-in-out calc(var(--delay-4) + 0.4s);
         }
 
-        #today-circle-left {
+        #today-circle-bottom {
             transition-timing-function: ease-in;
         }
 
-        #today-circle-right {
+        #today-circle-top {
             transition-timing-function: ease-out;
         }
 
@@ -162,13 +166,15 @@
     }
 
     &.animated {
-        .timeline-entry {
-            &__content {
-                opacity: 1;
-            }
+        @media screen and (min-width: 992x) {
+            .timeline-entry {
+                &__content {
+                    opacity: 1;
+                }
 
-            &__line {
-                clip-path: inset(0 0 0 0);
+                &__line {
+                    clip-path: inset(0 0 0 0);
+                }
             }
         }
 
@@ -178,9 +184,15 @@
         #axis-2,
         #axis-3,
         #today-circle,
-        #today-circle-left,
-        #today-circle-right {
+        #today-circle-bottom,
+        #today-circle-top {
             clip-path: inset(0 0 0 0);
+        }
+
+        #today-circle-group {
+            transform-box: fill-box;
+            transform-origin: center;
+            animation: circle-rotate 5s linear infinite;
         }
 
         rect,
@@ -190,6 +202,18 @@
 
         .story__gradient-blob {
             animation: blob-glow 1.4s ease-in-out infinite;
+        }
+    }
+
+    @media screen and (max-width: 991px) {
+        .timeline-entry.animated {
+            .timeline-entry__content {
+                opacity: 1;
+            }
+
+            .timeline-entry__line {
+                clip-path: inset(0 0 0 0);
+            }
         }
     }
 }
@@ -203,5 +227,14 @@
     }
     100% {
         background-size: 100% 100%;
+    }
+}
+
+@keyframes circle-rotate {
+    0% {
+        transform: rotateZ(0deg);
+    }
+    100% {
+        transform: rotateZ(360deg);
     }
 }
