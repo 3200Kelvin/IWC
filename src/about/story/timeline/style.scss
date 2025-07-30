@@ -166,7 +166,7 @@
     }
 
     &.animated {
-        @media screen and (min-width: 992x) {
+        @media screen and (min-width: 992px) {
             .timeline-entry {
                 &__content {
                     opacity: 1;
