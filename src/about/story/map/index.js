@@ -153,7 +153,7 @@ export const useStoryMap = (block) => {
 
     function hideAllEntries() {
         [...allElementsToShow, ...allElementsToColor].forEach((element) => {
-            element.classList.remove('activateElements');
+            element.classList.remove('active');
         });
     }
 
