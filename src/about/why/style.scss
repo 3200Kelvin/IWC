@@ -2,6 +2,10 @@
     --degree: 215deg;
     --mask: linear-gradient(var(--degree), white 0%, transparent 100%);
 
+    @media screen and (max-width: 476px) {
+        --mask: linear-gradient(var(--degree), white 0%, transparent 90%);
+    }
+
     &--2 {
         --degree: 20deg;
 
