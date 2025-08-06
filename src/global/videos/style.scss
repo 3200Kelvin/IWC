@@ -13,7 +13,7 @@
             animation-play-state: paused;
         }
 
-        &__tooltip__btn__bg {
+        &__tooltip__bg {
             transition: transform 0.4s ease;
         }
 
@@ -23,7 +23,7 @@
                     animation-play-state: running;
                 }
 
-                &__tooltip__btn__bg {
+                &__tooltip__bg {
                     transform: scale(1.1);
                 }
             }
@@ -45,6 +45,10 @@
             &__overlay,
             &__cover {
                 opacity: 0;
+                pointer-events: none;
+            }
+
+            &__tooltip__btn {
                 pointer-events: none;
             }
         }
