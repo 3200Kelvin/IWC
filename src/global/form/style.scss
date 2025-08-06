@@ -72,3 +72,21 @@
         }
     }
 }
+
+.form-success {
+    &__schedule {
+        display: none;
+    }
+
+    &--schedule {
+        .form-success {
+            &__default {
+                display: none;
+            }
+
+            &__schedule {
+                display: block;
+            }
+        }
+    }
+}
