@@ -24,6 +24,7 @@ export const useVideos = () => {
         const container = video.closest('.video-element');
 
         const btn = container.querySelector('.video-element__tooltip');
+        const btnLabel = btn.querySelector('p');
 
         const source = video.querySelector('source');
         const src = container.dataset.src;
@@ -60,6 +61,7 @@ export const useVideos = () => {
 
         function onPause() {
             clearTimeout(pauseTimeout);
+            btnLabel.textContent = 'Resume';
 
             pauseTimeout = setTimeout(() => {
                 container.classList.remove('video-element--playing');
