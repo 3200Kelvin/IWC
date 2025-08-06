@@ -16,19 +16,8 @@
                 z-index: 3;
                 transform: scale(1.1) translateY(5%);
                 opacity: 0;
+                pointer-events: none;
             }
-
-            // &--next {
-            //     transform: scale(0.8) !important;
-            //     opacity: 0.8;
-            //     pointer-events: none;
-            // }
-
-            // &--hidden {
-            //     transform: scale(1.2) !important;
-            //     opacity: 0;
-            //     pointer-events: none;
-            // }
         }
     }
 }

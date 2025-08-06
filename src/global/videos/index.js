@@ -1,9 +1,11 @@
-import { getCleanup } from "../../common/helpers";
+import { getCleanup, getIntersectionObserver } from "../../common/helpers";
 
 import './style.scss';
 
 export const useVideos = () => {
     const PLAY_ACTION = 'video-play';
+
+    const intersectionObserver = getIntersectionObserver(0, () => {}, onVideoNotInView);
 
     const videos = document.querySelectorAll('.video-element video');
     const cleanups = [...videos].map(initVideo);
@@ -12,7 +14,10 @@ export const useVideos = () => {
 
     return getCleanup(
         ...cleanups,
-        () => document.removeEventListener(PLAY_ACTION, handlePlayEvent)
+        () => {
+            document.removeEventListener(PLAY_ACTION, handlePlayEvent);
+            intersectionObserver.disconnect();
+        }
     );
 
     function initVideo(video) {
@@ -31,6 +36,8 @@ export const useVideos = () => {
         video.addEventListener('pause', onPause);
         video.addEventListener('play', onPlay);
         video.addEventListener('ended', onEnd);
+
+        intersectionObserver.observe(video);
 
         return () => {
             btn.removeEventListener('click', play);
@@ -64,6 +71,10 @@ export const useVideos = () => {
                 document.exitFullscreen().catch(() => {});
             }
         }
+    }
+
+    function onVideoNotInView(entry) {
+        entry.target.pause();
     }
         
     function handlePlayEvent(event) {
