@@ -5,13 +5,12 @@ const OTHER_STAGE_VALUE = 'Other';
 const FOUND_THROUGH_OTHER_VALUE = 'Other';
 
 export const useForm = () => {
-    const form = document.querySelector('form');
+    const form = document.querySelector('.contact__form');
     if (!form) {
         return;
     }
 
-    const formContainer = form.closest('div');
-    const successMessage = formContainer.querySelector('.form-success');
+    const successMessage = form.querySelector('.form-success');
     const schedulerLinkElement = successMessage.querySelector('a');
     const schedulerLink = schedulerLinkElement.href;
 
