@@ -69,7 +69,7 @@ export const useStoryMap = (block) => {
         label: container.querySelector('.story__map__state p'),
     };
 
-    const DELAY = 1000;
+    const DELAY = 600;
     let current = -1;
     let timeout;
     const allElementsToShow = [];
