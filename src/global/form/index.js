@@ -1,6 +1,7 @@
 import { useFormFields } from '../../common/formFields';
 
 import './style.scss';
+import '../../common/formFields/style.scss';
 
 export const useForm = () => {
     const form = document.querySelector('.contact__form');
