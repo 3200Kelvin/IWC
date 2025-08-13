@@ -1,0 +1,72 @@
+form {
+    @media (hover: hover) {
+        &__button {
+            &:not(:hover) {
+                .form__button__icon {
+                    width: 0;
+                }
+            }
+
+            .form__button__icon {
+                transition: width 0.4s ease;
+            }
+        }
+    }
+
+    input[type="date"] {
+        color-scheme: dark;
+        padding-bottom: 0.3em;
+
+        &::-webkit-calendar-picker-indicator {
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        &::-webkit-date-and-time-value {
+            text-align:left;
+        }
+    }
+
+    select {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        padding: 0 !important;
+        
+        --arrow-height: 8px;
+        --arrow-half-height: 4px;
+        --arrow-half-width: 4px;
+
+        background-image:
+            linear-gradient(60deg, transparent 50%, currentColor 50%),
+            linear-gradient(120deg, currentColor 50%, transparent 50%);
+        background-position:
+            calc(100% - var(--arrow-half-width)) 45%,
+            100% 45%;
+        background-size:
+            var(--arrow-half-width) var(--arrow-height),
+            var(--arrow-half-width) var(--arrow-height);
+        background-repeat: no-repeat;
+
+        option {
+            color: black;
+            padding: 0.2em;
+        }
+    }
+
+    &__checkbox {
+        &__box {
+            &.w--redirected-checked {
+                background-image: none;
+            }
+
+            &--standalone.w--redirected-checked {
+                background-size: 75%;
+                background-image: url(https://cdn.prod.website-files.com/68359b057989673b79f2f2ce/6851938bba1f0beb9f45f28a_check.svg);
+            }
+        }
+    }
+}
