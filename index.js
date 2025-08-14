@@ -5,6 +5,7 @@ import { getPageNamespace } from "./src/common/helpers";
 
 import { useMainPageScripts } from "./src/main";
 import { useAboutPageScripts } from "./src/about";
+import { useMediaPageScripts } from "./src/media";
 
 if (gsap) {
     gsap.defaults({
@@ -32,6 +33,8 @@ function runPageSpecificScript() {
             return useMainPageScripts();
         case 'about':
             return useAboutPageScripts();
+        case 'media':
+            return useMediaPageScripts();
         default:
             return () => {};
     }
