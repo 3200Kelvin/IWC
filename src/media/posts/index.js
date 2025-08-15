@@ -14,20 +14,39 @@ export const useMediaPosts = () => {
     }
 
     function checkPost(post) {
-        const isOpen = post.querySelector('[data-gated-post="is-open"]');
-        const trueLink = post.querySelector('[data-gated-post="true-link"]');
-        const href = trueLink.getAttribute('href');
-        trueLink.remove();
+        const isOpen = !!post.querySelector('[data-gated-post="is-open"]');
 
-        if (isOpen || getIsUserSubscribed(member)) {
-            return unblockPost(post, href);
+        const shouldUnlock = isOpen || getIsUserSubscribed(member);
+        
+        setPostLink(post, shouldUnlock);
+        checkPostVideo(post, shouldUnlock);
+        unblockPost(post, shouldUnlock);
+    }
+
+    function unblockPost(post, shouldUnlock = false) {
+        post.classList.toggle('unblocked', shouldUnlock);
+    }
+
+    function checkPostVideo(post, shouldUnlock = false) {
+        const video = post.querySelector('.w-video');
+
+        if (!shouldUnlock && video) {
+            video.remove();
         }
     }
 
-    function unblockPost(post, href) {
-        const link = post.querySelector('[data-gated-post="link"]');
+    function setPostLink(post, shouldUnlock = false) {
+        const trueLink = post.querySelector('[data-gated-post="true-link"]');
 
-        link.setAttribute('href', href);
-        post.classList.add('unblocked');
+        if (trueLink) {
+            const href = trueLink.getAttribute('href');
+            trueLink.remove();
+
+            const link = post.querySelector('[data-gated-post="link"]');
+
+            if (link && shouldUnlock) {
+                link.setAttribute('href', href);
+            }
+        }
     }
 }
