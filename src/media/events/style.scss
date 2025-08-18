@@ -1,0 +1,8 @@
+.events__entry {
+    &:hover {
+        .media-button {
+            background-color: transparent;
+            color: var(--glassy-blue);
+        }
+    }
+}

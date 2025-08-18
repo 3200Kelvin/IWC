@@ -1,0 +1,8 @@
+.external-media__entry {
+    &:hover {
+        .media-button {
+            background-color: var(--dark-blue);
+            color: var(--glassy-blue);
+        }
+    }
+}
