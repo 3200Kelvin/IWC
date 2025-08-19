@@ -1,0 +1,14 @@
+.hor-scroll {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE 10+ */
+
+    &::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Edge */
+    }
+}
+
+.hor-scroll-button {
+    &.disabled {
+        pointer-events: none;
+    }
+}

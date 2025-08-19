@@ -1,8 +1,14 @@
 .events__entry {
-    &:hover {
-        .media-button {
-            background-color: transparent;
-            color: var(--glassy-blue);
+    &:nth-child(2n) {
+        margin-top: 2em;
+    }
+
+    @media (hover: hover) {
+        &:hover {
+            .media-button {
+                background-color: transparent;
+                color: var(--glassy-blue);
+            }
         }
     }
 }

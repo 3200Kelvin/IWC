@@ -1,3 +1,6 @@
+import { getCleanup } from '../../common/helpers';
+import { usePastEventsRunner } from './runner';
+
 import './style.scss';
 
 export const usePastEvents = () => {
@@ -6,4 +9,8 @@ export const usePastEvents = () => {
     if (!block) {
         return;
     }
+
+    return getCleanup(
+        usePastEventsRunner(block),
+    );
 };

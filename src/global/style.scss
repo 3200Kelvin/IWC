@@ -4,3 +4,50 @@
         display: none;
     }
 }
+
+.arrow-button {
+    --shift: 0.6em;
+
+    &__border {
+        opacity: 0.2;
+        transition: opacity 0.4s ease;
+    }
+
+    &__arrow {
+        transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    &.disabled &__arrow {
+        opacity: 0.4;
+    }
+
+    @media (hover: hover) {
+        &__eyes {
+            transition: opacity 0.4s ease;
+
+            .eyes {
+                transition: transform 0.4s ease;
+            }
+        }
+
+        &:hover {
+            .arrow-button {
+                &__border {
+                    opacity: 1;
+                }
+
+                &__eyes {
+                    opacity: 1;
+
+                    .eyes {
+                        transform: translateX(calc(-1 * var(--shift)));
+                    }
+                }
+
+                &__arrow {
+                    transform: translateX(var(--shift));
+                }
+            }
+        }
+    }
+}

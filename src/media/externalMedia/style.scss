@@ -1,8 +1,22 @@
 .external-media__entry {
-    &:hover {
-        .media-button {
-            background-color: var(--dark-blue);
-            color: var(--glassy-blue);
+    &__bg {
+        opacity: 0;
+    }
+
+    @media (hover: hover) {
+        &__bg {
+            transition: opacity 0.8s ease;
+        }
+
+        &:hover {
+            .media-button {
+                background-color: var(--dark-blue);
+                color: var(--glassy-blue);
+            }
+
+            .external-media__entry__bg {
+                opacity: 1;
+            }
         }
     }
 }
