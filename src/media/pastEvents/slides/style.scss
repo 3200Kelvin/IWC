@@ -1,0 +1,43 @@
+.past-events__event {
+    pointer-events: none;
+
+    &__title__line {
+        overflow: hidden;
+
+        * {
+            transition: transform 0.6s ease;
+            transform: translateY(125%);
+        }
+
+        &:nth-child(2) * {
+            transition-delay: 0.1s;
+        }
+    }
+
+    &__photo {
+        opacity: 0;
+        filter: blur(5px);
+        transition: opacity 0.6s ease, filter 0.6s ease;
+
+        @for $i from 1 through 4 {
+            &:nth-child(#{$i}) {
+                transition-delay: #{($i - 1) * 0.1}s;
+            }
+        }
+    }
+
+    &.active {
+        pointer-events: none;
+
+        .past-events__event {
+            &__title__line * {
+                transform: translateY(0);
+            }
+
+            &__photo {
+                opacity: 1;
+                filter: blur(0px);
+            }
+        }
+    }
+}

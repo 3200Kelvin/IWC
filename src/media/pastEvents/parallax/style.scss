@@ -1,0 +1,65 @@
+.past-events {
+    --progress: 0;
+
+    &__event__photo {
+        --target: 15%;
+        
+        transform: translateY(calc(var(--progress) * var(--target)));
+
+        &:nth-child(1) {
+            --target: 25%;
+        }
+        
+        &:nth-child(2) {
+            --target: -10%;
+        }
+        
+        &:nth-child(3) {
+            --target: 10%;
+        }
+        
+        &:nth-child(4) {
+            --target: -15%;
+        }
+    }
+
+    @media screen and (max-width: 991px) {
+        &__event__photo {
+            &:nth-child(1) {
+                --target: 45%;
+            }
+            
+            &:nth-child(2) {
+                --target: -30%;
+            }
+            
+            &:nth-child(3) {
+                --target: 30%;
+            }
+            
+            &:nth-child(4) {
+                --target: -45%;
+            }
+        }
+    }
+
+    @media screen and (max-width: 476px) {
+        &__event__photo {
+            &:nth-child(1) {
+                --target: 45%;
+            }
+            
+            &:nth-child(2) {
+                --target: -20%;
+            }
+            
+            &:nth-child(3) {
+                --target: -55%;
+            }
+            
+            &:nth-child(4) {
+                --target: 5%;
+            }
+        }
+    }
+}

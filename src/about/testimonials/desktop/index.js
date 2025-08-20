@@ -43,5 +43,5 @@ export const useTestimonialsDesktop = (block, entries) => {
     return () => {
         scrollTrigger.kill();
         observer.disconnect();
-    }
+    };
 };

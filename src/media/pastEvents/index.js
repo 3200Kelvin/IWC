@@ -1,5 +1,7 @@
 import { getCleanup } from '../../common/helpers';
 import { usePastEventsRunner } from './runner';
+import { usePastEventsSlides } from './slides';
+import { usePastEventsParallax } from './parallax';
 
 import './style.scss';
 
@@ -12,5 +14,7 @@ export const usePastEvents = () => {
 
     return getCleanup(
         usePastEventsRunner(block),
+        usePastEventsSlides(block),
+        usePastEventsParallax(block),
     );
 };
