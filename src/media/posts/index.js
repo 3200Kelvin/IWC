@@ -3,20 +3,31 @@ import { getUserData, getIsUserSubscribed } from "../../common/memberstack";
 import './style.scss';
 
 export const useMediaPosts = () => {
-    const posts = document.querySelectorAll('[data-gated-post="post"]');
-    let member = null;
+    const container = document.querySelector('.media__content');
+
+    if (!container) {
+        return;
+    }
+
+    const posts = container.querySelectorAll('[data-gated-post="post"]');
+    let isSubscribed = false;
 
     getUserData().then(init);
 
-    function init(memberData) {
-        member = memberData;
+    function init(member) {
+        isSubscribed = getIsUserSubscribed(member);
+
+        if (isSubscribed) {
+            container.classList.add('subscribed');
+        }
+
         posts.forEach(checkPost);
     }
 
     function checkPost(post) {
         const isOpen = !!post.querySelector('[data-gated-post="is-open"]');
 
-        const shouldUnlock = isOpen || getIsUserSubscribed(member);
+        const shouldUnlock = isOpen || isSubscribed;
         
         setPostLink(post, shouldUnlock);
         checkPostVideo(post, shouldUnlock);
