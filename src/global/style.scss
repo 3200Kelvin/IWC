@@ -1,3 +1,7 @@
+:root {
+    --gradient-glass: radial-gradient(42.9% 47.1% at 64.28% 11.84%, var(--glassy-white) 0%, var(--glassy-blue) 100%);
+}
+
 .w-embed {
     &::before,
     &::after {

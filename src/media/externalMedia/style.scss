@@ -1,21 +1,25 @@
-.external-media__entry {
-    &__bg {
-        opacity: 0;
-    }
+.external-media {
+    background: var(--gradient-glass, var(--glassy-blue));
 
-    @media (hover: hover) {
+    &__entry {
         &__bg {
-            transition: opacity 0.8s ease;
+            opacity: 0;
         }
 
-        &:hover {
-            .media-button {
-                background-color: var(--dark-blue);
-                color: var(--glassy-blue);
+        @media (hover: hover) {
+            &__bg {
+                transition: opacity 0.8s ease;
             }
 
-            .external-media__entry__bg {
-                opacity: 1;
+            &:hover {
+                .media-button {
+                    background-color: var(--dark-blue);
+                    color: var(--glassy-blue);
+                }
+
+                .external-media__entry__bg {
+                    opacity: 1;
+                }
             }
         }
     }
