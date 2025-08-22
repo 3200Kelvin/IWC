@@ -4,8 +4,16 @@
     }
 
     &.subscribed {
-        .media__content__more:not(:hover) {
-            background-color: transparent;
+        @media (hover: hover) {
+            .media__content__more:not(:hover) {
+                background-color: transparent;
+            }
+        }
+        
+        @media not (hover: hover) {
+            .media__content__more {
+                background-color: transparent;
+            }
         }
     }
 
@@ -15,8 +23,17 @@
         }
 
         &.unblocked {
-            &:not(:hover),
             &.media__entry--video {
+                background-color: transparent;
+            }
+
+            @media (hover: hover) {
+                &:not(:hover) {
+                    background-color: transparent;
+                }
+            }
+            
+            @media not (hover: hover) {
                 background-color: transparent;
             }
 
@@ -37,12 +54,20 @@
     --placeholder-2: url(https://cdn.prod.website-files.com/68359b057989673b79f2f2ce/68a7155f73f312c5ba4831e9_insight-placeholder-2.avif);
     --placeholder-3: url(https://cdn.prod.website-files.com/68359b057989673b79f2f2ce/68a7155f21e9b691c00debfb_insight-placeholder-3.avif);
 
-    &:nth-child(2n + 1) {
-        border-right: var(--border);
+    @media screen and (min-width: 479px) {
+        &:nth-child(2n + 1) {
+            border-right: var(--border);
+        }
+
+        &:nth-last-child(n+3) {
+            border-bottom: var(--border);
+        }
     }
 
-    &:nth-last-child(n+3) {
-        border-bottom: var(--border);
+    @media screen and (max-width: 478px) {
+        &:not(:last-child) {
+            border-bottom: var(--border);
+        }
     }
 
     &:nth-child(4n + 2) {
@@ -67,7 +92,9 @@
         background-image: var(--placeholder);
     }
 
-    &:hover .media__insight__button--filled {
-        clip-path: inset(0 0 0 0);
+    @media (hover: hover) {
+        &:hover .media__insight__button--filled {
+            clip-path: inset(0 0 0 0);
+        }
     }
 }

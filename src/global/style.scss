@@ -19,6 +19,14 @@
 
     &__arrow {
         transition: opacity 0.4s ease, transform 0.4s ease;
+
+        &__icon {
+            width: 1.2em;
+
+            @media screen and (max-width: 478px) {
+                width: 1em !important;
+            }
+        }
     }
 
     &.disabled &__arrow {

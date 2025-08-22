@@ -6,8 +6,8 @@
     @media (hover: hover) {
         &:hover {
             .media-button {
-                background-color: transparent;
-                color: var(--glassy-blue);
+                background-color: var(--glassy-blue);
+                color: var(--dark-blue);
             }
         }
     }
