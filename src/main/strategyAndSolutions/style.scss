@@ -50,7 +50,7 @@
                 transition: opacity var(--transition), transform var(--transition);
             }
 
-            &.active {
+            &:hover {
                 color: var(--glassy-blue);
 
                 .solutions__card {

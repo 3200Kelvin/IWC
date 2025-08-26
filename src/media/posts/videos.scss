@@ -1,0 +1,41 @@
+.media__content {
+    .media__entry--video {
+        &.unblocked {
+            .media__video__cover {
+                filter: none;
+            }
+
+            @media (hover: hover) {
+                .media__video__play {
+                    transition: transform var(--transition);
+                }
+
+                &:hover {
+                    .media__video__play {
+                        transform: scale(1.1);
+                    }
+                }
+            }
+        }
+    }
+
+    .media__video {
+        &__cover,
+        &__play {
+            transition: opacity var(--transition);
+        }
+
+        &.playing {
+            .media__video {
+                &__cover {
+                    opacity: 0;
+                    pointer-events: none;
+                }
+
+                &__play {
+                    opacity: 0;
+                }
+            }
+        }
+    }
+}

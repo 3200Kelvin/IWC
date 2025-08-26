@@ -110,6 +110,9 @@ export function getIntersectionObserver(
 
 export const getCleanup = (...cleanups) => {
     return () => cleanups.forEach((cleanup) => {
+        if (cleanup?.cleanup) {
+            return cleanup.cleanup?.();
+        }
         cleanup?.();
     });
 }

@@ -1,0 +1,53 @@
+.media__content {
+    --transition: 0.6s ease;
+}
+
+.media__entry {
+    --border: 1px solid var(--blue-50);
+    --placeholder-1: url(https://cdn.prod.website-files.com/68359b057989673b79f2f2ce/68a7140bd717bba09b97a4d9_insight-placeholder.avif);
+    --placeholder-2: url(https://cdn.prod.website-files.com/68359b057989673b79f2f2ce/68a7155f73f312c5ba4831e9_9eecf32786c68a9d3c09e5df7ed1d893_insight-placeholder-2.avif);
+    --placeholder-3: url(https://cdn.prod.website-files.com/68359b057989673b79f2f2ce/68a7155f21e9b691c00debfb_insight-placeholder-3.avif);
+
+    @media screen and (min-width: 479px) {
+        &:nth-child(2n + 1) {
+            border-right: var(--border);
+        }
+
+        &:nth-last-child(n+3) {
+            border-bottom: var(--border);
+        }
+    }
+
+    @media screen and (max-width: 478px) {
+        &:not(:last-child) {
+            border-bottom: var(--border);
+        }
+    }
+
+    &:nth-child(4n + 2) {
+        --placeholder: var(--placeholder-1);
+    }
+
+    &:nth-child(4n + 3) {
+        --placeholder: var(--placeholder-2);
+    }
+
+    &:nth-child(4n + 4) {
+        --placeholder: var(--placeholder-3);
+    }
+
+    .media__insight__cover__placeholder {
+        background-image: var(--placeholder);
+    }
+}
+
+.media__enter-button {
+    &__content {
+        transition: transform 0.4s ease;
+        transform: translateY(100%);
+    }
+
+    &.shown &__content {
+        transform: translateY(0);
+    }
+}

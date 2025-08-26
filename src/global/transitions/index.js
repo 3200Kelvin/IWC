@@ -82,6 +82,7 @@ export const usePageTransitions = (runScripts = () => {}) => {
         });
         
         barba.hooks.enter((data) => {
+            reloadMemberstack();
             startSctoll();
             runScripts();
             resetWebflow(data);
@@ -116,4 +117,19 @@ function restartAutoplayedVideos() {
             video.play().catch(console.warn);
         }
     });
+}
+
+function reloadMemberstack() {
+    const old = document.querySelector('script[src*="memberstack"]');
+
+    if (old) {
+        const newScript = document.createElement('script');
+
+        for (const attr of old.attributes) {
+            newScript.setAttribute(attr.name, attr.value);
+        }
+        
+        old.remove();
+        document.head.appendChild(newScript);
+    }
 }

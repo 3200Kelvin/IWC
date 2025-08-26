@@ -7,6 +7,7 @@ import { useGradient } from "./meshGradient";
 import { useVideos } from "./videos";
 import { useTextBlur, useTextAppear } from "./textAnimations";
 import { useSafariForceRepaint } from "./forceRepaint";
+import { initYoutubeVideos } from "./youtube";
 
 import { setSmoothScroll } from "../common/smoothScroll/script";
 import { setScrollBarWidthListener } from "../common/blockScroll";
@@ -21,6 +22,7 @@ export const useGlobalOnceScripts = () => {
     setScrollBarWidthListener();
     useMenu(),
     useGradient();
+    initYoutubeVideos();
 };
 
 export const useGlobalScripts = () => {

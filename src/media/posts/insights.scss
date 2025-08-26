@@ -1,0 +1,17 @@
+.media__content {
+    .media__entry {
+        &.unblocked {
+            @media (hover: hover) {
+                .media__insight__image {
+                    transition: var(--transition);
+                }
+
+                &:hover {
+                    .media__insight__image {
+                        transform: scale(1.02);
+                    }
+                }
+            }
+        }
+    }
+}
