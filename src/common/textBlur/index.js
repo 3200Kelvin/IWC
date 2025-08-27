@@ -21,14 +21,14 @@ export const setTextBlur = (element) => {
 
     const STAGGER = 0.005;
 
-    entries.forEach((line, index) => {
-        line.style.setProperty('--delay', `${STAGGER * index}s`);
-    });
-
     let cleanup;
 
     const animate = () => {
         return new Promise((res) => {
+            entries.forEach((line, index) => {
+                line.style.setProperty('--delay', `${STAGGER * index}s`);
+            });
+
             const lastEntry = entries[entries.length - 1];
 
             cleanup = () => {
@@ -57,6 +57,40 @@ export const setTextBlur = (element) => {
         });
     }
 
+    const revert = () => {
+        return new Promise((res) => {
+            entries.forEach((line, index) => {
+                line.style.setProperty('--delay', `0s`);
+            });
+            
+            const lastEntry = entries[entries.length - 1];
+
+            cleanup = () => {
+                lastEntry.removeEventListener('transitionend', onTransitionEnd);
+                cleanup = null;
+            };
+
+            const onTransitionEnd = (event) => {
+                if (event.propertyName === 'opacity') {
+                    element.classList.remove(CLASS_NAMES.TRANSITION);
+
+                    cleanup?.();
+                    res();
+                }
+            };
+
+            lastEntry.addEventListener('transitionend', onTransitionEnd);
+
+            element.classList.add(CLASS_NAMES.TRANSITION);
+
+            setTimeout(() => {
+                entries.forEach((entry) => {
+                    element.classList.remove(CLASS_NAMES.APPEARED);
+                });
+            }, 10)
+        });
+    }
+
     const reset = () => {
         cleanup?.();
 
@@ -64,5 +98,5 @@ export const setTextBlur = (element) => {
         element.classList.add(CLASS_NAMES.BASE);
     }
 
-    return { animate, reset, cleanup };
+    return { animate, revert, reset, cleanup };
 }

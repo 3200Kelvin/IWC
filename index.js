@@ -6,6 +6,8 @@ import { getPageNamespace } from "./src/common/helpers";
 import { useMainPageScripts } from "./src/main";
 import { useAboutPageScripts } from "./src/about";
 import { useMediaPageScripts } from "./src/media";
+import { useSolutionPageScripts } from "./src/solution";
+import { useSignup } from "./src/memberstack/signup";
 
 if (gsap) {
     gsap.defaults({
@@ -35,6 +37,10 @@ function runPageSpecificScript() {
             return useAboutPageScripts();
         case 'media':
             return useMediaPageScripts();
+        case 'solution':
+            return useSolutionPageScripts();
+        case 'signup':
+            return useSignup();
         default:
             return () => {};
     }

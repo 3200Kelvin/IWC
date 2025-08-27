@@ -1,5 +1,6 @@
 import { isTouchscreen } from '../../common/helpers';
 import { getIntersectionObserver } from '../../common/helpers';
+import { useSolutionsCards } from '../../common/solutions';
 
 import './style.scss';
 
@@ -13,6 +14,8 @@ export const useSolutions = () => {
 
     if (isTouchscreen) {
         return useMobileSolutions(cards);
+    } else {
+        return useSolutionsCards();
     }
 };
 

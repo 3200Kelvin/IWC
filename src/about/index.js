@@ -4,7 +4,7 @@ import { useAboutHero } from "./hero";
 import { useStory } from "./story";
 import { useTeam } from "./team";
 import { useTestimonials } from "./testimonials";
-import { useCtaButtons } from "./cta";
+import { useCtaButtons } from "../common/cta";
 
 import './why/style.scss';
 

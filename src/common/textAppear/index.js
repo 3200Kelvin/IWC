@@ -54,6 +54,34 @@ export const setTextAppear = (element) => {
         });
     }
 
+    const revert = () => {
+        return new Promise((res) => {
+            const lastEntry = entries[entries.length - 1];
+
+            cleanup = () => {
+                lastEntry.removeEventListener('transitionend', onTransitionEnd);
+                cleanup = null;
+            };
+
+            const onTransitionEnd = (event) => {
+                if (event.propertyName === 'transform') {
+                    element.classList.remove(CLASS_NAMES.TRANSITION);
+
+                    cleanup?.();
+                    res();
+                }
+            };
+
+            lastEntry.addEventListener('transitionend', onTransitionEnd);
+
+            element.classList.add(CLASS_NAMES.TRANSITION);
+
+            setTimeout(() => {
+                element.classList.remove(CLASS_NAMES.APPEARED);
+            }, 10)
+        });
+    }
+
     const reset = () => {
         cleanup?.();
 
@@ -62,5 +90,5 @@ export const setTextAppear = (element) => {
         });
     }
 
-    return { animate, reset, cleanup };
+    return { animate, revert, reset, cleanup };
 }
