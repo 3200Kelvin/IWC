@@ -4,7 +4,7 @@ import { getIntersectionObserver } from '../../helpers';
 import './style.scss';
 
 export const useSolutionCardsStyle = () => {
-    const solutions = document.querySelector('.solutions');
+    const solutions = document.querySelector('.solutions, .solutions__grid');
     if (!solutions) {
         return;
     }
