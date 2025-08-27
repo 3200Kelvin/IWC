@@ -11,6 +11,7 @@ import { initYoutubeVideos } from "./youtube";
 
 import { setSmoothScroll } from "../common/smoothScroll/script";
 import { setScrollBarWidthListener } from "../common/blockScroll";
+import { useAnalytics } from "./analytics";
 import { getCleanup } from "../common/helpers";
 
 import './style.scss';
@@ -23,6 +24,7 @@ export const useGlobalOnceScripts = () => {
     useMenu(),
     useGradient();
     initYoutubeVideos();
+    useAnalytics();
 };
 
 export const useGlobalScripts = () => {

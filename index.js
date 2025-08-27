@@ -9,6 +9,7 @@ import { useMediaPageScripts } from "./src/media";
 import { useSolutionsPageScripts } from "./src/solutions";
 import { useSolutionPageScripts } from "./src/solution";
 import { useSignup } from "./src/memberstack/signup";
+import { useMembersAreaScripts } from "./src/memberstack/account";
 
 if (gsap) {
     gsap.defaults({
@@ -44,6 +45,8 @@ function runPageSpecificScript() {
             return useSolutionPageScripts();
         case 'signup':
             return useSignup();
+        case 'members-area':
+            return useMembersAreaScripts();
         default:
             return () => {};
     }
