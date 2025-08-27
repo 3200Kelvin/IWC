@@ -6,6 +6,7 @@ import { getPageNamespace } from "./src/common/helpers";
 import { useMainPageScripts } from "./src/main";
 import { useAboutPageScripts } from "./src/about";
 import { useMediaPageScripts } from "./src/media";
+import { useSolutionsPageScripts } from "./src/solutions";
 import { useSolutionPageScripts } from "./src/solution";
 import { useSignup } from "./src/memberstack/signup";
 
@@ -37,6 +38,8 @@ function runPageSpecificScript() {
             return useAboutPageScripts();
         case 'media':
             return useMediaPageScripts();
+        case 'solutions':
+            return useSolutionsPageScripts();
         case 'solution':
             return useSolutionPageScripts();
         case 'signup':

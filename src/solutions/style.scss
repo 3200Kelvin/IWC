@@ -1,0 +1,9 @@
+.solutions__center-container {
+    .solutions__card {
+        @media screen and (min-width: 767px) {
+            &:nth-child(2n) {
+                transform: translateY(20%);
+            }
+        }
+    }
+}

@@ -1,8 +1,7 @@
 import { useHeroAnimation } from "./hero";
 import { useApproachAnimation } from "./approach";
 import { useServicesAnimations } from "./services";
-import { useSolutions } from "./strategyAndSolutions/solutions";
-import { useStrategy } from "./strategyAndSolutions/strategy";
+import { useStrategyAndSolutions } from "./strategyAndSolutions";
 import { getCleanup } from "../common/helpers";
 
 export const useMainPageScripts = () => {
@@ -10,7 +9,6 @@ export const useMainPageScripts = () => {
         useHeroAnimation(),
         useApproachAnimation(),
         useServicesAnimations(),
-        useSolutions(),
-        useStrategy()
+        useStrategyAndSolutions(),
     );
 };

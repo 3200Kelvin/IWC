@@ -1,10 +1,9 @@
-import { isTouchscreen } from '../../common/helpers';
-import { getIntersectionObserver } from '../../common/helpers';
-import { useSolutionsCards } from '../../common/solutions';
+import { isTouchscreen } from '../../helpers';
+import { getIntersectionObserver } from '../../helpers';
 
 import './style.scss';
 
-export const useSolutions = () => {
+export const useSolutionCardsStyle = () => {
     const solutions = document.querySelector('.solutions');
     if (!solutions) {
         return;
@@ -12,14 +11,10 @@ export const useSolutions = () => {
 
     const cards = solutions.querySelectorAll('.solutions__card');
 
-    if (isTouchscreen) {
-        return useMobileSolutions(cards);
-    } else {
-        return useSolutionsCards();
+    if (!isTouchscreen) {
+        return;
     }
-};
-
-function useMobileSolutions(cards) {
+    
     const observer = getIntersectionObserver(25, (entry) => {
         entry.target.classList.add('active');
     }, (entry) => {
@@ -29,4 +24,4 @@ function useMobileSolutions(cards) {
     cards.forEach((card) => observer.observe(card));
 
     return () => observer.disconnect();
-}
+};
