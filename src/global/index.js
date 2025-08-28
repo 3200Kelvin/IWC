@@ -8,6 +8,7 @@ import { useVideos } from "./videos";
 import { useTextBlur, useTextAppear } from "./textAnimations";
 import { useSafariForceRepaint } from "./forceRepaint";
 import { initYoutubeVideos } from "./youtube";
+import { useMembersAreaLinks } from "./membersLinks";
 
 import { setSmoothScroll } from "../common/smoothScroll/script";
 import { setScrollBarWidthListener } from "../common/blockScroll";
@@ -36,5 +37,6 @@ export const useGlobalScripts = () => {
         useFooter(),
         useVideos(),
         useSafariForceRepaint(),
+        useMembersAreaLinks(),
     );
 };
