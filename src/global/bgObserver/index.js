@@ -4,6 +4,11 @@ export const useBgObserver = () => {
     const blocks = document.querySelectorAll('[data-color-change], .approach, .services__end, .strategy-and-solutions');
     const elements = document.querySelectorAll('.fixed-content, .menu a');
 
+    if (!blocks.length) {
+        elements.forEach((element) => toggleBg(element));
+        return;
+    }
+
     const intersectionObservers = [];
 
     const elementObservers = [...elements].map((element, index) => {
@@ -45,8 +50,7 @@ export const useBgObserver = () => {
 
                 const isIntersecting = intersections.size > 0;
                 
-                element.classList.toggle('bg-change', isIntersecting);
-                element.style.removeProperty('color');
+                toggleBg(element, isIntersecting);
             }, { rootMargin: rootMargin, threshold: [0] });
 
             blocks.forEach((block) => observer.observe(block));
@@ -54,6 +58,11 @@ export const useBgObserver = () => {
             intersectionObservers[index] = observer;
         }
     });
+
+    function toggleBg(element, isChanged = false) {
+        element.classList.toggle('bg-change', isChanged);
+        element.style.removeProperty('color');
+    }
 
     function cleanObserver(index) {
         if (intersectionObservers[index]) {
