@@ -2,13 +2,18 @@
     background: var(--gradient-glass, var(--glassy-blue));
 
     &__entry {
-        &__bg {
-            opacity: 0;
-        }
-
         @media (hover: hover) {
-            &__bg {
-                transition: opacity 0.8s ease;
+            &::before {
+                content: '';
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(35deg, transparent 45%, var(--blob-blue) 100%);
+                opacity: 0;
+                transition: opacity 0.5s ease;
             }
 
             &:hover {
@@ -17,8 +22,8 @@
                     color: var(--glassy-blue);
                 }
 
-                .external-media__entry__bg {
-                    opacity: 1;
+                &::before {
+                    opacity: 0.5;
                 }
             }
         }
