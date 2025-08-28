@@ -1,6 +1,6 @@
 import barba from '@barba/core';
 
-import { scrollTo, scrollToAnchor } from '../../common/smoothScroll/script';
+import { scrollTo, scrollToAnchor, getScrollPosition } from '../../common/smoothScroll/script';
 
 const TRANSITION_END_EVENT = 'page-transition-end';
 
@@ -17,8 +17,66 @@ export function sendTransitionEndEvent() {
 
 export const usePageTransitions = (runScripts = () => {}) => {
     const overlay = document.getElementById('page-transition');
+    let scrollPosition = 0;
 
-    const onLeave = () => {
+    try {
+        barba.init({
+            transitions: [
+                {
+                    name: 'transition',
+                    leave(data) {
+                        if (isBack(data)) {
+                            return;
+                        }
+                        return window.leavePageAnimation ? window.leavePageAnimation() : onLeave();
+                    },
+                    enter(data) {
+                        if (isBack(data)) {
+                            return;
+                        }
+                        return window.enterPageAnimation ? window.enterPageAnimation() : onEnter();
+                    }
+                },
+            ]
+        });
+        
+        barba.hooks.beforeLeave((data) => {
+            scrollPosition = getScrollPosition();
+            stopSctoll();
+        });
+        
+        barba.hooks.beforeEnter((data) => {
+            data.current.container.remove();
+            resetScroll();
+            if (!isBack(data)) {
+                scrollTo(0, true);
+            }
+        });
+        
+        barba.hooks.enter((data) => {
+            reloadMemberstack();
+            startSctoll();
+            runScripts();
+            resetWebflow(data);
+            if (isBack(data)) {
+                scrollTo(scrollPosition, true);
+            } else {
+                scrollToAnchor(true);
+            }
+        });
+        
+        barba.hooks.after((data) => {
+            window.leavePageAnimation = null;
+            window.enterPageAnimation = null;
+            if (!isBack(data)) {
+                scrollToAnchor();
+            }
+        });
+    } catch (error) {
+        console.warn('Barba init error', error);
+    }
+
+    function onLeave() {
         if (overlay) {
             window.isTransitioning = true;
             return gsap.timeline().to(overlay, { opacity: 0, display: 'block' }).to(overlay, { opacity: 1, duration: 0.8 });
@@ -26,7 +84,7 @@ export const usePageTransitions = (runScripts = () => {}) => {
         return Promise.resolve();
     };
 
-    const onEnter = () => {
+    function onEnter() {
         if (overlay) {
             return gsap.timeline()
                 .to(overlay, { opacity: 0, duration: 0.8 })
@@ -56,46 +114,8 @@ export const usePageTransitions = (runScripts = () => {}) => {
         }
     }
 
-    try {
-        barba.init({
-            transitions: [
-                {
-                    name: 'transition',
-                    leave() {
-                        return window.leavePageAnimation ? window.leavePageAnimation() : onLeave();
-                    },
-                    enter() {
-                        return window.enterPageAnimation ? window.enterPageAnimation() : onEnter();
-                    }
-                },
-            ]
-        });
-        
-        barba.hooks.beforeLeave((data) => {
-            stopSctoll();
-        });
-        
-        barba.hooks.beforeEnter((data) => {
-            data.current.container.remove();
-            resetScroll();
-            scrollTo(0, true);
-        });
-        
-        barba.hooks.enter((data) => {
-            reloadMemberstack();
-            startSctoll();
-            runScripts();
-            resetWebflow(data);
-            scrollToAnchor(true);
-        });
-        
-        barba.hooks.after((data) => {
-            window.leavePageAnimation = null;
-            window.enterPageAnimation = null;
-            scrollToAnchor();
-        });
-    } catch (error) {
-        console.warn('Barba init error', error);
+    function isBack(data) {
+        return data.trigger === 'back';
     }
 };
 

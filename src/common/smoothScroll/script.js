@@ -21,6 +21,14 @@ export function scrollToAnchor(isInstant = false) {
     }
 }
 
+export const getScrollPosition = () => {
+    if (window.lenis) {
+        return window.lenis.scroll;
+    }
+
+    return window.pageYOffset || document.documentElement.scrollTop;
+}
+
 export const setSmoothScroll = () => {
     if (!window.Lenis) {
         return;
