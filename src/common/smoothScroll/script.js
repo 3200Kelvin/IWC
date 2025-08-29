@@ -13,11 +13,20 @@ export function scrollTo(target, isInstant = false) {
     }
 }
 
-export function scrollToAnchor(isInstant = false) {
+export function scrollToAnchor(hash = null, isInstant = false) {
+    if (hash) {
+        scrollTo(hash, isInstant);
+        return;
+    }
+
     const params = new URL(window.location).searchParams;
     const anchor = params.get('anchor');
+
     if (anchor) {
         scrollTo(`#${anchor}`, isInstant);
+
+        const newUrl = `${window.location.origin}${window.location.pathname}#${anchor}`;
+        history.replaceState(null, "", newUrl);
     }
 }
 

@@ -18,6 +18,7 @@ export function sendTransitionEndEvent() {
 export const usePageTransitions = (runScripts = () => {}) => {
     const overlay = document.getElementById('page-transition');
     let scrollPosition = 0;
+    let hash = null;
 
     try {
         barba.init({
@@ -41,6 +42,7 @@ export const usePageTransitions = (runScripts = () => {}) => {
         });
         
         barba.hooks.beforeLeave((data) => {
+            hash = data.trigger.hash || null;
             scrollPosition = getScrollPosition();
             stopSctoll();
         });
@@ -61,7 +63,7 @@ export const usePageTransitions = (runScripts = () => {}) => {
             if (isBack(data)) {
                 scrollTo(scrollPosition, true);
             } else {
-                scrollToAnchor(true);
+                scrollToAnchor(hash, true);
             }
         });
         
@@ -69,9 +71,13 @@ export const usePageTransitions = (runScripts = () => {}) => {
             window.leavePageAnimation = null;
             window.enterPageAnimation = null;
             if (!isBack(data)) {
-                scrollToAnchor();
+                scrollToAnchor(hash);
             }
+            
+            hash = null;
         });
+
+        scrollToAnchor(location.hash || null, true);
     } catch (error) {
         console.warn('Barba init error', error);
     }
