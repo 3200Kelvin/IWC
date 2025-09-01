@@ -1,15 +1,36 @@
-.solution-hero {
-    &__image__img {
-        opacity: 0;
-        transform: scale(0.85) rotateZ(3deg);
+.solution-start {
+    &__image {
+        &__img {
+            opacity: 0;
+            transform: scale(0.85) rotateZ(3deg);
 
-        &.transition {
-            transition: opacity 1s ease, transform 1s ease;
+            &.transition {
+                transition: opacity 1s ease, transform 1s ease;
+            }
+
+            &.shown {
+                opacity: 1;
+                transform: scale(1) rotateZ(0deg);
+            }
         }
 
-        &.shown {
+        &__sticky {
+            --progress: 0;
+            opacity: calc(1 - var(--progress) / 2);
+            filter: blur(calc(var(--progress) * 5px));
+            transform: rotateZ(calc(-3deg * var(--progress))) scale(calc(1 - var(--progress) / 5));
+        }
+    }
+
+    .solution-hero {
+        &__content__heading {
             opacity: 1;
-            transform: scale(1) rotateZ(0deg);
+            transition: opacity 0.3s ease, filter 0.3s ease;
+
+            &.faded {
+                opacity: 0;
+                filter: blur(5px);
+            }
         }
     }
 }

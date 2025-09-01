@@ -1,33 +1,32 @@
-import { setTextAppear } from "../../common/textAppear";
 import { setTextBlur } from "../../common/textBlur";
 import { useTransitionDelay, getIntersectionObserver } from "../../common/helpers";
 
 import './style.scss';
 
 export const useSolutionHero = () => {
-    const block = document.querySelector('.solution-hero');
+    const block = document.querySelector('.solution-start');
 
     if (!block) {
         return;
     }
 
-    let isFisrtHalf = null;
-
     const heading = block.querySelector('.solution-hero__content__heading');
-    const caption = heading.querySelector('p');
-    const title = heading.querySelector('h1');
 
-    const texts = block.querySelectorAll('.solution-hero__info__text p');
-    const [textTitle, textContent] = texts;
+    const texts = block.querySelector('.solution-tagline__info__text');
+    const [textTitle, textContent] = texts.querySelectorAll('p');;
 
-    const image = block.querySelector('.solution-hero__image');
-    const imageElement = image.querySelector('.solution-hero__image__img');
+    const image = block.querySelector('.solution-start__image__sticky');
+    const imageElement = image.querySelector('.solution-start__image__img');
     imageElement.classList.add('transition');
 
-    const { animate: showTitle, revert: hideTitle, cleanup: cleanupTitle } = setTextAppear(title);
-    const { animate: showCaption, revert: hideCaption, cleanup: cleanupCaption } = setTextAppear(caption);
     const { animate: showTextTitle, revert: hideTextTitle, cleanup: cleanupTextTitle } = setTextBlur(textTitle);
     const { animate: showTextContent, revert: hideTextContent, cleanup: cleanupTextContent } = setTextBlur(textContent);
+
+    const headingObserver = getIntersectionObserver(0, showHeading, hideHeading, { marginTop: 50 });
+    headingObserver.observe(heading);
+
+    const textsObserver = getIntersectionObserver(25, showTexts, hideTexts);
+    textsObserver.observe(texts);
 
     const scrollTrigger = ScrollTrigger.create({
         trigger: block,
@@ -36,27 +35,12 @@ export const useSolutionHero = () => {
         scrub: true,
         onUpdate: (self) => {
             const progress = self.progress.toFixed(2);
-            const newIsFisrtHalf = progress < 0.2;
 
-            if (newIsFisrtHalf !== isFisrtHalf) {
-                isFisrtHalf = newIsFisrtHalf;
-
-                if (isFisrtHalf) {
-                    showFirstHalf();
-                } else {
-                    showSecondHalf();
-                }
-            }
-
-            gsap.to(image, {
-                opacity: 1 - progress / 2,
-                transform: `rotateZ(${-2 * progress}deg) scale(${1 - progress / 10})`,
-            });
+            image.style.setProperty('--progress', progress);
         },
     });
 
     const observer = getIntersectionObserver(0, onIntersecting);
-    observer.observe(block);
 
     function onIntersecting() {
         scrollTrigger.refresh();
@@ -67,28 +51,32 @@ export const useSolutionHero = () => {
     return () => {
         pageListenerCleanup();
         scrollTrigger.kill();
-        cleanupTitle?.();
-        cleanupCaption?.();
         cleanupTextTitle?.();
         cleanupTextContent?.();
         observer.disconnect();
+        headingObserver.disconnect();
+        textsObserver.disconnect();
     };
 
     function initial() {
-        showFirstHalf();
+        observer.observe(block);
         imageElement.classList.add('shown');
     }
 
-    function showFirstHalf() {
-        showTitle();
-        showCaption();
+    function showHeading() {
+        heading.classList.remove('faded');
+    }
+
+    function hideHeading() {
+        heading.classList.add('faded');
+    }
+
+    function hideTexts() {
         hideTextTitle();
         hideTextContent();
     }
 
-    function showSecondHalf() {
-        hideTitle();
-        hideCaption();
+    function showTexts() {
         showTextTitle();
         showTextContent();
     }
