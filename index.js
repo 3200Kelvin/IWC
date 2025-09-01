@@ -5,7 +5,7 @@ import { getPageNamespace } from "./src/common/helpers";
 
 import { useMainPageScripts } from "./src/main";
 import { useAboutPageScripts } from "./src/about";
-import { useMediaPageScripts } from "./src/media";
+import { useMediaPageScripts, useIntelligencePageScripts } from "./src/media";
 import { useSolutionsPageScripts } from "./src/solutions";
 import { useSolutionPageScripts } from "./src/solution";
 import { useSignup } from "./src/memberstack/signup";
@@ -47,6 +47,8 @@ function runPageSpecificScript() {
             return useSignup();
         case 'members-area':
             return useMembersAreaScripts();
+        case 'intelligence':
+            return useIntelligencePageScripts();
         default:
             return () => {};
     }

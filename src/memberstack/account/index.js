@@ -12,7 +12,7 @@ export const useMembersAreaScripts = () => {
     getUserData().then((data) => {
         const subscription = getUserSubscriptionData(data);
 
-        if (subscription) {
+        if (subscription && subscription.type !== 'FREE') {
             const nextBillingDate = new Date(subscription.payment.nextBillingDate * 1000);
 
             nextWithdrawalElement.textContent = nextBillingDate.toLocaleDateString("en-US", {

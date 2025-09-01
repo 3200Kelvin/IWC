@@ -1,12 +1,44 @@
-import { getUserData, getIsUserSubscribed, PAGES } from "../../common/memberstack";
+import { getUserData, getIsUserSubscribed } from "../../common/memberstack";
 import { useTooltip } from "../../common/tooltip";
 import { isTouchscreen } from "../../common/helpers";
-import { useYoutubeVideo } from "../../common/youtube";
+import { usePostVideo } from "./videos";
 
 import './block.scss';
 import './common.scss';
 import './insights.scss';
-import './videos.scss';
+
+export const useIntelligencePosts = () => {
+    const media = document.querySelector('.media');
+
+    if (!media) {
+        return;
+    }
+    
+    const cleanups = [];
+
+    const posts = media.querySelectorAll('.media__content [data-gated-post="post"]');
+
+    posts.forEach((post) => {
+        post.classList.add('unblocked');
+        checkPostVideo(post);
+    });
+
+    return () => {
+        cleanups.forEach(cleanup => cleanup?.());
+    };
+
+    async function checkPostVideo(post) {
+        const videoWrapper = post.querySelector('[data-youtube-video="container"]');
+
+        if (!videoWrapper) {
+            return;
+        }
+
+        const cleanup = await usePostVideo(post);
+        cleanups.push(cleanup);
+    }
+};
+
 
 export const useMediaPosts = () => {
     const media = document.querySelector('.media');
@@ -70,38 +102,8 @@ export const useMediaPosts = () => {
             return;
         }
 
-        let isPlaying = false;
-        
-        const {
-            play,
-            pause,
-            cleanup,
-        } = await useYoutubeVideo(videoWrapper, onPlay, onPause);
-
-        post.addEventListener('click', onCardClick);
-
-        cleanups.push(() => {
-            cleanup();
-            post.removeEventListener('click', play);
-        });
-
-        function onCardClick() {
-            if (isPlaying) {
-                pause();
-            } else {
-                play();
-            }
-        }
-
-        function onPlay() {
-            isPlaying = true;
-            videoWrapper.classList.add('playing');
-        }
-
-        function onPause() {
-            isPlaying = false;
-            videoWrapper.classList.remove('playing');
-        }
+        const cleanup = await usePostVideo(post);
+        cleanups.push(cleanup);
     }
 
     function setPostLink(post, shouldUnlock = false) {
