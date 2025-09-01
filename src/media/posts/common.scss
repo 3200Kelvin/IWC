@@ -1,4 +1,10 @@
 .media__content {
+    --card-bg: transparent;
+    
+    &--gated {
+        --card-bg: var(--blue-ish);
+    }
+
     [data-gated-post="opened"] {
         display: none;
     }
@@ -22,6 +28,8 @@
     }
 
     .media__entry {
+        background-color: var(--card-bg);
+
         &.unblocked {
             cursor: pointer;
             background-color: transparent;
