@@ -1,4 +1,4 @@
-import { getIntersectionObserver } from '../../../common/helpers';
+import { getScrollTriggerRefresh } from '../../../common/helpers';
 
 import './style.scss';
 
@@ -33,15 +33,10 @@ export const useTestimonialsDesktop = (block, entries) => {
         },
     });
 
-    const observer = getIntersectionObserver(0, onIntersecting);
-    observer.observe(block);
-
-    function onIntersecting() {
-        scrollTrigger.refresh();
-    }
+    const triggerRefreshCleanup = getScrollTriggerRefresh(block, scrollTrigger);
 
     return () => {
         scrollTrigger.kill();
-        observer.disconnect();
+        triggerRefreshCleanup?.();
     };
 };

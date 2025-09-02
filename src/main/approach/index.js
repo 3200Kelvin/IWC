@@ -1,5 +1,5 @@
 import { setTextBlur } from "../../common/textBlur";
-import { getCleanup } from "../../common/helpers";
+import { getCleanup, getScrollTriggerRefresh } from "../../common/helpers";
 
 import './style.scss';
 
@@ -58,9 +58,12 @@ export const useApproachAnimation = () => {
             },
         });
 
+        const triggerRefreshCleanup = getScrollTriggerRefresh(block, scrollTrigger);
+
         return () => {
             scrollTrigger.kill();
             cleanup?.();
+            triggerRefreshCleanup?.();
         }
     };
 

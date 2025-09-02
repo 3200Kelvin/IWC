@@ -1,4 +1,4 @@
-import { getIntersectionObserver, getIsDesktop } from '../../helpers';
+import { getScrollTriggerRefresh, getIsDesktop } from '../../helpers';
 
 import './style.scss';
 
@@ -26,16 +26,11 @@ export const useSolutionsCardsShift = () => {
         },
     });
 
-    const observer = getIntersectionObserver(0, onIntersecting);
-    observer.observe(block);
-
-    function onIntersecting() {
-        scrollTrigger.refresh();
-    }
+    const triggerRefreshCleanup = getScrollTriggerRefresh(block, scrollTrigger);
 
     return () => {
         resizeObserver.disconnect();
-        observer.disconnect();
+        triggerRefreshCleanup?.();
         scrollTrigger.kill();
     };
     

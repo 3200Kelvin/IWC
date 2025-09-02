@@ -108,6 +108,14 @@ export function getIntersectionObserver(
     return observer;
 }
 
+export function getScrollTriggerRefresh(block, scrollTrigger) {
+    const observer = getIntersectionObserver(0, () => scrollTrigger.refresh());
+
+    observer.observe(block);
+
+    return () => observer.disconnect();
+}
+
 export const getCleanup = (...cleanups) => {
     return () => cleanups.forEach((cleanup) => {
         if (cleanup?.cleanup) {

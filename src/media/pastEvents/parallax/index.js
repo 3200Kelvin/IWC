@@ -1,4 +1,4 @@
-import { getIntersectionObserver } from '../../../common/helpers';
+import { getScrollTriggerRefresh } from '../../../common/helpers';
 
 import './style.scss';
 
@@ -15,15 +15,10 @@ export const usePastEventsParallax = (block) => {
         },
     });
 
-    const observer = getIntersectionObserver(0, onIntersecting);
-    observer.observe(block);
+    const triggerRefreshCleanup = getScrollTriggerRefresh(block, scrollTrigger);
 
     return () => {
         scrollTrigger.kill();
-        observer.disconnect();
+        triggerRefreshCleanup?.();
     };
-
-    function onIntersecting() {
-        scrollTrigger.refresh();
-    }
 };

@@ -1,5 +1,5 @@
 import { setTextBlur } from "../../common/textBlur";
-import { useTransitionDelay, getIntersectionObserver } from "../../common/helpers";
+import { useTransitionDelay, getIntersectionObserver, getScrollTriggerRefresh } from "../../common/helpers";
 
 import './style.scss';
 
@@ -40,11 +40,7 @@ export const useSolutionHero = () => {
         },
     });
 
-    const observer = getIntersectionObserver(0, onIntersecting);
-
-    function onIntersecting() {
-        scrollTrigger.refresh();
-    }
+    const triggerRefreshCleanup = getScrollTriggerRefresh(block, scrollTrigger);
 
     const pageListenerCleanup = useTransitionDelay(initial);
 
@@ -53,13 +49,12 @@ export const useSolutionHero = () => {
         scrollTrigger.kill();
         cleanupTextTitle?.();
         cleanupTextContent?.();
-        observer.disconnect();
+        triggerRefreshCleanup?.();
         headingObserver.disconnect();
         textsObserver.disconnect();
     };
 
     function initial() {
-        observer.observe(block);
         imageElement.classList.add('shown');
     }
 

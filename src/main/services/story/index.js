@@ -1,4 +1,4 @@
-import { isTouchscreen, getIsMobile } from '../../../common/helpers';
+import { isTouchscreen, getScrollTriggerRefresh } from '../../../common/helpers';
 import { IMAGE_TRANSLATION, TRANSFORM, IMAGE_FILTER, DEFAULT_DURATION } from "./common";
 import { useServicesMobileStory } from './mobile';
 
@@ -55,20 +55,6 @@ export const useServicesStory = (block) => {
             }
         },
     });
-
-    // const textAnimationDuration = 2 * DEFAULT_DURATION / END.heading.length;
-
-    // const animateEndTexts = gsap.timeline()
-    //     .to({}, { duration: DEFAULT_DURATION / 4 })
-    //     .add('bg-change')
-    //     .to(END.bg, { opacity: 1, duration: DEFAULT_DURATION / 4 }, 'bg-change')
-    //     .to(END.image, { opacity: 1, duration: DEFAULT_DURATION / 4 }, 'bg-change')
-    //     .add('texts')
-    //     .to(END.logo, { opacity: 1, transform: 'scale(1)', duration: DEFAULT_DURATION / 4 })
-    //     .to(END.heading, { opacity: 1, filter: IMAGE_FILTER.ZERO, duration: textAnimationDuration, stagger: 0.1 / END.heading.length }, 'texts')
-    //     .to(END.text, { opacity: 1, filter: IMAGE_FILTER.ZERO, duration: textAnimationDuration, stagger: 0.1 / END.text.length }, 'texts')
-    //     .to(END.tagline, { opacity: 1, filter: IMAGE_FILTER.ZERO, duration: DEFAULT_DURATION / END.tagline.length, stagger: 0.1 / END.tagline.length })
-    //     .to({}, { duration: DEFAULT_DURATION / 2 });
 
     function showEndBlock() {
         const textAnimationDuration = 2 * DEFAULT_DURATION / END.heading.length;
@@ -185,7 +171,8 @@ export const useServicesStory = (block) => {
         .set(Object.values(ORGANS), {
             willChange: '',
         });
-        // .add(animateEndTexts);
+
+    const triggerRefreshCleanup = getScrollTriggerRefresh(block, timeline.scrollTrigger);
 
     const imagesLoadedPromises = [...images].map((image) => {
         if (image.complete) {
@@ -206,6 +193,7 @@ export const useServicesStory = (block) => {
     return () => {
         timeline.kill();
         endBlockTrigger.kill();
+        triggerRefreshCleanup?.();
     };
 
     function getSplitText(element) {

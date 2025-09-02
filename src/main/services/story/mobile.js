@@ -1,4 +1,5 @@
 import { IMAGE_TRANSLATION, TRANSFORM, IMAGE_FILTER, DEFAULT_DURATION } from "./common";
+import { getScrollTriggerRefresh } from "../../../common/helpers";
 
 export const useServicesMobileStory = (block, END) => {
     const steps = block.querySelectorAll('.services__step, .services__end');
@@ -228,7 +229,12 @@ export const useServicesMobileStory = (block, END) => {
             },
         });
 
-        return () => scrollTrigger.kill();
+        const triggerRefreshCleanup = getScrollTriggerRefresh(block, scrollTrigger);
+
+        return () => {
+            scrollTrigger.kill();
+            triggerRefreshCleanup?.();
+        };
     });
 
     return () => {
