@@ -30,7 +30,10 @@ export const useTabs = (block) => {
 
     function setTab(id) {
         if (!active) {
-            groups[id].tab.style.setProperty('display', 'block');
+            Object.entries(groups)
+                .filter(([ groupId ]) => groupId !== id)
+                .forEach(([groupId, { tab }]) => (tab.style.display = 'none'));
+
             groups[id].trigger.classList.add('active');
             active = id;
             return;
