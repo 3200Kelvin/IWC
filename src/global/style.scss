@@ -10,6 +10,10 @@
     }
 }
 
+.white-bg--gradient {
+    background: var(--gradient-glass, var(--glassy-white));
+}
+
 .arrow-button {
     --shift: 0.6em;
 

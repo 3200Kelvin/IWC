@@ -1,4 +1,11 @@
 (function useVersion() {
+    const PROD_ORIGIN = 'https://www.iwcglobal.net';
+
+    if (window.location.origin === PROD_ORIGIN) {
+        setProdScripts();
+        return;
+    }
+
     const SESSION_STORAGE_KEY = 'is-dev';
 
     const isStoredDev = sessionStorage.getItem(SESSION_STORAGE_KEY) === 'true';
@@ -29,22 +36,33 @@
     function setStagingScripts() {
         const timestamp = new Date().getTime();
 
+        const script = getScript(`https://3200kelvin.github.io/IWC/dist/index.js?v=${timestamp}`);
+        const style1 = getStyle(`https://3200kelvin.github.io/IWC/dist/index.css?v=${timestamp}`);
+
+        appendElement([script, style1]);
+    }
+
+    function setProdScripts() {
+        const script = getScript('https://d11zn3tymphkat.cloudfront.net/index.js');
+        const style1 = getStyle('https://d11zn3tymphkat.cloudfront.net/index.css');
+
+        appendElement([script, style1]);
+    }
+
+    function getScript(src) {
         const script = document.createElement('script');
         script.type = 'module';
         script.defer = true;
-        script.src = `https://3200kelvin.github.io/IWC/dist/index.js?v=${timestamp}`;
+        script.src = src;
+        return script;
+    }
 
-        const style1 = document.createElement('link');
-        style1.type = 'text/css';
-        style1.rel = 'stylesheet';
-        style1.href = `https://3200kelvin.github.io/IWC/dist/index.css?v=${timestamp}`;
-
-        const style2 = document.createElement('link');
-        style2.type = 'text/css';
-        style2.rel = 'stylesheet';
-        style2.href = `https://3200kelvin.github.io/IWC/dist/index2.css?v=${timestamp}`;
-
-        appendElement([script, style1, style2]);
+    function getStyle(src) {
+        const style = document.createElement('link');
+        style.type = 'text/css';
+        style.rel = 'stylesheet';
+        style.href = src;
+        return style;
     }
 
     function appendElement(elements) {
