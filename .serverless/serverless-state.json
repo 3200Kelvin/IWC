@@ -136,6 +136,35 @@
               }
             }
           },
+          "CorsResponseHeadersPolicy": {
+            "Type": "AWS::CloudFront::ResponseHeadersPolicy",
+            "Properties": {
+              "ResponseHeadersPolicyConfig": {
+                "Name": "AllowAllCORS",
+                "CorsConfig": {
+                  "AccessControlAllowCredentials": false,
+                  "AccessControlAllowOrigins": {
+                    "Items": [
+                      "*"
+                    ]
+                  },
+                  "AccessControlAllowMethods": {
+                    "Items": [
+                      "GET",
+                      "HEAD",
+                      "OPTIONS"
+                    ]
+                  },
+                  "AccessControlAllowHeaders": {
+                    "Items": [
+                      "*"
+                    ]
+                  },
+                  "OriginOverride": true
+                }
+              }
+            }
+          },
           "WebAppCloudFrontDistribution": {
             "Type": "AWS::CloudFront::Distribution",
             "Properties": {
@@ -179,24 +208,21 @@
                     "OPTIONS"
                   ],
                   "ForwardedValues": {
-                    "Headers": [
-                      "Access-Control-Request-Headers",
-                      "Access-Control-Request-Method",
-                      "Access-Control-Allowed-Origin",
-                      "Access-Control-Allow-Methods",
-                      "Access-Control-Max-Age",
-                      "Origin",
-                      "Authorization"
-                    ],
                     "QueryString": false,
                     "Cookies": {
                       "Forward": "none"
-                    }
+                    },
+                    "Headers": [
+                      "Origin"
+                    ]
                   },
                   "TargetOriginId": "myS3Origin",
                   "ViewerProtocolPolicy": "redirect-to-https",
                   "Compress": true,
-                  "DefaultTTL": 0
+                  "DefaultTTL": 0,
+                  "ResponseHeadersPolicyId": {
+                    "Ref": "CorsResponseHeadersPolicy"
+                  }
                 },
                 "ViewerCertificate": {
                   "CloudFrontDefaultCertificate": true
@@ -386,6 +412,35 @@
             }
           }
         },
+        "CorsResponseHeadersPolicy": {
+          "Type": "AWS::CloudFront::ResponseHeadersPolicy",
+          "Properties": {
+            "ResponseHeadersPolicyConfig": {
+              "Name": "AllowAllCORS",
+              "CorsConfig": {
+                "AccessControlAllowCredentials": false,
+                "AccessControlAllowOrigins": {
+                  "Items": [
+                    "*"
+                  ]
+                },
+                "AccessControlAllowMethods": {
+                  "Items": [
+                    "GET",
+                    "HEAD",
+                    "OPTIONS"
+                  ]
+                },
+                "AccessControlAllowHeaders": {
+                  "Items": [
+                    "*"
+                  ]
+                },
+                "OriginOverride": true
+              }
+            }
+          }
+        },
         "WebAppCloudFrontDistribution": {
           "Type": "AWS::CloudFront::Distribution",
           "Properties": {
@@ -429,24 +484,21 @@
                   "OPTIONS"
                 ],
                 "ForwardedValues": {
-                  "Headers": [
-                    "Access-Control-Request-Headers",
-                    "Access-Control-Request-Method",
-                    "Access-Control-Allowed-Origin",
-                    "Access-Control-Allow-Methods",
-                    "Access-Control-Max-Age",
-                    "Origin",
-                    "Authorization"
-                  ],
                   "QueryString": false,
                   "Cookies": {
                     "Forward": "none"
-                  }
+                  },
+                  "Headers": [
+                    "Origin"
+                  ]
                 },
                 "TargetOriginId": "myS3Origin",
                 "ViewerProtocolPolicy": "redirect-to-https",
                 "Compress": true,
-                "DefaultTTL": 0
+                "DefaultTTL": 0,
+                "ResponseHeadersPolicyId": {
+                  "Ref": "CorsResponseHeadersPolicy"
+                }
               },
               "ViewerCertificate": {
                 "CloudFrontDefaultCertificate": true
@@ -493,7 +545,7 @@
     "isDashboardMonitoringPreconfigured": false
   },
   "package": {
-    "artifactDirectoryName": "serverless/integrated-wealthcare/prod/1757008063988-2025-09-04T17:47:43.988Z",
+    "artifactDirectoryName": "serverless/integrated-wealthcare/prod/1757009487715-2025-09-04T18:11:27.715Z",
     "artifact": ""
   }
 }

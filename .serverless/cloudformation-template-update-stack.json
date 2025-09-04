@@ -123,6 +123,35 @@
         }
       }
     },
+    "CorsResponseHeadersPolicy": {
+      "Type": "AWS::CloudFront::ResponseHeadersPolicy",
+      "Properties": {
+        "ResponseHeadersPolicyConfig": {
+          "Name": "AllowAllCORS",
+          "CorsConfig": {
+            "AccessControlAllowCredentials": false,
+            "AccessControlAllowOrigins": {
+              "Items": [
+                "*"
+              ]
+            },
+            "AccessControlAllowMethods": {
+              "Items": [
+                "GET",
+                "HEAD",
+                "OPTIONS"
+              ]
+            },
+            "AccessControlAllowHeaders": {
+              "Items": [
+                "*"
+              ]
+            },
+            "OriginOverride": true
+          }
+        }
+      }
+    },
     "WebAppCloudFrontDistribution": {
       "Type": "AWS::CloudFront::Distribution",
       "Properties": {
@@ -166,24 +195,21 @@
               "OPTIONS"
             ],
             "ForwardedValues": {
-              "Headers": [
-                "Access-Control-Request-Headers",
-                "Access-Control-Request-Method",
-                "Access-Control-Allowed-Origin",
-                "Access-Control-Allow-Methods",
-                "Access-Control-Max-Age",
-                "Origin",
-                "Authorization"
-              ],
               "QueryString": false,
               "Cookies": {
                 "Forward": "none"
-              }
+              },
+              "Headers": [
+                "Origin"
+              ]
             },
             "TargetOriginId": "myS3Origin",
             "ViewerProtocolPolicy": "redirect-to-https",
             "Compress": true,
-            "DefaultTTL": 0
+            "DefaultTTL": 0,
+            "ResponseHeadersPolicyId": {
+              "Ref": "CorsResponseHeadersPolicy"
+            }
           },
           "ViewerCertificate": {
             "CloudFrontDefaultCertificate": true
