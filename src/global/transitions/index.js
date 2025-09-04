@@ -70,7 +70,9 @@ export const usePageTransitions = (runScripts = () => {}) => {
         barba.hooks.after((data) => {
             window.leavePageAnimation = null;
             window.enterPageAnimation = null;
-            if (!isBack(data)) {
+            if (isBack(data)) {
+                scrollTo(scrollPosition, true);
+            } else {
                 scrollToAnchor(hash);
             }
             

@@ -154,22 +154,28 @@ export const useTeamPopup = (block) => {
             card: member.querySelector('.team-member__card'),
             person: member.querySelector('.team-member__person'),
             emailLink,
-            emailLabel: emailLink.querySelector('p'),
+            emailLabel: emailLink?.querySelector('p'),
             phoneLink,
-            phoneLabel: phoneLink.querySelector('p'),
+            phoneLabel: phoneLink?.querySelector('p'),
             linkedinLink,
-            linkedinLabel: linkedinLink.querySelector('p'),
+            linkedinLabel: linkedinLink?.querySelector('p'),
             content: member.querySelector('.team-member__content'),
         }
     }
 
     function changePersonCardData(oldCard, newCard) {
         oldCard.person.innerHTML = newCard.person.innerHTML;
-        oldCard.emailLink.setAttribute('href', newCard.emailLink.getAttribute('href'));
-        oldCard.emailLabel.textContent = newCard.emailLabel.textContent;
-        oldCard.phoneLink.setAttribute('href', newCard.phoneLink.getAttribute('href'));
-        oldCard.phoneLabel.textContent = newCard.phoneLabel.textContent;
-        oldCard.linkedinLink.setAttribute('href', newCard.linkedinLink.getAttribute('href'));
-        oldCard.linkedinLabel.textContent = newCard.linkedinLabel.textContent;
+        if (oldCard.emailLink) {
+            oldCard.emailLink.setAttribute('href', newCard.emailLink.getAttribute('href'));
+            oldCard.emailLabel.textContent = newCard.emailLabel.textContent;
+        }
+        if (oldCard.phoneLink) {
+            oldCard.phoneLink.setAttribute('href', newCard.phoneLink.getAttribute('href'));
+            oldCard.phoneLabel.textContent = newCard.phoneLabel.textContent;
+        }
+        if (oldCard.linkedinLink) {
+            oldCard.linkedinLink.setAttribute('href', newCard.linkedinLink.getAttribute('href'));
+            oldCard.linkedinLabel.textContent = newCard.linkedinLabel.textContent;
+        }
     }
 };

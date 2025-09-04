@@ -1,13 +1,17 @@
-import { getUserData, PAGES } from "../../common/memberstack";
+import { getUserData, getIsUserSubscribed, PAGES } from "../../common/memberstack";
 
 export const useMembersAreaLinks = () => {
     getUserData().then((data) => {
-        replaceLinks(!!data);
+        replaceLinks(data);
     });
 
-    function replaceLinks(isLoggedIn = false) {
-        if (isLoggedIn) {
+    function replaceLinks(userData = null) {
+        if (!!userData) {
             setMembersAreaLinks();
+
+            if (getIsUserSubscribed(userData)) {
+                setIntelligenceLinks();
+            }
         } else {
             setLoginLinks();
         }
@@ -18,8 +22,13 @@ export const useMembersAreaLinks = () => {
         setLinks(loginLinks, PAGES.MEMBERS_AREA);
     }
 
+    function setIntelligenceLinks() {
+        const intelligenceLinks = document.querySelectorAll(`a[data-link="INTELLIGENCE"]`);
+        setLinks(intelligenceLinks, PAGES.INTELLIGENCE);
+    }
+
     function setLoginLinks() {
-        const membersAreaLinks = document.querySelectorAll(`a[href="${PAGES.MEMBERS_AREA}"]`);
+        const membersAreaLinks = document.querySelectorAll(`a[href="${PAGES.MEMBERS_AREA}"], a[href="${PAGES.INTELLIGENCE}"]`);
         setLinks(membersAreaLinks, PAGES.LOGIN);
     }
 

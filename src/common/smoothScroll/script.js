@@ -1,6 +1,7 @@
 // import Lenis from 'lenis';
 
 export function scrollTo(target, isInstant = false) {
+    console.log(target);
     if (window.lenis) {
         window.lenis.scrollTo(target, { immediate: isInstant, force: isInstant });
         return;

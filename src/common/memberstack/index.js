@@ -19,4 +19,5 @@ export const PAGES = {
     LOGIN: '/members/login',
     SIGNUP: '/members/signup',
     MEMBERS_AREA: '/members-area',
+    INTELLIGENCE: '/curated-intelligence',
 };
