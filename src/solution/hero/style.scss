@@ -17,7 +17,6 @@
         &__sticky {
             --progress: 0;
             opacity: calc(1 - var(--progress) / 2);
-            filter: blur(calc(var(--progress) * 5px));
             transform: rotateZ(calc(-3deg * var(--progress))) scale(calc(1 - var(--progress) / 5));
         }
     }
