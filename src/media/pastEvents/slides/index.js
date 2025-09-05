@@ -4,6 +4,10 @@ export const usePastEventsSlides = (block) => {
     const slides = block.querySelectorAll('.past-events__event');
     const [prevbtn, nextBtn] = block.querySelectorAll('.arrow-button');
 
+    if (!prevbtn || !nextBtn) {
+        return;
+    }
+
     let current = 0;
     slides[0].classList.add('active');
 

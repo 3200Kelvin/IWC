@@ -10,6 +10,7 @@ import { useSolutionsPageScripts } from "./src/solutions";
 import { useSolutionPageScripts } from "./src/solution";
 import { useSignup } from "./src/memberstack/signup";
 import { useMembersAreaScripts } from "./src/memberstack/account";
+import { useArticlePageScripts } from "./src/article";
 
 if (gsap) {
     gsap.defaults({
@@ -49,6 +50,8 @@ function runPageSpecificScript() {
             return useMembersAreaScripts();
         case 'intelligence':
             return useIntelligencePageScripts();
+        case 'article':
+            return useArticlePageScripts();
         default:
             return () => {};
     }
