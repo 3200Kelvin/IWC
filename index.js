@@ -8,6 +8,7 @@ import { useAboutPageScripts } from "./src/about";
 import { useMediaPageScripts, useIntelligencePageScripts } from "./src/media";
 import { useSolutionsPageScripts } from "./src/solutions";
 import { useSolutionPageScripts } from "./src/solution";
+import { useContactPageScripts } from "./src/contact";
 import { useSignup } from "./src/memberstack/signup";
 import { useMembersAreaScripts } from "./src/memberstack/account";
 import { useArticlePageScripts } from "./src/article";
@@ -44,6 +45,8 @@ function runPageSpecificScript() {
             return useSolutionsPageScripts();
         case 'solution':
             return useSolutionPageScripts();
+        case 'contact':
+            return useContactPageScripts();
         case 'signup':
             return useSignup();
         case 'members-area':

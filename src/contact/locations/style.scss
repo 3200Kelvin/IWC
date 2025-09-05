@@ -1,0 +1,18 @@
+.hero--contact {
+    .contact__locations-positions {
+        --delay: 0s;
+        opacity: 0;
+    }
+
+    &.transition {
+        .contact__locations-positions {
+            transition: opacity 0.75s ease var(--delay);
+        }
+    }
+
+    &.appeared {
+        .contact__locations-positions {
+            opacity: 1;
+        }
+    }
+}
