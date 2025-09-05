@@ -1,4 +1,4 @@
-import { getIsMobile } from '../../../common/helpers';
+import { getIsMobile, getIsDesktop } from '../../../common/helpers';
 
 export const LINE_TOP_OFFSET = getIsMobile() ? 50 : 85;
 
@@ -11,7 +11,7 @@ export const useServicesLine = (block) => {
             trigger: line,
             start: `top ${LINE_TOP_OFFSET}%`,
             end: `bottom ${LINE_TOP_OFFSET}%`,
-            scrub: 0.5
+            scrub: getIsDesktop() ? 0.5 : 1,
         },
     })
         .fromTo(glow, { scaleY: 0 }, { scaleY: 1, duration: 1, ease: 'none' });

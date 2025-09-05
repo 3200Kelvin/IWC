@@ -1,5 +1,5 @@
 import { blockScroll, unblockScroll } from "../../common/blockScroll";
-import { getIsMobile } from "../../common/helpers";
+import { getIsDesktop } from "../../common/helpers";
 
 import './style.scss';
 
@@ -115,21 +115,21 @@ export const useMenu = () => {
     }
 
     function showMenu(timeline) {
-        if (getIsMobile()) {
-            timeline.fromTo(menu, { display: 'block', opacity: 0, pointerEvents: 'none' }, { opacity: 1, pointerEvents: 'auto', duration: ANIMATION_TIME_MOBILE });
-        } else {
+        if (getIsDesktop()) {
             timeline.fromTo(menu, { display: 'block', transform: 'translateX(100%)' }, { transform: 'translateX(0%)', duration: ANIMATION_TIME });
+        } else {
+            timeline.fromTo(menu, { display: 'block', opacity: 0, pointerEvents: 'none' }, { opacity: 1, pointerEvents: 'auto', duration: ANIMATION_TIME_MOBILE });
         }
     }
 
     function hideMenu(timeline) {
-        if (getIsMobile()) {
+        if (getIsDesktop()) {
             timeline
-                .to(menu, { opacity: 0, pointerEvents: 'none', duration: ANIMATION_TIME_MOBILE })
+                .to(menu, { transform: 'translateX(100%)', duration: ANIMATION_TIME })
                 .to(menu, { display: 'none' });
         } else {
             timeline
-                .to(menu, { transform: 'translateX(100%)', duration: ANIMATION_TIME })
+                .to(menu, { opacity: 0, pointerEvents: 'none', duration: ANIMATION_TIME_MOBILE })
                 .to(menu, { display: 'none' });
         }
     }
