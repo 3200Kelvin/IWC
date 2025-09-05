@@ -81,7 +81,7 @@
     }
 
     .menu__link {
-        @for $i from 1 through 5 {
+        @for $i from 1 through 8 {
             &:nth-child(#{$i}) {
                 .heading--nav-link {
                     &.transition {
