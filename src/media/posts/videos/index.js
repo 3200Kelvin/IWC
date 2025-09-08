@@ -5,13 +5,12 @@ import './style.scss';
 export async function usePostVideo(post) {
     const videoWrapper = post.querySelector('[data-youtube-video="container"]');
 
-    let isPlaying = false;
-    
     const {
         play,
         pause,
+        getIsPlaying,
         cleanup,
-    } = await useYoutubeVideo(videoWrapper, onPlay, onPause);
+    } = await useYoutubeVideo(videoWrapper);
 
     post.addEventListener('click', onCardClick);
 
@@ -21,20 +20,10 @@ export async function usePostVideo(post) {
     };
 
     function onCardClick() {
-        if (isPlaying) {
+        if (getIsPlaying()) {
             pause();
         } else {
             play();
         }
-    }
-
-    function onPlay() {
-        isPlaying = true;
-        videoWrapper.classList.add('playing');
-    }
-
-    function onPause() {
-        isPlaying = false;
-        videoWrapper.classList.remove('playing');
     }
 }

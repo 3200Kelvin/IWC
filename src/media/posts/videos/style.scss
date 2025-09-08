@@ -18,24 +18,4 @@
             }
         }
     }
-
-    .media__video {
-        &__cover,
-        &__play {
-            transition: opacity var(--transition);
-        }
-
-        &.playing {
-            .media__video {
-                &__cover {
-                    opacity: 0;
-                    pointer-events: none;
-                }
-
-                &__play {
-                    opacity: 0;
-                }
-            }
-        }
-    }
 }

@@ -1,6 +1,9 @@
+import { getIntersectionObserver } from "../helpers";
 import { YT_READY_EVENT_NAME } from "../../global/youtube";
 
 const YT_PLAY_EVENT_NAME = 'YT_PLAY';
+
+import './style.scss';
 
 export const useYoutubeVideo = async (wrapper, onPlay = () => {}, onPause = () => {}) => {
     const placeholder = wrapper.querySelector('[data-youtube-video="placeholder"]');
@@ -9,11 +12,13 @@ export const useYoutubeVideo = async (wrapper, onPlay = () => {}, onPause = () =
     const videoId = getVideoId(src);
 
     const YT = await waitForYT();
+    const intersectionObserver = getIntersectionObserver(0, () => {}, pause);
 
     placeholder.id = videoId;
     const playEvent = new CustomEvent(YT_PLAY_EVENT_NAME, { detail: { videoId } });
 
     document.addEventListener(YT_PLAY_EVENT_NAME, onPlayEvent);
+    intersectionObserver.observe(wrapper);
 
     const player = new YT.Player(videoId, {
         height: '390',
@@ -30,6 +35,7 @@ export const useYoutubeVideo = async (wrapper, onPlay = () => {}, onPause = () =
     return {
         play,
         pause,
+        getIsPlaying,
         cleanup,
     };
 
@@ -48,6 +54,7 @@ export const useYoutubeVideo = async (wrapper, onPlay = () => {}, onPause = () =
     function cleanup() {
         player.destroy();
         document.removeEventListener(YT_PLAY_EVENT_NAME, onPlayEvent);
+        intersectionObserver.disconnect();
     }
 
     function play() {
@@ -55,14 +62,20 @@ export const useYoutubeVideo = async (wrapper, onPlay = () => {}, onPause = () =
     }
 
     function pause() {
-        player.pauseVideo();
+        player?.pauseVideo?.();
+    }
+
+    function getIsPlaying() {
+        return player?.getPlayerState?.() === YT.PlayerState.PLAYING;
     }
 
     function onPlayerStateChange(event) {
         if (event.data == YT.PlayerState.PLAYING) {
             onPlay();
+            wrapper.classList.add('playing');
             document.dispatchEvent(playEvent);
         } else if (event.data == YT.PlayerState.PAUSED) {
+            wrapper.classList.remove('playing');
             onPause();
         }
     }

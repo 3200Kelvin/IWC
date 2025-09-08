@@ -1,0 +1,8 @@
+[data-youtube-video="container"] {
+    &.playing {
+        [data-youtube-video="cover"] {
+            opacity: 0;
+            pointer-events: none;
+        }
+    }
+}
