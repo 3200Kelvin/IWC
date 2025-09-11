@@ -25,10 +25,13 @@ export const useYoutubeVideo = async (wrapper, onPlay = () => {}, onPause = () =
         width: '640',
         videoId,
         playerVars: {
+            'color': 'white',
             'playsinline': 1,
+            'loop': 1,
+            'rel': 0,
         },
         events: {
-            'onStateChange': onPlayerStateChange
+            onStateChange: onPlayerStateChange
         },
     });
 
@@ -74,7 +77,7 @@ export const useYoutubeVideo = async (wrapper, onPlay = () => {}, onPause = () =
             onPlay();
             wrapper.classList.add('playing');
             document.dispatchEvent(playEvent);
-        } else if (event.data == YT.PlayerState.PAUSED) {
+        } else if (event.data == YT.PlayerState.PAUSED || event.data == YT.PlayerState.ENDED) {
             wrapper.classList.remove('playing');
             onPause();
         }

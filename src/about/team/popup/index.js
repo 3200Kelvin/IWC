@@ -10,8 +10,10 @@ export const useTeamPopup = (block) => {
     }
 
     const card = popup.querySelector('.team-member');
+    const data = card.querySelector('.team-member__data');
     const closeBtn = popup.querySelector('.team-member-popup__close');
-    const cardLinks = block.querySelectorAll('.team__entry a');
+    const cards = block.querySelectorAll('.team__entry');
+    const cardLinks = [...cards].map((card) => card.querySelector('a'));
     let currentTeamMemberIndex = null;
 
     const links = [];
@@ -69,6 +71,7 @@ export const useTeamPopup = (block) => {
 
     function changePopupContent(newContent) {
         card.scrollTo(0, 0);
+        data.scrollTo(0, 0);
         const newCard = newContent.querySelector('.team-member__card');
 
         const newCardElements = getTeamMemberElements(newCard);
@@ -84,6 +87,7 @@ export const useTeamPopup = (block) => {
     function handleChange(newIndex) {
         const fetchPromise = fetchPopupContent(links[newIndex]);
         const fadeContentPromise = fadeContent();
+        scrollToCard(newIndex);
 
         Promise.all([fetchPromise, fadeContentPromise])
             .then(([content]) => {
@@ -91,6 +95,10 @@ export const useTeamPopup = (block) => {
                 currentTeamMemberIndex = newIndex;
                 card.style.setProperty('--current', currentTeamMemberIndex + 1);
             });
+    }
+
+    function scrollToCard(index) {
+        cards[index].scrollIntoView({ block: 'center', 'inline': 'nearest' });
     }
 
     function fadeContent() {

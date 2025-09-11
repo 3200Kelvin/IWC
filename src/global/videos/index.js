@@ -5,23 +5,26 @@ import './style.scss';
 export const useVideos = () => {
     const PLAY_ACTION = 'video-play';
 
-    const intersectionObserver = getIntersectionObserver(0, () => {}, onVideoNotInView);
+    const intersectionObserver = getIntersectionObserver(0, handleVideoObserver, handleVideoObserver);
 
-    const videos = document.querySelectorAll('.video-element video');
-    const cleanups = [...videos].map(initVideo);
-
-    document.addEventListener(PLAY_ACTION, handlePlayEvent);
+    const elements = document.querySelectorAll('.video-element');
+    const cleanups = [...elements].map(initVideo);
 
     return getCleanup(
         ...cleanups,
         () => {
-            document.removeEventListener(PLAY_ACTION, handlePlayEvent);
             intersectionObserver.disconnect();
         }
     );
 
-    function initVideo(video) {
-        const container = video.closest('.video-element');
+    function initVideo(container) {
+        intersectionObserver.observe(container);
+        
+        const video = container.querySelector('video');
+
+        if (!video) {
+            return;
+        }
 
         const btn = container.querySelector('.video-element__tooltip');
         const btnLabel = btn.querySelector('p');
@@ -31,14 +34,14 @@ export const useVideos = () => {
         source.setAttribute('src', src);
         video.load();
 
+        container.video = video;
+
         let pauseTimeout;
 
         btn.addEventListener('click', play);
         video.addEventListener('pause', onPause);
         video.addEventListener('play', onPlay);
         video.addEventListener('ended', onEnd);
-
-        intersectionObserver.observe(video);
 
         return () => {
             btn.removeEventListener('click', play);
@@ -75,15 +78,12 @@ export const useVideos = () => {
         }
     }
 
-    function onVideoNotInView(entry) {
-        entry.target.pause();
-    }
-        
-    function handlePlayEvent(event) {
-        videos.forEach((video) => {
-            if (video !== event.detail) {
-                video.pause();
-            }
-        });
+    function handleVideoObserver(entry) {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+        } else {
+            entry.target.video?.pause?.();
+            entry.target.classList.remove('in-view');
+        }
     }
 };

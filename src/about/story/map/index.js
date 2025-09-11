@@ -65,11 +65,12 @@ const timelineConfig = [
 export const useStoryMap = (block) => {
     const container = block.querySelector('.story__map');
     const labels = {
-        year: container.querySelector('.story__map__year__text'),
+        year: container.querySelector('.story__map__year p'),
         label: container.querySelector('.story__map__state p'),
     };
 
     const DELAY = 500;
+    let prev = -1;
     let current = -1;
     let timeout;
     const allElementsToShow = [];
@@ -122,6 +123,7 @@ export const useStoryMap = (block) => {
     }
 
     function step() {
+        prev = current;
         current += 1;
 
         if (current >= timeline.length) {
@@ -141,14 +143,16 @@ export const useStoryMap = (block) => {
         changeLabel(year, label);
     }
 
-    function changeLabel(year = null, label = null) {
-        if (year === null) {
-            labels.year.textContent = 'peep';
-            labels.label.textContent = 'poop';
-        } else {
-            labels.year.textContent = year;
-            labels.label.textContent = label;
-        }
+    function changeLabel() {
+        // const { year: prevYear = '', label: prevLabel = '' } = timeline[prev] || {};
+        // console.log(prevYear)
+        const { year, label } = timeline[current];
+
+        // labels.year.style.setProperty('--prev', `${prevYear}`);
+        // labels.label.style.setProperty('--prev', `${prevLabel}`);
+
+        labels.year.textContent = year;
+        labels.label.textContent = label;
     }
 
     function hideAllEntries() {

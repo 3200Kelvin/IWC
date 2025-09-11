@@ -6,23 +6,20 @@
 
     &__pulse__runner {
         animation: heartbeat 1s linear infinite forwards;
+        animation-play-state: paused;
+    }
+
+    &.in-view &__pulse__runner {
+        animation-play-state: running;
     }
 
     @media (hover: hover) {
-        &__pulse__runner {
-            animation-play-state: paused;
-        }
-
         &__tooltip__bg {
             transition: transform 0.4s ease;
         }
 
         &:hover {
             .video-element {
-                &__pulse__runner {
-                    animation-play-state: running;
-                }
-
                 &__tooltip__bg {
                     transform: scale(1.1);
                 }

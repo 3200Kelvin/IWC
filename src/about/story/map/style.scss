@@ -5,6 +5,19 @@
         display: block !important;
     }
 
+    &__year,
+    &__state {
+        --prev: '';
+
+        &::before {
+            content: var(--prev);
+            display: block;
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+        }
+    }
+
     .map-entry {
         &--to-show {
             transition: opacity var(--transition-time);
