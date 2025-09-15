@@ -66,6 +66,7 @@ export const useStoryMap = (block) => {
     const container = block.querySelector('.story__map');
     const labels = {
         year: container.querySelector('.story__map__year p'),
+        numbers: container.querySelectorAll('.story__map__year__number'),
         label: container.querySelector('.story__map__state p'),
     };
 
@@ -127,6 +128,7 @@ export const useStoryMap = (block) => {
         current += 1;
 
         if (current >= timeline.length) {
+            prev = timeline.length - 1;
             current = -1;
             hideAllEntries();
         } else {
@@ -137,22 +139,35 @@ export const useStoryMap = (block) => {
     }
 
     function showEntry() {
-        const { elementsToShow, elementsToColor, year, label } = timeline[current];
-
-        activateElements([...elementsToShow, ...elementsToColor]);
-        changeLabel(year, label);
+        activateElements();
+        changeLabel();
     }
 
     function changeLabel() {
-        // const { year: prevYear = '', label: prevLabel = '' } = timeline[prev] || {};
-        // console.log(prevYear)
+        const { year: prevYear = '', label: prevLabel = '' } = timeline[prev] || {};
         const { year, label } = timeline[current];
 
-        // labels.year.style.setProperty('--prev', `${prevYear}`);
-        // labels.label.style.setProperty('--prev', `${prevLabel}`);
-
-        labels.year.textContent = year;
         labels.label.textContent = label;
+
+        changeYear(year, prevYear);
+    }
+
+    function changeYear(newYear, oldYear) {
+        if (!oldYear || newYear === oldYear) {
+            return;
+        }
+
+        const newNumbers = newYear.toString().split('');
+        const oldNumbers = oldYear.toString().split('');
+
+        const toAnimate = [...labels.numbers].filter((num, index) => {
+            num.style.setProperty('--prev', `'${oldNumbers[index]}'`);
+            num.textContent = newNumbers[index];
+            return newNumbers[index] !== oldNumbers[index];
+        });
+
+        gsap.to(toAnimate, { transform: 'translateY(100%)' });
+        gsap.to(toAnimate, { transform: 'translateY(0)', duration: DELAY / 2000 });
     }
 
     function hideAllEntries() {
@@ -161,8 +176,9 @@ export const useStoryMap = (block) => {
         });
     }
 
-    function activateElements(elements) {
-        elements.forEach((element) => {
+    function activateElements() {
+        const { elementsToShow, elementsToColor } = timeline[current];
+        [...elementsToShow, ...elementsToColor].forEach((element) => {
             element.classList.add('active');
         });
     }

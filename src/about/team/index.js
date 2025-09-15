@@ -1,9 +1,8 @@
 import { getCleanup } from "../../common/helpers";
 
+import { useTeamCards } from "./cards";
 import { useTeamPopup } from "./popup";
 import { useTeamScrollbar } from "./scrollbar";
-
-import './cards/style.scss';
 
 export const useTeam = () => {
     const team = document.querySelector('.team');
@@ -12,6 +11,7 @@ export const useTeam = () => {
     }
 
     return getCleanup(
+        useTeamCards(team),
         useTeamPopup(team),
         useTeamScrollbar(team),
     );

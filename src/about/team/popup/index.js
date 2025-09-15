@@ -11,9 +11,9 @@ export const useTeamPopup = (block) => {
 
     const card = popup.querySelector('.team-member');
     const data = card.querySelector('.team-member__data');
+    const imagePlaceholder = card.querySelector('.team-member__person__placeholder');
     const closeBtn = popup.querySelector('.team-member-popup__close');
     const cards = block.querySelectorAll('.team__entry');
-    const cardLinks = [...cards].map((card) => card.querySelector('a'));
     let currentTeamMemberIndex = null;
 
     const links = [];
@@ -25,26 +25,29 @@ export const useTeamPopup = (block) => {
 
     const elements = getTeamMemberElements(popup);
 
-    card.style.setProperty('--total', cardLinks.length);
+    card.style.setProperty('--total', cards.length);
 
     buttons.prev.addEventListener('click', prevTeamMember);
     buttons.next.addEventListener('click', nextTeamMember);
 
-    const cleanups = [...cardLinks].map((card, index) => {
-        const link = card.href;
+    const cleanups = [...cards].map((card, index) => {
+        const linkElement = card.querySelector('a');
+        const link = linkElement.href;
         links[index] = link;
+        
+        const imageElement = card.querySelector('.team__entry__images');
 
         const onClick = (event) => {
             if (event.ctrlKey || event.shiftKey || event.altKey) {
                 return;
             }
             event.preventDefault();
-            handleOpenPopup(link, index);
+            handleOpenPopup(link, index, imageElement);
         };
 
-        card.addEventListener('click', onClick)
+        linkElement.addEventListener('click', onClick)
 
-        return () => card.removeEventListener('click', onClick);
+        return () => linkElement.removeEventListener('click', onClick);
     });
 
     closeBtn.addEventListener('click', closePopup);
@@ -56,20 +59,20 @@ export const useTeamPopup = (block) => {
         buttons.next.removeEventListener('click', nextTeamMember);
     };
 
-    function handleOpenPopup(link, index) {
+    function handleOpenPopup(link, index, imageElement) {
         currentTeamMemberIndex = index;
         card.style.setProperty('--current', currentTeamMemberIndex + 1);
 
         gsap.set([elements.card, elements.content], { opacity: 0 });
 
         const fetchPromise = fetchPopupContent(link);
-        const openPopupPromise = openPopup();
+        const openPopupPromise = openPopup(imageElement);
 
         Promise.all([fetchPromise, openPopupPromise])
-            .then(([content]) => changePopupContent(content));
+            .then(([content, movingImage]) => changePopupContent(content, movingImage));
     }
 
-    function changePopupContent(newContent) {
+    function changePopupContent(newContent, movingImage = null) {
         card.scrollTo(0, 0);
         data.scrollTo(0, 0);
         const newCard = newContent.querySelector('.team-member__card');
@@ -82,6 +85,12 @@ export const useTeamPopup = (block) => {
         elements.content.innerHTML = newContentElement.innerHTML;
 
         gsap.to([elements.card, elements.content], { opacity: 1, duration: 0.4 });
+
+        if (movingImage) {
+            gsap.timeline()
+                .to(movingImage, { opacity: 0, duration: 0.4, delay: 0.2 })
+                .add(() => movingImage.remove());
+        }
     }
 
     function handleChange(newIndex) {
@@ -105,12 +114,45 @@ export const useTeamPopup = (block) => {
         return gsap.to([elements.card, elements.content], { opacity: 0, duration: 0.4 });
     }
 
-    function openPopup() {
+    async function openPopup(imageElement) {
+        const movingImage = imageElement.cloneNode(true);
+
+        const { x, y, width, height } = imageElement.getBoundingClientRect();
+
+        gsap.set(movingImage, {
+            position: 'fixed',
+            zIndex: 12,
+            top: 0,
+            left: 0,
+            x: x,
+            y: y,
+            width: width,
+            height: height,
+        });
+
+        document.body.appendChild(movingImage);
+        
         blockScroll();
 
-        return gsap.timeline()
-            .to(popup, { opacity: 0, display: 'block' })
-            .to(popup, { opacity: 1, duration: 0.8 });
+        gsap.set(popup, { opacity: 0, display: 'block' });
+        const { x: targetX, y: targetY, width: targetWidth, height: targetHeight } = imagePlaceholder.getBoundingClientRect();
+
+        await gsap.timeline()
+            .add('show')
+            .to(popup, { opacity: 1, duration: 0.8 }, 'show')
+            .to(movingImage, {
+                x: targetX,
+                y: targetY,
+                width: targetWidth,
+                height: targetHeight,
+                duration: 0.8
+            }, 'show')
+            // .to(movingImage, { opacity: 0, duration: 0.4 })
+            // .add(() => {
+            //     movingImage.remove();
+            // });
+
+        return movingImage;
     }
 
     function closePopup() {
@@ -154,13 +196,16 @@ export const useTeamPopup = (block) => {
     }
 
     function getTeamMemberElements(member) {
+        const card = member.querySelector('.team-member__card');
+        const person = member.querySelector('.team-member__person');
+
         const emailLink = member.querySelector('#team-member-email');
         const phoneLink = member.querySelector('#team-member-phone');
         const linkedinLink = member.querySelector('#team-member-linkedin');
 
         return {
-            card: member.querySelector('.team-member__card'),
-            person: member.querySelector('.team-member__person'),
+            card,
+            person,
             emailLink,
             emailLabel: emailLink?.querySelector('p'),
             phoneLink,
@@ -173,6 +218,7 @@ export const useTeamPopup = (block) => {
 
     function changePersonCardData(oldCard, newCard) {
         oldCard.person.innerHTML = newCard.person.innerHTML;
+
         if (oldCard.emailLink) {
             oldCard.emailLink.setAttribute('href', newCard.emailLink.getAttribute('href'));
             oldCard.emailLabel.textContent = newCard.emailLabel.textContent;

@@ -49,20 +49,30 @@
 
     #dna-top,
     #dna-bottom,
-    #today-circle,
     #axis-1,
     #axis-2,
     #axis-3 {
         clip-path: inset(0 100% 0 0);
     }
 
+    #today-circle-top {
+        clip-path: inset(0 100% 0 0);
+    }
+    
     #today-circle-bottom {
-        clip-path: inset(100% 0 0 0);
+        clip-path: inset(0 0 0 100%);
     }
 
-    #today-circle-top {
-        clip-path: inset(0 0 100% 0);
+    @media screen and (max-width: 991px) {
+        #today-circle-bottom {
+            clip-path: inset(100% 0 0 0);
+        }
+
+        #today-circle-top {
+            clip-path: inset(0 0 100% 0);
+        }
     }
+
 
     rect,
     .story__gradient-blob {
@@ -119,7 +129,6 @@
             transition-delay: 0.2s;
         }
 
-        #today-circle,
         #today-circle-bottom,
         #today-circle-top {
             transition: clip-path 0.6s ease-in-out calc(var(--delay-4) + 0.4s);
@@ -183,7 +192,6 @@
         #axis-1,
         #axis-2,
         #axis-3,
-        #today-circle,
         #today-circle-bottom,
         #today-circle-top {
             clip-path: inset(0 0 0 0);

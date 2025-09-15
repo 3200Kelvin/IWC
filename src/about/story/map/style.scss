@@ -5,16 +5,22 @@
         display: block !important;
     }
 
-    &__year,
-    &__state {
-        --prev: '';
+    &__year {
+        overflow: hidden;
 
-        &::before {
-            content: var(--prev);
-            display: block;
-            position: absolute;
-            bottom: 100%;
-            left: 0;
+        &__number {
+            --prev: '';
+            position: relative;
+
+            &::before {
+                content: var(--prev);
+                display: block;
+                position: absolute;
+                bottom: 100%;
+                left: 0;
+                width: 100%;
+                text-align: center;
+            }
         }
     }
 
