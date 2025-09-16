@@ -1,9 +1,4 @@
 .video-element {
-    &__overlay,
-    &__cover {
-        transition: opacity 0.4s ease;
-    }
-
     &__pulse__runner {
         animation: heartbeat 1s linear infinite forwards;
         animation-play-state: paused;
@@ -33,20 +28,6 @@
 
             &__btn {
                 pointer-events: auto;
-            }
-        }
-    }
-
-    &--playing {
-        .video-element {
-            &__overlay,
-            &__cover {
-                opacity: 0;
-                pointer-events: none;
-            }
-
-            &__tooltip__btn {
-                pointer-events: none;
             }
         }
     }

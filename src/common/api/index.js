@@ -1,12 +1,27 @@
 class API {
-    baseUrl = 'https://integrated-wealthcare.webflow.io/app/api';
+    baseUrl = `${location.origin}/app/api`;
 
     constructor() {
         this.baseUrl = `${location.origin}/app/api`;
     }
 
-    getCollections() {
-        return fetch(`${this.baseUrl}/collections`).then(res => res.json());
+    async getCollections() {
+        try {
+            const res = await fetch(`${this.baseUrl}/collections`);
+            return await res.json();
+        } catch (error) {
+            return console.error(error);
+        }
+    }
+
+    async getVideoUrl(videoName) {
+        try {
+            const res = await fetch(`${this.baseUrl}/videos?video=${videoName}`);
+            const { url = null } = await res.json();
+            return url;
+        } catch (error) {
+            return console.error(error);
+        }
     }
 }
 

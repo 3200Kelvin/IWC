@@ -1,4 +1,4 @@
-import { useYoutubeVideo } from '../../common/youtube';
+import { useVideo } from '../../common/video';
 
 import './style.scss';
 
@@ -8,27 +8,6 @@ export const useWhy = async () => {
         return;
     }
 
-    const videoWrapper = block.querySelector('[data-youtube-video="container"]');
-
-    const {
-        play,
-        pause,
-        getIsPlaying,
-        cleanup,
-    } = await useYoutubeVideo(videoWrapper);
-
-    videoWrapper.addEventListener('click', onCardClick);
-
-    return () => {
-        cleanup();
-        videoWrapper.removeEventListener('click', play);
-    };
-
-    function onCardClick() {
-        if (getIsPlaying()) {
-            pause();
-        } else {
-            play();
-        }
-    }
+    const videoWrapper = block.querySelector('[data-video="container"]');
+    return useVideo(videoWrapper);
 }
