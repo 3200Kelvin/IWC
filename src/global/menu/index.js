@@ -13,7 +13,7 @@ export const useMenu = () => {
 
     const links = menu.querySelectorAll('a');
     const menuLinks = menu.querySelectorAll('.menu__link');
-    const lines = [...menu.querySelectorAll('.heading--nav-link'), menu.querySelector('.members-link')];
+    const lines = [...menu.querySelectorAll('.heading--nav-link'), ...menu.querySelectorAll('.members-link')];
 
     const MENU_OPENED_CN = 'menu-opened';
 
