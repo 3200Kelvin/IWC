@@ -43,10 +43,10 @@
     }
 
     function setProdScripts() {
-        const script = getScript('https://d11zn3tymphkat.cloudfront.net/index.js');
-        const style1 = getStyle('https://d11zn3tymphkat.cloudfront.net/index.css');
+        const script = getScript('/app/index.js');
+        const style = getStyle('/app/index.css');
 
-        appendElement([script, style1]);
+        appendElement([script, style]);
     }
 
     function getScript(src) {
