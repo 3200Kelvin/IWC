@@ -9,5 +9,6 @@ export const useWhy = async () => {
     }
 
     const videoWrapper = block.querySelector('[data-video="container"]');
-    return useVideo(videoWrapper);
+    const { cleanup } = useVideo(videoWrapper);
+    return cleanup;
 }

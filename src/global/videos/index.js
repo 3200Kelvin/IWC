@@ -11,7 +11,8 @@ export const useVideos = () => {
 
         const onPause = playCaption ? () => playCaption.textContent = 'Resume' : noop;
 
-        return useVideo(container, { onIntersection, onPause });
+        const { cleanup } = useVideo(container, { onIntersection, onPause });
+        return cleanup;
     });
 
     return getCleanup(...cleanups);

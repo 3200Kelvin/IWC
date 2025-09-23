@@ -28,7 +28,7 @@ export const useIntelligencePosts = () => {
     };
 
     async function checkPostVideo(post) {
-        const videoWrapper = post.querySelector('[data-youtube-video="container"]');
+        const videoWrapper = post.querySelector('[data-video="container"]');
 
         if (!videoWrapper) {
             return;
@@ -91,14 +91,14 @@ export const useMediaPosts = () => {
     }
 
     async function checkPostVideo(post, shouldUnlock = false) {
-        const videoWrapper = post.querySelector('[data-youtube-video="container"]');
+        const videoWrapper = post.querySelector('[data-video="container"]');
 
         if (!videoWrapper) {
             return;
         }
         
         if (!shouldUnlock) {
-            videoWrapper.removeAttribute('data-src');
+            videoWrapper.removeAttribute('data-video-url');
             return;
         }
 

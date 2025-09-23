@@ -6,9 +6,9 @@ import './style.scss';
 const PLAY_ACTION = 'video-play';
 
 export const useVideo = (container, { onPlay = noop, onPause = noop, onEnd = noop, onIntersection = noop } = {}) => {
-    const { videoName } = container.dataset;
+    const { videoUrl } = container.dataset;
 
-    if (!videoName) {
+    if (!videoUrl) {
         return console.warn('Video name not found', container);
     }
 
@@ -24,14 +24,18 @@ export const useVideo = (container, { onPlay = noop, onPause = noop, onEnd = noo
     let pauseTimeout;
     let isLoadingInitialized = false;
 
+    video.addEventListener('click', handleClick);
     video.addEventListener('pause', handlePause);
     video.addEventListener('play', handlePlay);
     video.addEventListener('ended', handleEnd);
 
-    return cleanup;
+    return { play, pause, getIsPlaying, cleanup };
 
     function cleanup() {
-        trigger.removeEventListener('click', play);
+        if (trigger) {
+            trigger.removeEventListener('click', play);
+        }
+        video.removeEventListener('click', handleClick);
         video.removeEventListener('pause', handlePause);
         video.removeEventListener('play', handlePlay);
         video.removeEventListener('ended', handleEnd);
@@ -46,17 +50,19 @@ export const useVideo = (container, { onPlay = noop, onPause = noop, onEnd = noo
 
         isLoadingInitialized = true;
 
-        api.getVideoUrl(videoName)
+        api.getVideoUrl(videoUrl)
             .then((url) => {
                 if (!url) {
-                    return console.warn('Could not get video url', videoName);
+                    return console.warn('Could not get signed video url', videoUrl);
                 }
 
                 const source = video.querySelector('source');
                 source.setAttribute('src', url);
                 video.load();
 
-                trigger.addEventListener('click', play);
+                if (trigger) {
+                    trigger.addEventListener('click', play);
+                }
                 document.addEventListener(PLAY_ACTION, onPlayEvent);
             })
             .catch((error) => console.error(error));
@@ -70,12 +76,21 @@ export const useVideo = (container, { onPlay = noop, onPause = noop, onEnd = noo
         video.pause();
     }
 
+    function getIsPlaying() {
+        return !video.paused && !video.ended;
+    }
+
     function handlePlay() {
         clearTimeout(pauseTimeout);
         document.dispatchEvent(new CustomEvent(PLAY_ACTION, { detail: video }));
         container.setAttribute('data-video-playing', true);
 
         onPlay();
+    }
+
+    function handleClick(event) {
+        event.stopPropagation();
+        return;
     }
 
     function handlePause() {
