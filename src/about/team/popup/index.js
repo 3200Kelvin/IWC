@@ -1,4 +1,5 @@
 import { blockScroll, unblockScroll } from "../../../common/blockScroll";
+import { getIsDesktop } from "../../../common/helpers";
 
 import './style.scss';
 
@@ -11,7 +12,6 @@ export const useTeamPopup = (block) => {
 
     const card = popup.querySelector('.team-member');
     const data = card.querySelector('.team-member__data');
-    const imagePlaceholder = card.querySelector('.team-member__person__placeholder');
     const closeBtn = popup.querySelector('.team-member-popup__close');
     const cards = block.querySelectorAll('.team__entry');
     let currentTeamMemberIndex = null;
@@ -69,18 +69,19 @@ export const useTeamPopup = (block) => {
         const openPopupPromise = openPopup(imageElement);
 
         Promise.all([fetchPromise, openPopupPromise])
-            .then(([content, movingImage]) => changePopupContent(content, movingImage));
+            .then(([content, movingImage]) => changePopupContent(content, { movingImage }));
     }
 
-    function changePopupContent(newContent, movingImage = null) {
+    function changePopupContent(newContent, { isForwards = true, movingImage = null, isDesktop = true } = {}) {
         card.scrollTo(0, 0);
         data.scrollTo(0, 0);
         const newCard = newContent.querySelector('.team-member__card');
 
-        const newCardElements = getTeamMemberElements(newCard);
+        // const newCardElements = getTeamMemberElements(newCard);
         const newContentElement = newContent.querySelector('.team-member__content');
 
-        changePersonCardData(elements, newCardElements);
+        // changePersonCardData(elements, newCardElements);
+        switchCards(newCard, { isStatic: movingImage !== null, isForwards, isDesktop });
 
         elements.content.innerHTML = newContentElement.innerHTML;
 
@@ -93,14 +94,46 @@ export const useTeamPopup = (block) => {
         }
     }
 
-    function handleChange(newIndex) {
+    function switchCards(newCard, { isStatic = false, isForwards = true, isDesktop = true } = {}) {
+        if (isStatic || !isDesktop) {
+            if (!isDesktop) {
+                gsap.set(newCard, { opacity: 0 });
+            }
+
+            elements.card.remove();
+            elements.cardWrapper.appendChild(newCard);
+            elements.card = newCard;
+            return;
+        }
+
+        if (isForwards) {
+            elements.cardWrapper.appendChild(newCard);
+        } else {
+            elements.cardWrapper.insertBefore(newCard, elements.card);
+            gsap.set([elements.card, newCard], { transform: 'translateX(-100%)' });
+        }
+
+        const moveTo = isForwards ? '-100%' : '0';
+
+        return gsap.timeline()
+            .to([elements.card, newCard], { transform: `translateX(${moveTo})`, duration: 0.8 })
+            .add(() => {
+                elements.card.remove();
+                gsap.set(newCard, { transform: 'translateX(0)' });
+                elements.card = newCard;
+            });
+    }
+
+    function handleChange(newIndex, isForwards = true) {
+        const isDesktop = getIsDesktop();
+
         const fetchPromise = fetchPopupContent(links[newIndex]);
-        const fadeContentPromise = fadeContent();
+        const fadeContentPromise = fadeContent(isDesktop);
         scrollToCard(newIndex);
 
         Promise.all([fetchPromise, fadeContentPromise])
             .then(([content]) => {
-                changePopupContent(content);
+                changePopupContent(content, { isForwards, isDesktop });
                 currentTeamMemberIndex = newIndex;
                 card.style.setProperty('--current', currentTeamMemberIndex + 1);
             });
@@ -110,8 +143,14 @@ export const useTeamPopup = (block) => {
         cards[index].scrollIntoView({ block: 'center', 'inline': 'nearest' });
     }
 
-    function fadeContent() {
-        return gsap.to([elements.card, elements.content], { opacity: 0, duration: 0.4 });
+    function fadeContent(isDesktop = true) {
+        const toFade = [elements.content];
+
+        if (!isDesktop) {
+            toFade.push(elements.card);
+        }
+
+        return gsap.to(toFade, { opacity: 0, duration: 0.4 });
     }
 
     async function openPopup(imageElement) {
@@ -135,6 +174,7 @@ export const useTeamPopup = (block) => {
         blockScroll();
 
         gsap.set(popup, { opacity: 0, display: 'block' });
+        const imagePlaceholder = card.querySelector('.team-member__person__placeholder');
         const { x: targetX, y: targetY, width: targetWidth, height: targetHeight } = imagePlaceholder.getBoundingClientRect();
 
         await gsap.timeline()
@@ -165,13 +205,13 @@ export const useTeamPopup = (block) => {
     function nextTeamMember(event) {
         event.preventDefault();
         const nextIndex = (currentTeamMemberIndex + 1) % links.length;
-        handleChange(nextIndex);
+        handleChange(nextIndex, true);
     }
 
     function prevTeamMember(event) {
         event.preventDefault();
         const prevIndex = (currentTeamMemberIndex - 1 + links.length) % links.length;
-        handleChange(prevIndex);
+        handleChange(prevIndex, false);
     }
 
     function fetchPopupContent(link) {
@@ -196,6 +236,7 @@ export const useTeamPopup = (block) => {
     }
 
     function getTeamMemberElements(member) {
+        const cardWrapper = member.querySelector('.team-member__card-wrapper');
         const card = member.querySelector('.team-member__card');
         const person = member.querySelector('.team-member__person');
 
@@ -204,6 +245,7 @@ export const useTeamPopup = (block) => {
         const linkedinLink = member.querySelector('#team-member-linkedin');
 
         return {
+            cardWrapper,
             card,
             person,
             emailLink,
