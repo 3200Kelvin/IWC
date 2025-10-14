@@ -114,3 +114,38 @@
         }
     }
 }
+
+[data-animation-mode="no-animations"] {
+    .approach {
+        .fixed-element-wrapper {
+            position: relative;
+        }
+
+        &__content {
+            position: relative;
+        }
+
+        &__steps,
+        &__space--end {
+            display: none;
+        }
+
+        &__counter {
+            display: none;
+        }
+
+        &__text {
+            display: flex;
+            flex-flow: column;
+            justify-content: center;
+            gap: 1em;
+        }
+
+        &__text__entry {
+            position: relative;
+            top: 0;
+            left: 0;
+            transform: none;
+        }
+    }
+}

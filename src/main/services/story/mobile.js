@@ -1,5 +1,6 @@
 import { IMAGE_TRANSLATION, TRANSFORM, IMAGE_FILTER, DEFAULT_DURATION } from "./common";
 import { getScrollTriggerRefresh } from "../../../common/helpers";
+import { isNoAnimations } from "../../../common/performance";
 
 export const useServicesMobileStory = (block, END) => {
     const steps = block.querySelectorAll('.services__step, .services__end');
@@ -178,6 +179,9 @@ export const useServicesMobileStory = (block, END) => {
         [STEP_NAMES.END]: {
             [DIRECTIONS.FORWARD]: {
                 [ACTIONS.SHOW]: () => {
+                    if (isNoAnimations()) {
+                        return;
+                    }
                     const textAnimationDuration = 2 * DEFAULT_DURATION / END.heading.length;
 
                     gsap.timeline()
@@ -194,6 +198,9 @@ export const useServicesMobileStory = (block, END) => {
             },
             [DIRECTIONS.BACKWARD]: {
                 [ACTIONS.HIDE]: () => {
+                    if (isNoAnimations()) {
+                        return;
+                    }
                     gsap.timeline()
                         .to(END.block, { opacity: 0, duration: DEFAULT_DURATION / 2 })
                         .set([END.image, END.bg], { opacity: 0 })

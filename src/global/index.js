@@ -3,7 +3,7 @@ import { useMenu } from "./menu";
 import { useForm } from "./form";
 import { useBgObserver } from "./bgObserver";
 import { useFooter } from "./footer";
-import { useGradient } from "./meshGradient";
+// import { useGradient } from "./meshGradient";
 import { useVideos } from "./videos";
 import { useTextBlur, useTextAppear } from "./textAnimations";
 import { useSafariForceRepaint } from "./forceRepaint";
@@ -29,13 +29,7 @@ export const useGlobalOnceScripts = () => {
     }
 
     usePreloader();
-
-    if (!isTouchscreen) {
-        import("../common/blockScroll").then(({ setScrollBarWidthListener }) => {
-            setScrollBarWidthListener();
-        });
-    }
-
+    setScrollBarWidthListener();
     useMenu();
 
     if (!reducedAnimations && !isTouchscreen) {

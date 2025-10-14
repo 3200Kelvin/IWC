@@ -1,10 +1,20 @@
 import { getIntersectionObserver, getIsDesktop } from '../../../common/helpers';
+import { isNoAnimations } from '../../../common/performance';
 
 import './style.scss';
 
 export const useTimeline = (story) => {
     const timeline = story.querySelector('.story__timeline');
     if (!timeline) {
+        return;
+    }
+
+    if (isNoAnimations()) {
+        timeline.classList.add('animated');
+        const entries = timeline.querySelectorAll('.timeline-entry');
+        entries.forEach((entry) => {
+            entry.classList.add('animated');
+        });
         return;
     }
 

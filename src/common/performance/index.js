@@ -4,8 +4,8 @@ export const ANIMATION_MODE = {
 };
 
 const isWeakDevice = () => {
-    const { deviceMemory = 0, hardwareConcurrency = 0 } = navigator;
-    return hardwareConcurrency < 4 || deviceMemory < 4;
+    const { deviceMemory = null, hardwareConcurrency = 0 } = navigator;
+    return hardwareConcurrency < 4 || (deviceMemory && deviceMemory < 4);
 }
 
 const isOldBrowser = () => {
@@ -21,11 +21,16 @@ const isOldBrowser = () => {
     if (!('requestAnimationFrame' in window)) {
         return true;
     }
+    if (!('CSS' in window && CSS.supports('transform', 'translate3d(0,0,0)'))) {
+        return true;
+    }
     return false;
 };
 
 const useNoAnimations = () => {
-    return true; // always no animations for testing
+    if (sessionStorage.getItem('animation-mode') === ANIMATION_MODE.NO_ANIMATIONS) {
+        return true;
+    }
     if (isOldBrowser()) {
         return true;
     }
@@ -36,7 +41,29 @@ const useNoAnimations = () => {
 };
 
 const useLessAnimations = () => {
+    if (sessionStorage.getItem('animation-mode') === ANIMATION_MODE.LESS_ANIMATIONS) {
+        return true;
+    }
     return isWeakDevice();
+};
+
+export const measureFrameRate = (duration = 1000) => {
+    return new Promise(resolve => {
+        let frames = 0;
+        const start = performance.now();
+
+        function frame() {
+            frames++;
+            if (performance.now() - start < duration) {
+                requestAnimationFrame(frame);
+            } else {
+                const fps = frames / (duration / 1000);
+                resolve(fps);
+            }
+        }
+
+        requestAnimationFrame(frame);
+    });
 };
 
 export const isLessAnimations = () => {
@@ -63,6 +90,24 @@ export const setDocumentAnimationMode = () => {
     if (lessAnimations) {
         window.animationMode = ANIMATION_MODE.LESS_ANIMATIONS;
         document.body.setAttribute('data-animation-mode', ANIMATION_MODE.LESS_ANIMATIONS);
+    }
+
+    if (!reducedAnimations && !sessionStorage.getItem('animation-mode')) {
+        measureFrameRate().then((fps) => {
+            if (fps < 10) {
+                sessionStorage.setItem('animation-mode', ANIMATION_MODE.NO_ANIMATIONS);
+                window.location.reload();
+                return;
+            }
+
+            if (fps < 20) {
+                sessionStorage.setItem('animation-mode', ANIMATION_MODE.LESS_ANIMATIONS);
+                window.location.reload();
+                return;
+            }
+
+            sessionStorage.setItem('animation-mode', 'full');
+        });
     }
 
     return { noAnimations, lessAnimations, reducedAnimations };

@@ -1,11 +1,16 @@
 import { isTouchscreen, getScrollTriggerRefresh } from '../../../common/helpers';
 import { IMAGE_TRANSLATION, TRANSFORM, IMAGE_FILTER, DEFAULT_DURATION } from "./common";
 import { useServicesMobileStory } from './mobile';
+import { isLessAnimations, isNoAnimations } from '../../../common/performance';
 
 import './style.scss';
 
 export const useServicesStory = (block) => {
     const isMobile = isTouchscreen;
+
+    if (isLessAnimations()) {
+        IMAGE_FILTER.BLURRED = IMAGE_FILTER.ZERO;
+    }
 
     const endBlock = block.querySelector('.services__end');
     const END = {
@@ -18,8 +23,10 @@ export const useServicesStory = (block) => {
         image: endBlock.querySelector('.services__end__image'),
     };
 
-    gsap.set([END.image, END.bg], { opacity: 0 });
-    gsap.set(END.logo, { opacity: 0, transform: 'scale(0.75)' });
+    if (!isNoAnimations()) {
+        gsap.set([END.image, END.bg], { opacity: 0 });
+        gsap.set(END.logo, { opacity: 0, transform: 'scale(0.75)' });
+    }
 
     if (isMobile) {
         return useServicesMobileStory(block, END);
@@ -40,7 +47,7 @@ export const useServicesStory = (block) => {
         gsap.to(image, { opacity: 0, transform: `translateY(${IMAGE_TRANSLATION})`, filter: IMAGE_FILTER.BLURRED });
     });
 
-    const endBlockTrigger = ScrollTrigger.create({
+    const endBlockTrigger = isNoAnimations() ? null : ScrollTrigger.create({
         trigger: endBlock,
         start: 'top top',
 	    onToggle: (self) => {
@@ -192,11 +199,15 @@ export const useServicesStory = (block) => {
 
     return () => {
         timeline.kill();
-        endBlockTrigger.kill();
+        endBlockTrigger?.kill?.();
         triggerRefreshCleanup?.();
     };
 
     function getSplitText(element) {
+        if (isNoAnimations()) {
+            return element;
+        }
+
         const split = SplitText.create(element, {
             type: 'lines',
             linesClass: 'services__end__text-line',

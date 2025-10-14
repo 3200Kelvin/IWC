@@ -1,7 +1,7 @@
 .team__card {
     &.blured {
         opacity: 0;
-        filter: blur(10px);
+        filter: blur(var(--blur, 10px));
     }
 
     &.transition {

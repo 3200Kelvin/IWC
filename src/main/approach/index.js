@@ -1,11 +1,17 @@
 import { setTextBlur } from "../../common/textBlur";
 import { getCleanup, getScrollTriggerRefresh } from "../../common/helpers";
+import { isNoAnimations } from "../../common/performance";
 
 import './style.scss';
 
 export const useApproachAnimation = () => {
     const block = document.querySelector('.approach');
+
     if (!block) {
+        return;
+    }
+
+    if (isNoAnimations()) {
         return;
     }
 
@@ -28,7 +34,8 @@ export const useApproachAnimation = () => {
 
     function initStep(step, index) {
         const text = texts[index];
-        const { animate, reset, cleanup } = setTextBlur(text, true);
+        
+        const { animate, reset, cleanup } = setTextBlur(text);
 
         const showText = () => {
             gsap.to(text, { opacity: 1 });
@@ -47,10 +54,10 @@ export const useApproachAnimation = () => {
             scrub: true,
             onToggle: (self) => {
                 if (self.isActive) {
-                    showText();
+                    showText?.();
                     setActive(index);
                 } else {
-                    hideText();
+                    hideText?.();
                     if (index === 0 && self.direction === -1 || index === total - 1 && self.direction === 1) {
                         setActive(null, index === 0);
                     }

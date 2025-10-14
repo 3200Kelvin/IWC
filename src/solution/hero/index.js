@@ -1,5 +1,6 @@
 import { setTextBlur } from "../../common/textBlur";
 import { useTransitionDelay, getIntersectionObserver, getScrollTriggerRefresh } from "../../common/helpers";
+import { isNoAnimations } from "../../common/performance";
 
 import './style.scss';
 
@@ -17,6 +18,12 @@ export const useSolutionHero = () => {
 
     const image = block.querySelector('.solution-start__image__sticky');
     const imageElement = image.querySelector('.solution-start__image__img');
+
+    if (isNoAnimations()) {
+        imageElement.classList.add('shown');
+        return;
+    }
+
     imageElement.classList.add('transition');
 
     const { animate: showTextTitle, revert: hideTextTitle, cleanup: cleanupTextTitle } = setTextBlur(textTitle);

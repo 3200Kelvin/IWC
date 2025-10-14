@@ -3,17 +3,6 @@ import { useGlobalScripts, useGlobalOnceScripts } from "./src/global";
 import { postReadyEvent } from "./src/global/preloader";
 import { getPageNamespace } from "./src/common/helpers";
 
-import { useMainPageScripts } from "./src/main";
-import { useAboutPageScripts } from "./src/about";
-import { useMediaPageScripts } from "./src/media";
-import { useIntelligencePageScripts } from "./src/intelligence";
-import { useSolutionsPageScripts } from "./src/solutions";
-import { useSolutionPageScripts } from "./src/solution";
-import { useContactPageScripts } from "./src/contact";
-import { useSignup } from "./src/memberstack/signup";
-import { useMembersAreaScripts } from "./src/memberstack/account";
-import { useArticlePageScripts } from "./src/article";
-
 const MODULE_MAP = {
     home: './src/main',
     about: './src/about',
@@ -47,7 +36,6 @@ async function loadAndRunModule(namespace) {
     }
 
     const cleanup = await import(modulePath).then(({ usePageScripts }) => {
-        console.log(usePageScripts);
         return usePageScripts?.();
     });
 
@@ -60,36 +48,15 @@ function once() {
     usePageTransitions(each);
 }
 
-function runPageSpecificScript() {
+async function runPageSpecificScript() {
     const pageNamespace = getPageNamespace();
     
-    switch (pageNamespace) {
-        case 'home':
-            return useMainPageScripts();
-        case 'about':
-            return useAboutPageScripts();
-        case 'media':
-            return useMediaPageScripts();
-        case 'solutions':
-            return useSolutionsPageScripts();
-        case 'solution':
-            return useSolutionPageScripts();
-        case 'contact':
-            return useContactPageScripts();
-        case 'signup':
-            return useSignup();
-        case 'members-area':
-            return useMembersAreaScripts();
-        case 'intelligence':
-            return useIntelligencePageScripts();
-        case 'article':
-            return useArticlePageScripts();
-        default:
-            return () => {};
-    }
+    const cleanup = await loadAndRunModule(pageNamespace);
+
+    return cleanup;
 }
 
-function each() {
+async function each() {
     try {
         if (cleanup) {
             cleanup();
@@ -97,7 +64,7 @@ function each() {
         }
 
         const globalScriptsCleanup = useGlobalScripts();
-        const pageScriptCleanup = runPageSpecificScript();
+        const pageScriptCleanup = await runPageSpecificScript();
 
         cleanup = () => {
             globalScriptsCleanup?.();

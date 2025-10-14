@@ -1,6 +1,7 @@
 :root {
     --gradient-glass: radial-gradient(42.9% 47.1% at 64.28% 11.84%, var(--glassy-white) 0%, var(--glassy-blue) 100%);
     --easing: cubic-bezier(.65,-0.01,.35,1);
+    --blur: 10px;
 }
 
 .w-embed {
@@ -12,6 +13,11 @@
 
 .white-bg--gradient {
     background: var(--gradient-glass, var(--glassy-white));
+}
+
+[data-animation-mode="less-animations"],
+[data-animation-mode="no-animations"] {
+    --blur: 0px;
 }
 
 [data-animation-mode="no-animations"] {

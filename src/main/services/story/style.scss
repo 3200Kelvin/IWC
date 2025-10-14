@@ -1,8 +1,18 @@
-.services__end {
-    @media screen and (min-width: 767px) {
-        margin-top: -50vh;
+body:not([data-animation-mode="no-animations"]) {
+    .services__end {
+        @media screen and (min-width: 767px) {
+            margin-top: -50vh;
+        }
     }
+}
 
+[data-animation-mode="no-animations"] {
+    .services__end {
+        min-height: auto !important;
+    }
+}
+
+.services__end {
     &__text-line {
         &:empty {
             height: 1em;

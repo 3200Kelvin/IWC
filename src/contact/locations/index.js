@@ -1,13 +1,19 @@
 import { getIntersectionObserver, useTransitionDelay } from "../../common/helpers";
+import { isNoAnimations } from "../../common/performance";
 
 import './style.scss';
 
 export const useContactLocations = () => {
     const block = document.querySelector('.hero--contact');
-    console.log(block);
     if (!block) {
         return;
     }
+
+    if (isNoAnimations()) {
+        block.classList.add("appeared");
+        return;
+    }
+
     const locations = block.querySelectorAll(".contact__locations-positions");
 
     locations.forEach((location, index) => {

@@ -1,8 +1,13 @@
 import { getIntersectionObserver } from "../../../common/helpers";
+import { isNoAnimations } from "../../../common/performance";
 
 import './style.scss';
 
 export const useTeamCards = (block) => {
+    if (isNoAnimations()) {
+        return;
+    }
+
     const cards = block.querySelectorAll('.team__card');
 
     const observer = getIntersectionObserver(10, showCard);

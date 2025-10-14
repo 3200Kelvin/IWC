@@ -1,4 +1,5 @@
 import { getIntersectionObserver, useTransitionDelay, getCleanup } from "../../common/helpers";
+import { isNoAnimations } from "../../common/performance";
 
 import './style.scss';
 
@@ -10,6 +11,15 @@ export const useAboutHero = () => {
     }
 
     const logo = block.querySelector('.about-hero__logo');
+
+    if (!logo) {
+        return;
+    }
+
+    if (isNoAnimations()) {
+        logo.classList.add('shown');
+        return;
+    }
 
     setTimeout(() => {
         logo.classList.add('transition');

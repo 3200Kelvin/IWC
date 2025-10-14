@@ -1,1 +1,1 @@
-import{u as i}from"./index2.js";i();
+import{u as i}from"./index3.js";i();
