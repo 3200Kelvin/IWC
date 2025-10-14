@@ -67,19 +67,41 @@
     }
 }
 
-.menu {
-    .heading--nav-link {
-        transform: translateY(100%) rotateZ(2deg);
+body {
+    &:not([data-animation-mode="no-animations"]) {
+        .menu {
+            .heading--nav-link {
+                transform: translateY(100%) rotateZ(2deg);
 
-        &.transition {
-            transition: transform 0.4s ease;
-        }
+                &.transition {
+                    transition: transform 0.4s ease;
+                }
 
-        &.shown {
-            transform: translateY(0%);
+                &.shown {
+                    transform: translateY(0%);
+                }
+            }
         }
     }
 
+    &[data-animation-mode="no-animations"] {
+        .menu {
+            .heading--nav-link {
+                opacity: 0;
+
+                &.transition {
+                    transition: opacity 0.4s ease;
+                }
+
+                &.shown {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}
+
+.menu {
     .menu__link {
         @for $i from 1 through 8 {
             &:nth-child(#{$i}) {

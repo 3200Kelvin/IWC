@@ -1,4 +1,4 @@
-.force-repaint {
+body:not([data-animation-mode="no-animations"]) .force-repaint {
   animation: safari-force-repaint 1s infinite;
 }
 

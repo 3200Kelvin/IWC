@@ -95,6 +95,15 @@ export function getIntersectionObserver(
     onNotIntersecting = () => {},
     { marginTop = margin, marginBottom = margin } = {}
 ) {
+    if (!('IntersectionObserver' in window)) {
+        console.warn('IntersectionObserver is not supported');
+        return {
+            observe: () => {},
+            unobserve: () => {},
+            disconnect: () => {},
+        };
+    }
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {

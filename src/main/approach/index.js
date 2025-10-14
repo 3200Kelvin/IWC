@@ -28,7 +28,7 @@ export const useApproachAnimation = () => {
 
     function initStep(step, index) {
         const text = texts[index];
-        const { animate, reset, cleanup } = setTextBlur(text);
+        const { animate, reset, cleanup } = setTextBlur(text, true);
 
         const showText = () => {
             gsap.to(text, { opacity: 1 });

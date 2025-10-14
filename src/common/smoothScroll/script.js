@@ -1,4 +1,5 @@
-// import Lenis from 'lenis';
+import { isNoAnimations } from "../performance";
+import { isTouchscreen } from "../helpers";
 
 export function scrollTo(target, isInstant = false) {
     if (window.lenis) {
@@ -39,13 +40,25 @@ export const getScrollPosition = () => {
 }
 
 export const setSmoothScroll = () => {
+    const lenis = configureLenis();
+
+    window.lenis = lenis;
+
+    return lenis;
+};
+
+function configureLenis() {
     if (!window.Lenis) {
-        return;
+        return null;
+    }
+
+    if (isNoAnimations() || isTouchscreen) {
+        return null;
     }
 
     const content = document.querySelector('main');
     if (!content) {
-        return;
+        return null;
     }
 
     const lenis = new Lenis({
@@ -53,7 +66,6 @@ export const setSmoothScroll = () => {
         wheelMultiplier: 1,
         touchMultiplier: 1,
         autoRaf: true,
-        // syncTouch: true,
         prevent: (node) => !!node.closest('.form__dropdown'),
     });
 
@@ -64,19 +76,20 @@ export const setSmoothScroll = () => {
 
     lenis.on('scroll', onScroll);
 
-    // if (window.ScrollTrigger) {
-    //     // Synchronize Lenis scrolling with GSAP's ScrollTrigger plugin
-    //     lenis.on('scroll', ScrollTrigger.update);
+    const docHeightObserver = new ResizeObserver((entries) => {
+        onResize(entries[0]);
+    });
+    docHeightObserver.observe(document.documentElement);
+    docHeightObserver.observe(document.body);
+    docHeightObserver.observe(content);
 
-    //     // Add Lenis's requestAnimationFrame (raf) method to GSAP's ticker
-    //     // This ensures Lenis's smooth scroll animation updates on each GSAP tick
-    //     gsap.ticker.add((time) => {
-    //     lenis.raf(time * 1000); // Convert time from seconds to milliseconds
-    //     });
+    document.documentElement.style.setProperty('height', 'auto');
+    setTimeout(() => {
+        document.documentElement.style.setProperty('height', '100%');
+    }, 100);
+    // end of the weird shit
 
-    //     // Disable lag smoothing in GSAP to prevent any delay in scroll animations
-    //     gsap.ticker.lagSmoothing(0);
-    // }
+    return lenis;
 
     function onScroll(event) {
         const { scrollHeight } = event.dimensions;
@@ -107,21 +120,4 @@ export const setSmoothScroll = () => {
             lenis.resize();
         }, 100);
     }
-
-    const docHeightObserver = new ResizeObserver((entries) => {
-        onResize(entries[0]);
-    });
-    docHeightObserver.observe(document.documentElement);
-    docHeightObserver.observe(document.body);
-    docHeightObserver.observe(content);
-
-    document.documentElement.style.setProperty('height', 'auto');
-    setTimeout(() => {
-        document.documentElement.style.setProperty('height', '100%');
-    }, 100);
-    // end of the weird shit
-
-    window.lenis = lenis;
-
-    return lenis;
-};
+}

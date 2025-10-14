@@ -1,15 +1,95 @@
+import { isNoAnimations } from '../performance';
+import { noop } from '../helpers';
+
 import './style.scss';
 
-export const setTextBlur = (element) => {
+export const setTextBlur = (element, force = false) => {
     const CLASS_NAMES = {
         BASE: 'text-unblur',
+        SIMPLIFIED: 'text-unblur--simplified',
         LINE: 'text-unblur__line',
         ELEMENT: 'text-unblur__word',
-        TRANSITION: 'text-unblur__transition',
-        APPEARED: 'text-unblur__appeared',
+        TRANSITION: 'text-unblur--transition',
+        APPEARED: 'text-unblur--appeared',
     };
 
+    let cleanup;
+
     element.classList.add(CLASS_NAMES.BASE);
+
+    const reset = () => {
+        cleanup?.();
+
+        element.classList.remove(CLASS_NAMES.TRANSITION, CLASS_NAMES.APPEARED);
+        element.classList.add(CLASS_NAMES.BASE);
+    }
+
+    if (isNoAnimations()) {
+        if (!force) {
+            return {
+                animate: noop,
+                revert: noop,
+                reset: noop,
+                cleanup: noop,
+            };
+        }
+
+        element.classList.add(CLASS_NAMES.SIMPLIFIED);
+
+        const animate = () => {
+            return new Promise((res) => {
+                cleanup = () => {
+                    element.removeEventListener('transitionend', onTransitionEnd);
+                    cleanup = null;
+                };
+
+                const onTransitionEnd = (event) => {
+                    if (event.propertyName === 'opacity') {
+                        element.classList.remove(CLASS_NAMES.TRANSITION);
+
+                        cleanup?.();
+                        res();
+                    }
+                };
+
+                element.addEventListener('transitionend', onTransitionEnd);
+
+                element.classList.add(CLASS_NAMES.TRANSITION);
+
+                setTimeout(() => {
+                    element.classList.add(CLASS_NAMES.APPEARED);
+                }, 10)
+            });
+        }
+
+        const revert = () => {
+            return new Promise((res) => {
+                cleanup = () => {
+                    element.removeEventListener('transitionend', onTransitionEnd);
+                    cleanup = null;
+                };
+
+                const onTransitionEnd = (event) => {
+                    if (event.propertyName === 'opacity') {
+                        element.classList.remove(CLASS_NAMES.TRANSITION);
+
+                        cleanup?.();
+                        res();
+                    }
+                };
+
+                element.addEventListener('transitionend', onTransitionEnd);
+
+                element.classList.add(CLASS_NAMES.TRANSITION);
+
+                setTimeout(() => {
+                    element.classList.remove(CLASS_NAMES.APPEARED);
+                }, 10)
+            });
+        }
+        
+        return { animate, revert, reset, cleanup };
+    }
 
     const split = SplitText.create(element, {
         type: "lines, words",
@@ -18,10 +98,7 @@ export const setTextBlur = (element) => {
     });
 
     const entries = split.words;
-
     const STAGGER = 0.005;
-
-    let cleanup;
 
     const animate = () => {
         return new Promise((res) => {
@@ -89,13 +166,6 @@ export const setTextBlur = (element) => {
                 });
             }, 10)
         });
-    }
-
-    const reset = () => {
-        cleanup?.();
-
-        element.classList.remove(CLASS_NAMES.TRANSITION, CLASS_NAMES.APPEARED);
-        element.classList.add(CLASS_NAMES.BASE);
     }
 
     return { animate, revert, reset, cleanup };

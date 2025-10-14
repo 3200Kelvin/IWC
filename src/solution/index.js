@@ -5,9 +5,11 @@ import { useCtaButtons } from "../common/cta";
 import { getCleanup } from "../common/helpers";
 
 export const useSolutionPageScripts = () => {
-    getCleanup(
+    return getCleanup(
         useSolutionHero(),
         useSolutionCards(),
         useCtaButtons(),
     );
 };
+
+export { useSolutionPageScripts as usePageScripts };

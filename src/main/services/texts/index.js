@@ -1,12 +1,17 @@
-import { getIntersectionObserver, getCleanup } from "../../../common/helpers";
+import { getIntersectionObserver, getCleanup, noop } from "../../../common/helpers";
 import { setTextBlur } from "../../../common/textBlur";
 import { setTextAppear } from "../../../common/textAppear";
+import { isNoAnimations } from "../../../common/performance";
 
 import { LINE_TOP_OFFSET } from "../line";
 
 import './style.scss';
 
 export const useServicesTexts = (block) => {
+    if (isNoAnimations()) {
+        return noop;
+    }
+
     const headings = block.querySelectorAll('.services__step__heading');
     const texts = block.querySelectorAll('.services__step__content p');
 

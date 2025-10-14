@@ -17,3 +17,5 @@ export const useAboutPageScripts = () => {
         useCtaButtons(),
     );
 };
+
+export { useAboutPageScripts as usePageScripts };

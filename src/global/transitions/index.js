@@ -111,15 +111,11 @@ export const usePageTransitions = (runScripts = () => {}) => {
     }
 
     function startSctoll() {
-        if (lenis) {
-            lenis.start();
-        }
+        lenis?.start?.();
     }
 
     function resetScroll() {
-        if (lenis) {
-            lenis.resize();
-        }
+        lenis?.resize?.();
     }
 
     function isBack(data) {

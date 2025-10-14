@@ -10,20 +10,40 @@ import { useSafariForceRepaint } from "./forceRepaint";
 import { initYoutubeVideos } from "./youtube";
 import { useMembersAreaLinks } from "./membersLinks";
 
-import { setSmoothScroll } from "../common/smoothScroll/script";
 import { setScrollBarWidthListener } from "../common/blockScroll";
 import { useAnalytics } from "./analytics";
 import { getCleanup } from "../common/helpers";
+import { setDocumentAnimationMode } from "../common/performance";
+import { isTouchscreen } from "../common/helpers";
 
 import './style.scss';
 import './underline/style.scss';
 
 export const useGlobalOnceScripts = () => {
-    setSmoothScroll();
+    const { noAnimations, lessAnimations, reducedAnimations } = setDocumentAnimationMode();
+
+    if (!lessAnimations && !isTouchscreen) {
+        import("../common/smoothScroll/script").then(({ setSmoothScroll }) => {
+            setSmoothScroll();
+        });
+    }
+
     usePreloader();
-    setScrollBarWidthListener();
-    useMenu(),
-    useGradient();
+
+    if (!isTouchscreen) {
+        import("../common/blockScroll").then(({ setScrollBarWidthListener }) => {
+            setScrollBarWidthListener();
+        });
+    }
+
+    useMenu();
+
+    if (!reducedAnimations && !isTouchscreen) {
+        import("./meshGradient").then(({ useGradient }) => {
+            useGradient();
+        });
+    }
+
     initYoutubeVideos();
     useAnalytics();
 };

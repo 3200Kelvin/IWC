@@ -23,3 +23,5 @@ export const useMembersAreaScripts = () => {
         }
     });
 };
+
+export { useMembersAreaScripts as usePageScripts };

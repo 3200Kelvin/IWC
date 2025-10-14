@@ -12,3 +12,5 @@ export const useMainPageScripts = () => {
         useStrategyAndSolutions(),
     );
 };
+
+export { useMainPageScripts as usePageScripts };

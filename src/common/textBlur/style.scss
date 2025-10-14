@@ -1,6 +1,30 @@
+body {
+    .text-unblur {
+        --target-blur: 10px;
+    }
+
+    &[data-animation-mode="less-animations"] {
+        .text-unblur {
+            --target-blur: 0px;
+        }
+    }
+}
+
 .text-unblur {
     --transition-time: 1s;
     --transition: var(--transition-time) ease;
+
+    &--simplified {
+        opacity: 0;
+    }
+
+    &--simplified#{&}--transition {
+        transition: opacity 0.5s;
+    }
+
+    &--simplified#{&}--appeared {
+        opacity: 1;
+    }
 
     &__line {
         &:empty {
@@ -11,10 +35,10 @@
     &__word {
         transform: scale(0.95);
         opacity: 0;
-        filter: blur(10px);
+        filter: blur(var(--target-blur));
     }
 
-    &__transition &__word {
+    &--transition &__word {
         will-change: opacity, filter, transform;
         transition:
             opacity var(--transition),
@@ -23,7 +47,7 @@
         transition-delay: var(--delay);
     }
 
-    &__appeared &__word {
+    &--appeared &__word {
         transform: scale(1);
         opacity: 1;
         filter: blur(0);

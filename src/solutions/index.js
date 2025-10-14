@@ -11,3 +11,5 @@ export const useSolutionsPageScripts = () => {
         useCtaButtons(),
     );
 };
+
+export { useSolutionsPageScripts as usePageScripts };

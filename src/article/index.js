@@ -14,3 +14,5 @@ export const useArticlePageScripts = () => {
         history.back();
     }
 };
+
+export { useArticlePageScripts as usePageScripts };

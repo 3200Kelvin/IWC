@@ -5,13 +5,27 @@ import { getPageNamespace } from "./src/common/helpers";
 
 import { useMainPageScripts } from "./src/main";
 import { useAboutPageScripts } from "./src/about";
-import { useMediaPageScripts, useIntelligencePageScripts } from "./src/media";
+import { useMediaPageScripts } from "./src/media";
+import { useIntelligencePageScripts } from "./src/intelligence";
 import { useSolutionsPageScripts } from "./src/solutions";
 import { useSolutionPageScripts } from "./src/solution";
 import { useContactPageScripts } from "./src/contact";
 import { useSignup } from "./src/memberstack/signup";
 import { useMembersAreaScripts } from "./src/memberstack/account";
 import { useArticlePageScripts } from "./src/article";
+
+const MODULE_MAP = {
+    home: './src/main',
+    about: './src/about',
+    media: './src/media',
+    solutions: './src/solutions',
+    solution: './src/solution',
+    contact: './src/contact',
+    signup: './src/memberstack/signup',
+    'members-area': './src/memberstack/account',
+    intelligence: './src/intelligence',
+    article: './src/article',
+};
 
 if (gsap) {
     gsap.defaults({
@@ -24,6 +38,21 @@ let isInitialized = false;
 let cleanup;
 window.isTransitioning = false;
 init();
+
+async function loadAndRunModule(namespace) {
+    const modulePath = MODULE_MAP[namespace];
+
+    if (!modulePath) {
+        return null;
+    }
+
+    const cleanup = await import(modulePath).then(({ usePageScripts }) => {
+        console.log(usePageScripts);
+        return usePageScripts?.();
+    });
+
+    return cleanup;
+}
 
 function once() {
     useGlobalOnceScripts();

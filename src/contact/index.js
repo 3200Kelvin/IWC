@@ -7,3 +7,5 @@ export const useContactPageScripts = () => {
         useContactLocations(),
     );
 };
+
+export { useContactPageScripts as usePageScripts };

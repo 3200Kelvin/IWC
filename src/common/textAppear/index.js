@@ -1,6 +1,18 @@
+import { noop } from '../helpers';
+import { isNoAnimations } from '../performance';
+
 import './style.scss';
 
 export const setTextAppear = (element) => {
+    if (isNoAnimations()) {
+        return {
+            animate: noop,
+            revert: noop,
+            reset: noop,
+            cleanup: noop,
+        };
+    }
+
     const CLASS_NAMES = {
         BASE: 'text-appear',
         ELEMENT: 'text-appear__line',
