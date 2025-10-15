@@ -2,18 +2,6 @@
     --transition-time: 1s;
     --transition: var(--transition-time) ease;
 
-    &--simplified {
-        opacity: 0;
-    }
-
-    &--simplified#{&}--transition {
-        transition: opacity 0.5s;
-    }
-
-    &--simplified#{&}--appeared {
-        opacity: 1;
-    }
-
     &__line {
         &:empty {
             height: 1em;
@@ -21,23 +9,16 @@
     }
 
     &__word {
-        transform: scale(0.95);
         opacity: 0;
-        filter: blur(var(--blur, 10px));
     }
 
     &--transition &__word {
-        will-change: opacity, filter, transform;
-        transition:
-            opacity var(--transition),
-            filter var(--transition),
-            transform var(--transition);
+        will-change: opacity;
+        transition: opacity var(--transition);
         transition-delay: var(--delay);
     }
 
     &--appeared &__word {
-        transform: scale(1);
         opacity: 1;
-        filter: blur(0);
     }
 }

@@ -6,7 +6,6 @@ import './style.scss';
 export const setTextBlur = (element, force = false) => {
     const CLASS_NAMES = {
         BASE: 'text-unblur',
-        SIMPLIFIED: 'text-unblur--simplified',
         LINE: 'text-unblur__line',
         ELEMENT: 'text-unblur__word',
         TRANSITION: 'text-unblur--transition',
@@ -33,8 +32,6 @@ export const setTextBlur = (element, force = false) => {
                 cleanup: noop,
             };
         }
-
-        element.classList.add(CLASS_NAMES.SIMPLIFIED);
 
         const animate = () => {
             return new Promise((res) => {

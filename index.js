@@ -75,14 +75,13 @@ async function each() {
     }
 }
 
-function init() {
-    if (!isInitialized) {
-        once();
-        isInitialized = true;
-    }
-
-    document.fonts.ready.then(() => {
-        each();
+async function init() {
+    document.fonts.ready.then(async () => {
+        if (!isInitialized) {
+            once();
+            isInitialized = true;
+        }
+        await each();
         postReadyEvent();
     });
 }

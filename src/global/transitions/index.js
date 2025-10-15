@@ -15,7 +15,7 @@ export function sendTransitionEndEvent() {
     window.isTransitioning = false;
 }
 
-export const usePageTransitions = (runScripts = () => {}) => {
+export const usePageTransitions = (runScripts = async () => {}) => {
     const overlay = document.getElementById('page-transition');
     let scrollPosition = 0;
     let hash = null;
@@ -55,11 +55,11 @@ export const usePageTransitions = (runScripts = () => {}) => {
             }
         });
         
-        barba.hooks.enter((data) => {
+        barba.hooks.enter(async (data) => {
             reloadMemberstack();
             startSctoll();
-            runScripts();
             resetWebflow(data);
+            await runScripts();
             if (isBack(data)) {
                 scrollTo(scrollPosition, true);
             } else {
