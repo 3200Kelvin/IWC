@@ -4,16 +4,16 @@ import { postReadyEvent } from "./src/global/preloader";
 import { getPageNamespace } from "./src/common/helpers";
 
 const MODULE_MAP = {
-    home: './src/main',
-    about: './src/about',
-    media: './src/media',
-    solutions: './src/solutions',
-    solution: './src/solution',
-    contact: './src/contact',
-    signup: './src/memberstack/signup',
-    'members-area': './src/memberstack/account',
-    intelligence: './src/intelligence',
-    article: './src/article',
+    home: 'main',
+    about: 'about',
+    media: 'media',
+    solutions: 'solutions',
+    solution: 'solution',
+    contact: 'contact',
+    signup: 'memberstack/signup',
+    'members-area': 'memberstack/account',
+    intelligence: 'intelligence',
+    article: 'article',
 };
 
 if (gsap) {
@@ -35,7 +35,7 @@ async function loadAndRunModule(namespace) {
         return null;
     }
 
-    const cleanup = await import(modulePath).then(({ usePageScripts }) => {
+    const cleanup = await import(`./src/${modulePath}/index.js`).then(({ usePageScripts }) => {
         return usePageScripts?.();
     });
 

@@ -1,0 +1,1 @@
+.solutions__cards{--progress: 0;--shift: 0;--translation: calc(-1 * var(--progress) * (var(--shift) + var(--gutter)));transform:translate(var(--translation))}

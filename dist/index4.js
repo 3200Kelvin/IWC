@@ -1,0 +1,1 @@
+const n=()=>{const e=document.querySelector(".insights__back a");if(!e)return;return e.addEventListener("click",t),()=>e.removeEventListener("click",t);function t(c){c.preventDefault(),history.back()}};export{n as useArticlePageScripts,n as usePageScripts};
