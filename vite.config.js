@@ -26,6 +26,7 @@ export default defineConfig(({ mode }) => {
     }
 
     return {
+        base,
         server: {
             fs: {
                 allow: ['.'], // allow serving files from project root
