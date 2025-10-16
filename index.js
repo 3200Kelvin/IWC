@@ -16,6 +16,19 @@ const MODULE_MAP = {
     article: 'article',
 };
 
+const MODULE_IMPORTS = {
+    home: () => import('./src/main/index.js'),
+    about: () => import('./src/about/index.js'),
+    media: () => import('./src/media/index.js'),
+    solutions: () => import('./src/solutions/index.js'),
+    solution: () => import('./src/solution/index.js'),
+    contact: () => import('./src/contact/index.js'),
+    signup: () => import('./src/memberstack/signup/index.js'),
+    'members-area': () => import('./src/memberstack/account/index.js'),
+    intelligence: () => import('./src/intelligence/index.js'),
+    article: () => import('./src/article/index.js'),
+};
+
 if (gsap) {
     gsap.defaults({
         duration: 0,
@@ -29,13 +42,26 @@ window.isTransitioning = false;
 init();
 
 async function loadAndRunModule(namespace) {
-    const modulePath = MODULE_MAP[namespace];
+    // const modulePath = MODULE_MAP[namespace];
 
-    if (!modulePath) {
+    // if (!modulePath) {
+    //     return null;
+    // }
+
+    // const currentScriptDir = new URL('.', import.meta.url).href;
+    // const fullPath = new URL(`src/${modulePath}/index.js`, currentScriptDir).href;
+
+    // const cleanup = await import(fullPath).then(({ usePageScripts }) => {
+    //     return usePageScripts?.();
+    // });
+
+    const moduleImporter = MODULE_IMPORTS[namespace];
+
+    if (!moduleImporter) {
         return null;
     }
 
-    const cleanup = await import(`./src/${modulePath}/index.js`).then(({ usePageScripts }) => {
+    const cleanup = await moduleImporter().then(({ usePageScripts }) => {
         return usePageScripts?.();
     });
 
