@@ -1,1 +1,1 @@
-import{u as i}from"./index13.js";i();
+import{useInitialScript as i}from"./index6.js";i();

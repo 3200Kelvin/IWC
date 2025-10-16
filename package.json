@@ -6,8 +6,10 @@
   "scripts": {
     "start": "vite",
     "build": "vite build",
-    "deploy": "npm run build && git add . && git commit -a -m\"deploy\" && git push",
-    "deploy:prod": "rm -rf ../backend/public/* && cp -r dist/* ../backend/public/ && npm --prefix ../backend run deploy"
+    "build:staging": "vite build --mode staging",
+    "build:prod": "vite build --mode production",
+    "deploy": "npm run build:staging && git add . && git commit -a -m\"deploy\" && git push",
+    "deploy:prod": "npm run build:prod && rm -rf ../backend/public/* && cp -r dist/* ../backend/public/ && npm --prefix ../backend run deploy"
   },
   "author": "",
   "license": "ISC",

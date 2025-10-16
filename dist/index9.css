@@ -1,1 +1,1 @@
-.cta__button__label{opacity:.6}@media (hover: hover){.cta__button:hover .cta__button__label,.cta__button:hover .cta__button__glow{opacity:1}}.cta__button.active .cta__button__label,.cta__button.active .cta__button__glow{opacity:1}
+@media screen and (min-width: 767px){.solutions__center-container .solutions__card:nth-child(2n){transform:translateY(20%)}}

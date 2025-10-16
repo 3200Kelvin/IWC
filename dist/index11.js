@@ -1,1 +1,1 @@
-import{b as e,u as s,c as a}from"./index17.js";import{a as t}from"./index.js";import"./index13.js";const o=()=>t(a(),s(),e());export{o as useIntelligencePageScripts,o as usePageScripts};
+import{u as t}from"./index15.js";import{u as o}from"./index12.js";import{a as s}from"./index.js";import"./index6.js";const i=()=>s(t(),o());export{i as usePageScripts,i as useSolutionsPageScripts};
