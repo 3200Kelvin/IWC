@@ -1,5 +1,4 @@
 import { isNoAnimations } from "../performance";
-import { isTouchscreen } from "../helpers";
 
 export function scrollTo(target, isInstant = false) {
     if (window.lenis) {
@@ -52,7 +51,7 @@ function configureLenis() {
         return null;
     }
 
-    if (isNoAnimations() || isTouchscreen) {
+    if (isNoAnimations()) {
         return null;
     }
 
