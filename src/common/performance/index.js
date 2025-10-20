@@ -28,9 +28,9 @@ const isOldBrowser = () => {
 };
 
 const useNoAnimations = () => {
-    if (sessionStorage.getItem('animation-mode') === ANIMATION_MODE.NO_ANIMATIONS) {
-        return true;
-    }
+    // if (sessionStorage.getItem('animation-mode') === ANIMATION_MODE.NO_ANIMATIONS) {
+    //     return true;
+    // }
     if (isOldBrowser()) {
         return true;
     }
@@ -41,13 +41,13 @@ const useNoAnimations = () => {
 };
 
 const useLessAnimations = () => {
-    if (sessionStorage.getItem('animation-mode') === ANIMATION_MODE.LESS_ANIMATIONS) {
-        return true;
-    }
+    // if (sessionStorage.getItem('animation-mode') === ANIMATION_MODE.LESS_ANIMATIONS) {
+    //     return true;
+    // }
     return isWeakDevice();
 };
 
-export const measureFrameRate = (duration = 1000) => {
+const measureFrameRate = (duration = 1000) => {
     return new Promise(resolve => {
         let frames = 0;
         const start = performance.now();
@@ -92,23 +92,23 @@ export const setDocumentAnimationMode = () => {
         document.body.setAttribute('data-animation-mode', ANIMATION_MODE.LESS_ANIMATIONS);
     }
 
-    if (!reducedAnimations && !sessionStorage.getItem('animation-mode')) {
-        measureFrameRate().then((fps) => {
-            if (fps < 10) {
-                sessionStorage.setItem('animation-mode', ANIMATION_MODE.NO_ANIMATIONS);
-                window.location.reload();
-                return;
-            }
+    // if (!reducedAnimations && !sessionStorage.getItem('animation-mode')) {
+    //     measureFrameRate().then((fps) => {
+    //         if (fps < 10) {
+    //             sessionStorage.setItem('animation-mode', ANIMATION_MODE.NO_ANIMATIONS);
+    //             window.location.reload();
+    //             return;
+    //         }
 
-            if (fps < 20) {
-                sessionStorage.setItem('animation-mode', ANIMATION_MODE.LESS_ANIMATIONS);
-                window.location.reload();
-                return;
-            }
+    //         if (fps < 20) {
+    //             sessionStorage.setItem('animation-mode', ANIMATION_MODE.LESS_ANIMATIONS);
+    //             window.location.reload();
+    //             return;
+    //         }
 
-            sessionStorage.setItem('animation-mode', 'full');
-        });
-    }
+    //         sessionStorage.setItem('animation-mode', 'full');
+    //     });
+    // }
 
     return { noAnimations, lessAnimations, reducedAnimations };
 }
