@@ -38,23 +38,25 @@ export const getScrollPosition = () => {
     return window.pageYOffset || document.documentElement.scrollTop;
 }
 
-export const setSmoothScroll = () => {
-    const lenis = configureLenis();
+export const setSmoothScroll = async () => {
+    if (isNoAnimations()) {
+        return null;
+    }
+
+    const Lenis = (await import('lenis')).default;
+    
+    if (!Lenis) {
+        return null;
+    }
+
+    const lenis = configureLenis(Lenis);
 
     window.lenis = lenis;
 
     return lenis;
 };
 
-function configureLenis() {
-    if (!window.Lenis) {
-        return null;
-    }
-
-    if (isNoAnimations()) {
-        return null;
-    }
-
+function configureLenis(Lenis) {
     const content = document.querySelector('main');
     if (!content) {
         return null;
