@@ -26,6 +26,7 @@
     setStagingScripts();
 
     function setDevScripts() {
+        document.body.setAttribute('data-mode', 'dev');
         const script = document.createElement('script');
         script.type = 'module';
         script.defer = true;
@@ -34,6 +35,7 @@
     }
 
     function setStagingScripts() {
+        document.body.setAttribute('data-mode', 'staging');
         const timestamp = new Date().getTime();
 
         const script = getScript(`https://3200kelvin.github.io/IWC/dist/index.js?v=${timestamp}`);

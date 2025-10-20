@@ -1,0 +1,23 @@
+[data-mode="dev"],
+[data-mode="staging"] {
+    &[data-animation-mode]::before {
+        content: '';
+        display: block;
+        width: 0.5rem;
+        height: 0.5rem;
+        position: fixed;
+        top: 0.5rem;
+        left: 0.5rem;
+        border-radius: 50%;
+        z-index: 999;
+        pointer-events: none;
+    }
+
+    &[data-animation-mode="no-animations"]::before {
+        background-color: red;
+    }
+
+    &[data-animation-mode="less-animations"]::before {
+        background-color: orange;
+    }
+}

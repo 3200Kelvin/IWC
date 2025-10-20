@@ -22,7 +22,7 @@ import './underline/style.scss';
 export const useGlobalOnceScripts = () => {
     const { noAnimations, lessAnimations, reducedAnimations } = setDocumentAnimationMode();
 
-    if (!lessAnimations && !isTouchscreen) {
+    if (!lessAnimations) {
         import("../common/smoothScroll/script").then(({ setSmoothScroll }) => {
             setSmoothScroll();
         });

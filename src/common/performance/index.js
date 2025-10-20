@@ -1,3 +1,5 @@
+import './style.scss';
+
 export const ANIMATION_MODE = {
     NO_ANIMATIONS: 'no-animations',
     LESS_ANIMATIONS: 'less-animations',
