@@ -7,7 +7,7 @@ export const useTeamPopup = (block) => {
     const popup = document.querySelector('.team-member-popup');
 
     if (!popup) {
-        return;
+        return console.warn('No team popup found');
     }
 
     const card = popup.querySelector('.team-member');
@@ -42,12 +42,13 @@ export const useTeamPopup = (block) => {
                 return;
             }
             event.preventDefault();
+
             handleOpenPopup(link, index, imageElement);
         };
 
-        linkElement.addEventListener('click', onClick, true);
+        linkElement.addEventListener('click', onClick);
 
-        return () => linkElement.removeEventListener('click', onClick, true);
+        return () => linkElement.removeEventListener('click', onClick);
     });
 
     closeBtn.addEventListener('click', closePopup);
