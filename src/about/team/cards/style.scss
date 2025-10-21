@@ -1,19 +1,16 @@
 .team__card {
-    &.blured {
+    --delay: 0s;
+
+    &.blurred {
         opacity: 0;
         filter: blur(var(--blur, 10px));
     }
 
     &.transition {
-        --delay: 0.1s;
         transition: opacity 0.5s ease, filter 0.5s ease;
 
         @media screen and (min-width: 992px) {
-            @for $i from 1 through 8 {
-                &:nth-child(#{$i}) {
-                    transition-delay: calc(var(--delay) * #{$i});
-                }
-            }
+            transition-delay: var(--delay);
         }
     }
 }

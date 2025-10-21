@@ -26,16 +26,10 @@ export const usePageTransitions = (runScripts = async () => {}) => {
                 {
                     name: 'transition',
                     leave(data) {
-                        if (isBack(data)) {
-                            return;
-                        }
-                        return window.leavePageAnimation ? window.leavePageAnimation() : onLeave();
+                        return onLeave(data);
                     },
                     enter(data) {
-                        if (isBack(data)) {
-                            return;
-                        }
-                        return window.enterPageAnimation ? window.enterPageAnimation() : onEnter();
+                        return onEnter(data);
                     }
                 },
             ]
@@ -55,21 +49,19 @@ export const usePageTransitions = (runScripts = async () => {}) => {
             }
         });
         
-        barba.hooks.enter(async (data) => {
-            reloadMemberstack();
-            startSctoll();
-            resetWebflow(data);
-            await runScripts();
-            if (isBack(data)) {
-                scrollTo(scrollPosition, true);
-            } else {
-                scrollToAnchor(hash, true);
-            }
-        });
+        // barba.hooks.enter(async (data) => {
+        //     reloadMemberstack();
+        //     startSctoll();
+        //     resetWebflow(data);
+        //     await runScripts();
+        //     if (isBack(data)) {
+        //         scrollTo(scrollPosition, true);
+        //     } else {
+        //         scrollToAnchor(hash, true);
+        //     }
+        // });
         
         barba.hooks.after((data) => {
-            window.leavePageAnimation = null;
-            window.enterPageAnimation = null;
             if (isBack(data)) {
                 scrollTo(scrollPosition, true);
             } else {
@@ -84,24 +76,42 @@ export const usePageTransitions = (runScripts = async () => {}) => {
         console.warn('Barba init error', error);
     }
 
-    function onLeave() {
-        if (overlay) {
-            window.isTransitioning = true;
-            return gsap.timeline().to(overlay, { opacity: 0, display: 'block' }).to(overlay, { opacity: 1, duration: 0.8 });
+    function onLeave(data) {
+        if (isBack(data) || !overlay) {
+            return Promise.resolve();
         }
-        return Promise.resolve();
+
+        window.isTransitioning = true;
+
+        return gsap.timeline()
+            .to(overlay, { opacity: 0, display: 'block' })
+            .to(overlay, { opacity: 1, duration: 0.8 });
     };
 
-    function onEnter() {
-        if (overlay) {
-            return gsap.timeline()
-                .to(overlay, { opacity: 0, duration: 0.8 })
-                .to(overlay, { display: 'none' })
-                .add(() => {
-                    sendTransitionEndEvent();
-                });
+    async function onEnter(data) {
+        reloadMemberstack();
+        startSctoll();
+        resetWebflow(data);
+
+        // very important to wait for all the modules to get loaded
+        await runScripts();
+
+        if (isBack(data)) {
+            scrollTo(scrollPosition, true);
+        } else {
+            scrollToAnchor(hash, true);
         }
-        return Promise.resolve();
+
+        if (isBack(data) || !overlay) {
+            return Promise.resolve();
+        }
+
+        return gsap.timeline()
+            .to(overlay, { opacity: 0, duration: 0.8 })
+            .to(overlay, { display: 'none' })
+            .add(() => {
+                sendTransitionEndEvent();
+            });
     };
 
     function stopSctoll() {

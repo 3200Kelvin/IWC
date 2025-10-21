@@ -45,9 +45,9 @@ export const useTeamPopup = (block) => {
             handleOpenPopup(link, index, imageElement);
         };
 
-        linkElement.addEventListener('click', onClick)
+        linkElement.addEventListener('click', onClick, true);
 
-        return () => linkElement.removeEventListener('click', onClick);
+        return () => linkElement.removeEventListener('click', onClick, true);
     });
 
     closeBtn.addEventListener('click', closePopup);

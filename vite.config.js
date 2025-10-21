@@ -22,8 +22,10 @@ export default defineConfig(({ mode }) => {
     if (mode === 'staging') {
         base = 'https://3200kelvin.github.io/IWC/dist/';
     } else if (mode === 'production') {
-        base = './app/';
+        base = 'https://www.iwcglobal.net/app/';
     }
+
+    console.log(base);
 
     return {
         base,

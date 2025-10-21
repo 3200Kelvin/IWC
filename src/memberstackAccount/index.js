@@ -1,13 +1,11 @@
-import { getUserData, getUserSubscriptionData } from "../../common/memberstack";
+import { getUserData, getUserSubscriptionData } from "../common/memberstack";
 
 export const useMembersAreaScripts = () => {
-    const block = document.querySelector('.members-area');
+    const nextWithdrawalElement = document.querySelector('[data-info="next-withdrawal"]');
 
-    if (!block) {
+    if (!nextWithdrawalElement) {
         return;
     }
-
-    const nextWithdrawalElement = document.querySelector('[data-info="next-withdrawal"]');
 
     getUserData().then((data) => {
         const subscription = getUserSubscriptionData(data);

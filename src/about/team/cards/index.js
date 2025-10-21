@@ -9,24 +9,26 @@ export const useTeamCards = (block) => {
     }
 
     const cards = block.querySelectorAll('.team__card');
+    cards.forEach((card, index) => {
+        card.classList.add('blurred');
+        card.style.setProperty('--delay', `${(index % 4) * 0.1}s`);
+    });
 
     const observer = getIntersectionObserver(10, showCard);
 
-    addClass(cards, 'blured');
-
     setTimeout(() => {
-        addClass(cards, 'transition');
         cards.forEach((card) => observer.observe(card));
     });
 
     return () => observer.disconnect();
 
     function showCard(entry) {
-        entry.target.classList.remove('blured');
         observer.unobserve(entry.target);
-    }
 
-    function addClass(elements, className) {
-        elements.forEach((element) => element.classList.add(className));
+        entry.target.classList.add('transition');
+        
+        setTimeout(() => {
+            entry.target.classList.remove('blurred');
+        }, 50);
     }
 };

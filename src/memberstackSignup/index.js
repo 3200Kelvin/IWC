@@ -1,6 +1,6 @@
-import { useFormFields, OTHER_STAGE_VALUE, FOUND_THROUGH_OTHER_VALUE } from "../../common/formFields";
+import { useFormFields, OTHER_STAGE_VALUE, FOUND_THROUGH_OTHER_VALUE } from "../common/formFields";
 
-import '../../common/formFields/style.scss';
+import '../common/formFields/style.scss';
 
 export const useSignup = () => {
     const form = document.querySelector('.ms-form-block');
@@ -85,3 +85,5 @@ export const useSignup = () => {
         foundThroughDataInput.value = data;
     }
 };
+
+export { useSignup as usePageScripts };
