@@ -9,6 +9,7 @@ import { useTextBlur, useTextAppear } from "./textAnimations";
 import { useSafariForceRepaint } from "./forceRepaint";
 import { initYoutubeVideos } from "./youtube";
 import { useMembersAreaLinks } from "./membersLinks";
+import { useRunners } from "./runner/initAll";
 
 import { setScrollBarWidthListener } from "../common/blockScroll";
 import { useAnalytics } from "./analytics";
@@ -52,5 +53,6 @@ export const useGlobalScripts = () => {
         useVideos(),
         useSafariForceRepaint(),
         useMembersAreaLinks(),
+        useRunners(),
     );
 };

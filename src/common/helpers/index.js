@@ -171,9 +171,10 @@ export const useElementAnimation = (elements, getElementAnimation) => {
     const observers = {};
 
     const cleanups = [...elements].map((element) => {
-        const { animate, cleanup } = getElementAnimation(element);
+        const { animate, reverse, cleanup } = getElementAnimation(element);
 
         element.animate = animate;
+        element.reverse = reverse;
 
         return cleanup;
     });
@@ -192,7 +193,7 @@ export const useElementAnimation = (elements, getElementAnimation) => {
 
     function getObserver(offset) {
         if (!observers[offset]) {
-            observers[offset] = getIntersectionObserver(offset, onIntersection);
+            observers[offset] = getIntersectionObserver(offset, onIntersection, onIntersectionLeave);
         }
 
         return observers[offset];
@@ -200,7 +201,13 @@ export const useElementAnimation = (elements, getElementAnimation) => {
 
     function onIntersection(entry, observer) {
         entry.target.animate();
-        observer.unobserve(entry.target);
+        if (!entry.target.reverse) {
+            observer.unobserve(entry.target);
+        }
+    }
+
+    function onIntersectionLeave(entry) {
+        entry.target.reverse?.();
     }
 
     return getCleanup(

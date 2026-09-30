@@ -1,5 +1,6 @@
 const SUBSCRIPTION_PLAN_ID = 'pln_member-subscription-9qbl0tte';
 const CLIENT_PLAN_ID = 'pln_iwc-client-3zah0f6k';
+const INVESTOR_PLAN_ID = 'pln_investor-x9160r0b';
 
 const PLANS_WITH_ACCESS = [SUBSCRIPTION_PLAN_ID, CLIENT_PLAN_ID];
 
@@ -9,8 +10,18 @@ export const getUserSubscriptionData = (userData = null) => {
     return userData?.planConnections?.find?.(({ planId }) => PLANS_WITH_ACCESS.includes(planId)) || null;
 }
 
+export const getInvestorSubscriptionData = (userData = null) => {
+    return userData?.planConnections?.find?.(({ planId }) => planId === INVESTOR_PLAN_ID) || null;
+}
+
 export const getIsUserSubscribed = (userData = null) => {
     const planConnection = getUserSubscriptionData(userData);
+
+    return planConnection?.active || false;
+}
+
+export const getIsInvestor = (userData = null) => {
+    const planConnection = getInvestorSubscriptionData(userData);
 
     return planConnection?.active || false;
 }

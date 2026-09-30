@@ -10,8 +10,8 @@ const MODULE_MAP = {
     solutions: 'solutions',
     solution: 'solution',
     contact: 'contact',
-    signup: 'memberstackSignup',
-    'members-area': 'memberstackAccount',
+    signup: 'membersSignup',
+    'members-area': 'membersArea',
     intelligence: 'intelligence',
     article: 'article',
 };
